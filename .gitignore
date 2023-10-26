@@ -32,3 +32,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#https://vaadin.com/docs/latest/configuration/source-control
+# The following files are generated/updated by vaadin-maven-plugin or vaadin-gradle-plugin
+node_modules/
+frontend/generated/
+pnpmfile.js
+.npmrc
+webpack.generated.js
+vite.generated.ts
