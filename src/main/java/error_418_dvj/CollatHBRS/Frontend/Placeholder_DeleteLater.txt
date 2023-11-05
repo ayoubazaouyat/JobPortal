@@ -1,0 +1,2 @@
+Delete this file. It is only a placeholder to update the package-structure in Git, so we have sub-packages for
+Backend and Frontend.
