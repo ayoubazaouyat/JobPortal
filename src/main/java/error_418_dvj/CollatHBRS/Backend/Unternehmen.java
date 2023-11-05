@@ -28,7 +28,7 @@ public class Unternehmen {
         return unternehmensId;
     }
 
-    // Make this setter protected so other methods do not interfere with JPA
+    // Make this setter protected so other classes do not interfere with JPA
     protected void setId(Long unternehmensId) {
         this.unternehmensId = unternehmensId;
     }

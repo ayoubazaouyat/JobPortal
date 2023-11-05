@@ -29,7 +29,7 @@ public class Student {
         return matrNr;
     }
 
-    // Make this setter protected so other methods do not interfere with JPA
+    // Make this setter protected so other classes do not interfere with JPA
     protected void setId(Long matrNr) {
         this.matrNr = matrNr;
     }
