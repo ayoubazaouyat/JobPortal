@@ -55,7 +55,7 @@ public class Student {
     }
 
     public void setUsername(String username) {
-        this.vorname = username;
+        this.username = username;
     }
 
     public String getEmail() {
