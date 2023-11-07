@@ -3,34 +3,34 @@ package error_418_dvj.CollatHBRS.Backend;
 import jakarta.persistence.*;
 
 @Entity
-public class Unternehmen {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name = "unternehmensId") // Use 'unternehmensId' as Primary Key
-    /* unternehmensId is annotated by '@Id' which tells our persistence provider to
-    access our field 'unternehmensId' directly.
+    @Column (name = "companyId") // Use 'companyId' as Primary Key
+    /* companyId is annotated by '@Id' which tells our persistence provider to
+    access our field 'companyId' directly.
     Therefore, we don't need to annotate our getters and setters for the id.
     */
-    private Long unternehmensId;
+    private Long companyId;
     private String name;
     private String username;
     private String email;
 
-    protected Unternehmen() {}
+    protected Company() {}
 
-    public Unternehmen(String name, String username, String email) {
+    public Company(String name, String username, String email) {
         this.name = name;
         this.username = username;
         this.email = email;
     }
 
     public Long getId() {
-        return unternehmensId;
+        return companyId;
     }
 
     // Make this setter protected so other classes do not interfere with JPA
-    protected void setId(Long unternehmensId) {
-        this.unternehmensId = unternehmensId;
+    protected void setId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public String getName() {

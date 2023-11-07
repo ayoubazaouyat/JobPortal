@@ -6,48 +6,46 @@ import jakarta.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "matrNr") // Use 'matrNr' as Primary Key
-    /* matrNr is annotated by '@Id' which tells our persistence provider to access our field 'matrNr' directly.
+    @Column(name = "sId") // Use 'sId' as Primary Key
+    /* sId is annotated by '@Id' which tells our persistence provider to access our field 'sId' directly.
     Therefore, we don't need to annotate our getters and setters for the id.
     */
-    private Long matrNr;
-    private String name;
-    private String vorname;
+    private Long sId; // Matriculation Number
+    private String surname;
+    private String forename;
     private String username;
     private String email;
 
     protected Student() {}
 
-    public Student(String name, String vorname, String username, String email) {
-        this.name = name;
-        this.vorname = vorname;
+    public Student(String surname, String forename, String username, String email) {
+        this.surname = surname;
+        this.forename = forename;
         this.username = username;
         this.email = email;
     }
 
     public Long getId() {
-        return matrNr;
+        return sId;
     }
 
     // Make this setter protected so other classes do not interfere with JPA
-    protected void setId(Long matrNr) {
-        this.matrNr = matrNr;
+    protected void setId(Long sId) {
+        this.sId = sId;
     }
 
-    public String getName() {
-        return name;
+    public String getSurname() { return surname; }
+
+    public void setName(String surname) {
+        this.surname = surname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getForename() {
+        return forename;
     }
 
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setForename(String forename) {
+        this.forename = forename;
     }
 
     public String getUsername() {
