@@ -41,3 +41,6 @@ pnpmfile.js
 .npmrc
 webpack.generated.js
 vite.generated.ts
+
+#MAC folder metadata
+.DS_Store
