@@ -1,5 +1,9 @@
 package error_418_dvj.CollatHBRS.views;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import error_418_dvj.CollatHBRS.views.helloworld.HelloWorldView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -12,7 +16,9 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
+import error_418_dvj.CollatHBRS.backend.security.SecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -22,7 +28,10 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
-    public MainLayout() {
+    private SecurityService securityService;
+
+    public MainLayout(SecurityService securityService) {
+        this.securityService = securityService;
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
@@ -36,6 +45,14 @@ public class MainLayout extends AppLayout {
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
         addToNavbar(true, toggle, viewTitle);
+
+        //Logout Button
+
+        String username = securityService.getAuthenticatedUser().getUsername();
+        Button logout = new Button("Log out " + username, e -> securityService.logout());
+        VerticalLayout verticalLayout = new VerticalLayout(logout);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.END);
+        addToNavbar(verticalLayout);
     }
 
     private void addDrawerContent() {

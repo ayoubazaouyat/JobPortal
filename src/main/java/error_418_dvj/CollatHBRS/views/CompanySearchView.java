@@ -14,8 +14,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.PermitAll;
 
-@Route("searchcompany")
+@Route(value = "searchcompany", layout = MainLayout.class)
+@PermitAll
 public class CompanySearchView extends VerticalLayout {
 
     /**

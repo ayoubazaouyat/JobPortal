@@ -1,6 +1,6 @@
 package error_418_dvj.CollatHBRS;
 
-import error_418_dvj.CollatHBRS.Backend.*;
+import error_418_dvj.CollatHBRS.backend.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

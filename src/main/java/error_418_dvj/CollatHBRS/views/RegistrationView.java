@@ -16,8 +16,10 @@ import com.vaadin.flow.component.progressbar.ProgressBarVariant;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("registration")
+@AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
     private H1 heading;

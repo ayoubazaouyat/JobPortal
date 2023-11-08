@@ -1,4 +1,4 @@
-package error_418_dvj.CollatHBRS.Backend;
+package error_418_dvj.CollatHBRS.backend;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
