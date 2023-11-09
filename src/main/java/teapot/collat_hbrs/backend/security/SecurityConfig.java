@@ -1,7 +1,7 @@
-package teapot.CollatHBRS.backend.security;
+package teapot.collat_hbrs.backend.security;
 
 
-import teapot.CollatHBRS.views.LoginView;
+import teapot.collat_hbrs.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package teapot.CollatHBRS.views;
+package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;

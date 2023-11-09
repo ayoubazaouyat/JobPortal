@@ -1,9 +1,9 @@
-package teapot.CollatHBRS.views;
+package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import teapot.CollatHBRS.views.helloworld.HelloWorldView;
+import teapot.collat_hbrs.views.helloworld.HelloWorldView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;
@@ -15,7 +15,7 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import teapot.CollatHBRS.backend.security.SecurityService;
+import teapot.collat_hbrs.backend.security.SecurityService;
 
 
 /**

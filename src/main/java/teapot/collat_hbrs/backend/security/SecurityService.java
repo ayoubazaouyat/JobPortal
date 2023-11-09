@@ -1,4 +1,4 @@
-package teapot.CollatHBRS.backend.security;
+package teapot.collat_hbrs.backend.security;
 
 
 import com.vaadin.flow.spring.security.AuthenticationContext;

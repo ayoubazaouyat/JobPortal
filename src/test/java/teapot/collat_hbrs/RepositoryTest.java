@@ -1,9 +1,9 @@
-package teapot.CollatHBRS;
+package teapot.collat_hbrs;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import teapot.CollatHBRS.backend.*;
+import teapot.collat_hbrs.backend.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

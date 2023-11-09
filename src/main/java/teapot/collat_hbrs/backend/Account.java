@@ -1,4 +1,4 @@
-package teapot.CollatHBRS.backend;
+package teapot.collat_hbrs.backend;
 
 import jakarta.persistence.*;
 

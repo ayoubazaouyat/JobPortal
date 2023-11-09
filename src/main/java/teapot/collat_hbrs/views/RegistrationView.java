@@ -1,4 +1,4 @@
-package teapot.CollatHBRS.views;
+package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.avatar.Avatar;

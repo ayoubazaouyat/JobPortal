@@ -1,8 +1,7 @@
-package teapot.CollatHBRS;
+package teapot.collat_hbrs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
 public class CollatHbrsApplication {
 

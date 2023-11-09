@@ -1,6 +1,6 @@
-package teapot.CollatHBRS.views.helloworld;
+package teapot.collat_hbrs.views.helloworld;
 
-import teapot.CollatHBRS.views.MainLayout;
+import teapot.collat_hbrs.views.MainLayout;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;

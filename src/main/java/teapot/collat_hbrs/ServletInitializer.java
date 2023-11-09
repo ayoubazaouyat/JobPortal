@@ -1,4 +1,4 @@
-package teapot.CollatHBRS;
+package teapot.collat_hbrs;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
