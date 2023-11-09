@@ -1,4 +1,4 @@
-package error_418_dvj.CollatHBRS;
+package teapot.CollatHBRS;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

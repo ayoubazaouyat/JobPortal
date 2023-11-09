@@ -1,7 +1,7 @@
-package error_418_dvj.CollatHBRS.backend.security;
+package teapot.CollatHBRS.backend.security;
 
 
-import error_418_dvj.CollatHBRS.views.LoginView;
+import teapot.CollatHBRS.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 
 @EnableWebSecurity
 

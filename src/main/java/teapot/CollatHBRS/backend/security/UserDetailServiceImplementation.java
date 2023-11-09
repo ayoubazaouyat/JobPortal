@@ -1,9 +1,9 @@
-package error_418_dvj.CollatHBRS.backend.security;
+package teapot.CollatHBRS.backend.security;
 
 
 
 import java.util.Optional;
-import error_418_dvj.CollatHBRS.backend.Account;
+import teapot.CollatHBRS.backend.Account;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import error_418_dvj.CollatHBRS.backend.AccountRepository;
+import teapot.CollatHBRS.backend.AccountRepository;
 
 
 

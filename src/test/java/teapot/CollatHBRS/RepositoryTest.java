@@ -1,9 +1,10 @@
-package error_418_dvj.CollatHBRS;
+package teapot.CollatHBRS;
 
-import error_418_dvj.CollatHBRS.backend.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import teapot.CollatHBRS.backend.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -28,7 +29,7 @@ class RepositoryTest {
 		assertEquals(studentRepository.count(),0);
 		assertEquals(companyRepository.count(),0);
 
-		studentRepository.save(s1);
+		accountRepository.save(s1);
 
 		assertEquals(accountRepository.count(),1);
 		assertEquals(studentRepository.count(),1);

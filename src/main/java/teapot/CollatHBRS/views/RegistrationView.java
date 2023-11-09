@@ -1,4 +1,4 @@
-package error_418_dvj.CollatHBRS.views;
+package teapot.CollatHBRS.views;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.avatar.Avatar;

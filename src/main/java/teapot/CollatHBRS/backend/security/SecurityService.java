@@ -1,4 +1,4 @@
-package error_418_dvj.CollatHBRS.backend.security;
+package teapot.CollatHBRS.backend.security;
 
 
 import com.vaadin.flow.spring.security.AuthenticationContext;

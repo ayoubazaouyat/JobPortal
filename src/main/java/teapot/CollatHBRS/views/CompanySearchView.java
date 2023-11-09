@@ -1,4 +1,4 @@
-package error_418_dvj.CollatHBRS.views;
+package teapot.CollatHBRS.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
