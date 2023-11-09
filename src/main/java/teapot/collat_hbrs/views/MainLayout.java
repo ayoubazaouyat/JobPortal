@@ -25,7 +25,7 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
-    private SecurityService securityService;
+    private final SecurityService securityService;
 
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;

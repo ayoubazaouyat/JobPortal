@@ -25,6 +25,8 @@ class RepositoryTest {
 		Student s1 = new Student("Musterman","Max","mmuster","a@example.com");
 		Company c1 = new Company("ACME", "acme","b@examlpe.com");
 
+		accountRepository.deleteAll();
+
 		assertEquals(accountRepository.count(),0);
 		assertEquals(studentRepository.count(),0);
 		assertEquals(companyRepository.count(),0);
@@ -47,7 +49,6 @@ class RepositoryTest {
 		assertEquals(accountRepository.count(),0);
 		assertEquals(studentRepository.count(),0);
 		assertEquals(companyRepository.count(),0);
-
 	}
 
 }

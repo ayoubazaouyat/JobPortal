@@ -1,6 +1,8 @@
 package teapot.collat_hbrs.backend.security;
 
 
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -34,19 +34,15 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //return new Pbkdf2PasswordEncoder("secret", 32, 300000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
-        return NoOpPasswordEncoder.getInstance();
+        return new Pbkdf2PasswordEncoder("secret", 32, 100000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        //return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailServiceImplementation();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider(AccountRepository accountRepository) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+
+        authProvider.setUserDetailsService(new UserDetailServiceImplementation(accountRepository));
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;

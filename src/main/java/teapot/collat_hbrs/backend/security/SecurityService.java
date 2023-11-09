@@ -3,9 +3,11 @@ package teapot.collat_hbrs.backend.security;
 
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+import java.util.Optional;
+
+@Service
 public class SecurityService {
 
     private final AuthenticationContext authenticationContext;
@@ -15,7 +17,9 @@ public class SecurityService {
     }
 
     public UserDetails getAuthenticatedUser() {
-        return authenticationContext.getAuthenticatedUser(UserDetails.class).get();
+        Optional<UserDetails> userDetails = authenticationContext.getAuthenticatedUser(UserDetails.class);
+        userDetails.orElseThrow(() -> new RuntimeException("userDetails not found"));
+        return userDetails.get();
     }
 
     public void logout() {
