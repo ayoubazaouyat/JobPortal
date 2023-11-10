@@ -20,6 +20,10 @@ public class Student extends Account {
 
     public String getSurname() { return surname; }
 
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public void setName(String surname) {
         this.surname = surname;
     }
@@ -40,3 +44,5 @@ public class Student extends Account {
         this.email = email;
     }
 }
+
+
