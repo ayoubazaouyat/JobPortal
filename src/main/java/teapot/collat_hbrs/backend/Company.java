@@ -12,6 +12,10 @@ public class Company extends Account{
     private String name;
     private String email;
 
+
+    @ElementCollection
+    private List<jobAdvertisement> jobAdvertisements = new ArrayList<>();
+
     protected Company() {}
 
     public Company(String name, String username, String email) {
@@ -33,6 +37,25 @@ public class Company extends Account{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setJobAdvertisements(List<jobAdvertisement> jobAdvertisements) {
+        this.jobAdvertisements = jobAdvertisements;
+    }
+
+    public void postJobAdvertisement(jobAdvertisement x) {
+        jobAdvertisements.add(x);
+    }
+
+    public void deleteJobAdvertisement(jobAdvertisement x) {
+        jobAdvertisements.remove(x);
+    }
+
+
+    // um wichtige Stellenanzeigen hervorzuheben
+    public void pushJobAdvertisement(jobAdvertisement x) {
+        deleteJobAdvertisement(x);
+        jobAdvertisements.add(0, x);
     }
 
 
