@@ -231,9 +231,7 @@ public class RegistrationView extends VerticalLayout {
     private Button loginButton() {
         var login = new Button("Already have an Account?");
         login.setTooltipText("Click here to go to the login page");
-        login.addClickListener(buttonClickEvent -> {
-            // TODO redirect to login screen
-        });
+        login.addClickListener(buttonClickEvent -> getUI().get().navigate("login"));
         return login;
     }
 
