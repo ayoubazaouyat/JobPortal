@@ -21,10 +21,6 @@ public class JobAdvertisement extends Account {
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
 
-    public JobAdvertisement() {
-
-    }
-
     public String getTitle() {
         return title;
     }

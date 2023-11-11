@@ -13,7 +13,7 @@ public class Company extends Account{
 
 
     @ElementCollection
-    private List<JobAdvertisement> JobAdvertisements = new ArrayList<>();
+    private List<JobAdvertisement> jobAdvertisements = new ArrayList<>();
 
     protected Company() {}
 
@@ -38,23 +38,23 @@ public class Company extends Account{
         this.email = email;
     }
 
-    public void setJobAdvertisements(List<JobAdvertisement> JobAdvertisements) {
-        this.JobAdvertisements = JobAdvertisements;
+    public void setJobAdvertisements(List<JobAdvertisement> jobAdvertisements) {
+        this.jobAdvertisements = jobAdvertisements;
     }
 
     public void postJobAdvertisement(JobAdvertisement x) {
-        JobAdvertisements.add(x);
+        jobAdvertisements.add(x);
     }
 
     public void deleteJobAdvertisement(JobAdvertisement x) {
-        JobAdvertisements.remove(x);
+        jobAdvertisements.remove(x);
     }
 
 
     // um wichtige Stellenanzeigen hervorzuheben
     public void pushJobAdvertisement(JobAdvertisement x) {
         deleteJobAdvertisement(x);
-        JobAdvertisements.add(0, x);
+        jobAdvertisements.add(0, x);
     }
 
 
