@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
@@ -72,6 +73,24 @@ public class RegistrationView extends VerticalLayout {
                 progressBar.setValue(0.6666);
                 break;
             case 3:
+                if (accType == 0) {
+                    add(
+                            new H2("Student"),
+                            buildStudentForm()
+                    );
+                    buildNavigation(true, true);
+                    progressBar.setValue(0.8);
+                    break;
+                } else {
+                    add(
+                            new H2("Company"),
+                            buildCompanyForm()
+                    );
+                    buildNavigation(true, true);
+                    progressBar.setValue(0.8);
+                    break;
+                }
+            case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
                 buildNavigation(false, false);
@@ -154,6 +173,22 @@ public class RegistrationView extends VerticalLayout {
         );
 
         return basicForm;
+    }
+
+    private FormLayout buildStudentForm() {
+        var studentForm = new FormLayout();
+
+        // TODO Registrierung Student @Ayub
+
+        return studentForm;
+    }
+
+    private FormLayout buildCompanyForm() {
+        var companyForm = new FormLayout();
+
+        // TODO Registrierung Unternehmen @David
+
+        return companyForm;
     }
 
     /**
