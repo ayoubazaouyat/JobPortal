@@ -12,11 +12,16 @@ import teapot.collat_hbrs.backend.StudentRepository;
 @Profile("dev")
 public class AddDevUser implements InitializingBean {
 
-    @Autowired
-    private StudentRepository studentRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
+    private final StudentRepository studentRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+
+    public AddDevUser(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
+        this.studentRepository = studentRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void afterPropertiesSet() {

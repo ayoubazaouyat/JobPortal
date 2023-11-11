@@ -35,7 +35,6 @@ public class SecurityConfig extends VaadinWebSecurity {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new Pbkdf2PasswordEncoder("secret", 32, 100000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
-        //return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

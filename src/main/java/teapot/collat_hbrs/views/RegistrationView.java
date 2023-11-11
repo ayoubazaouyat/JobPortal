@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -23,12 +24,13 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.apache.commons.lang3.NotImplementedException;
 
 @Route("registration")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    private H1 heading;
+    private final H1 heading;
 
     int accType;
     int step;
@@ -83,18 +85,15 @@ public class RegistrationView extends VerticalLayout {
                             new H2("Student"),
                             buildStudentForm()
                     );
-                    buildNavigation(true, true);
-                    progressBar.setValue(0.8);
-                    break;
                 } else {
                     add(
                             new H2("Information for your profile"),
                             buildCompanyForm()
                     );
-                    buildNavigation(true, true);
-                    progressBar.setValue(0.8);
-                    break;
                 }
+                buildNavigation(true, true);
+                progressBar.setValue(0.8);
+                break;
             case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
@@ -102,6 +101,9 @@ public class RegistrationView extends VerticalLayout {
                 progressBar.setValue(1);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
                 break;
+
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -405,7 +407,7 @@ public class RegistrationView extends VerticalLayout {
     private Button loginButton() {
         var login = new Button("Already have an Account?");
         login.setTooltipText("Click here to go to the login page");
-        login.addClickListener(buttonClickEvent -> getUI().get().navigate("login"));
+        login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
     }
 

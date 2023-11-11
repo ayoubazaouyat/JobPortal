@@ -13,7 +13,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("login")
-@PageTitle("Login | Vaadin CRM")
+@PageTitle("Login")
 @AnonymousAllowed
 public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
@@ -53,4 +53,6 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
             loginForm.setError(true);
         }
     }
+
+
 }
