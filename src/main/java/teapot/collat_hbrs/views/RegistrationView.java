@@ -5,14 +5,14 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.login.LoginI18n;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -180,10 +180,89 @@ public class RegistrationView extends VerticalLayout {
         return basicForm;
     }
 
-    private FormLayout buildStudentForm() {
-        var studentForm = new FormLayout();
+    private VerticalLayout buildStudentForm() {
+        var studentForm = new VerticalLayout();
+
+        var title = new H4("General Informations :");
+        var genForm = new FormLayout();
+        var firstName = new TextField("First Name");
+        var lastName= new TextField("Last Name");
+        var street = new TextField("Street name");
+        var houseNumber = new NumberField("House number");
+        var plz = new NumberField("PLZ");
+        var city = new TextField("City");
+        genForm.add(
+                title,
+                firstName,
+                lastName,
+                street,
+                houseNumber,
+                plz,
+                city
+        );
+        genForm.setColspan(title,4);
+        genForm.setColspan(firstName,2);
+        genForm.setColspan(lastName,2);
+        genForm.setColspan(street, 3);
+        genForm.setColspan(houseNumber, 1);
+        genForm.setColspan(plz, 2);
+        genForm.setColspan(city, 2);
+        genForm.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("500px", 4)
+        );
+        var studiesTitle = new H4("Studies : ");
+        var studyForm = new FormLayout();
+        ComboBox<String> comboBox = new ComboBox<>("Choose an option");
+        comboBox.setItems("FB 01 - Wirtschaftswissenschaften",
+                "FB 02 - Informatik",
+                "FB 03 - Ingenieurwissenschaften und Kommunikation",
+                "FB 05 - Angewandte Naturwissenschaften",
+                "FB 06 - Sozialpolitik und Soziale Sicherung");
+        comboBox.setPlaceholder("Select one");
+        //comboBox.setRequired(true);
+        comboBox.setLabel("choose your Fachbereich:");
+        // Handle the value change event
+        comboBox.addValueChangeListener(event -> {
+            // event.getValue() gives you the selected value
+            Notification.show("Selected: " + event.getValue());
+        });
+        ComboBox<String> comboBoxStudgang = new ComboBox<>("Choose an option");
+        comboBoxStudgang.setItems("To be Filled from Datenbank",
+                "To be Filled from Datenbank");
+        comboBoxStudgang.setPlaceholder("Select one");
+        //comboBox.setRequired(true);
+        comboBoxStudgang.setLabel("choose your Studiengang:");
+        var semesterNum = new NumberField("Current Semester");
+        studyForm.add(
+                studiesTitle,
+                comboBox,
+                comboBoxStudgang,
+                semesterNum
+        );
+        var contactTitle = new H4("Contact Details :");
+        var contactForm = new FormLayout();
+        var phoneNumber = new TextField("Phone Number");
+        contactForm.add(
+                contactTitle,
+                phoneNumber
+        );
+        var terms = new Checkbox("I agree to the ToS");
+        studyForm.setColspan(studiesTitle,4);
+        studyForm.setColspan(comboBox,4);
+        studyForm.setColspan(comboBoxStudgang,4);
+        studyForm.setColspan(semesterNum,4);
+        contactForm.setColspan(phoneNumber,4);
+        studentForm.add(
+                genForm,
+                studyForm,
+                contactForm,
+                terms
+        );
+
 
         // TODO Registrierung Student @Ayub
+
 
         return studentForm;
     }
