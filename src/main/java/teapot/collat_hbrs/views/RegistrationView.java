@@ -4,16 +4,21 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -83,7 +88,7 @@ public class RegistrationView extends VerticalLayout {
                     break;
                 } else {
                     add(
-                            new H2("Company"),
+                            new H2("Information for your profile"),
                             buildCompanyForm()
                     );
                     buildNavigation(true, true);
@@ -183,11 +188,66 @@ public class RegistrationView extends VerticalLayout {
         return studentForm;
     }
 
-    private FormLayout buildCompanyForm() {
-        var companyForm = new FormLayout();
+    private VerticalLayout buildCompanyForm() {
+        var companyForm = new VerticalLayout();
 
-        // TODO Registrierung Unternehmen @David
+        var addressTitle = new H4("Address");
+        var addressForm = new FormLayout();
+        var companyName = new TextField("Company name");
+        var street = new TextField("Street name");
+        var houseNumber = new NumberField("House number");
+        var plz = new NumberField("PLZ");
+        var city = new TextField("City");
+        addressForm.add(
+                addressTitle,
+                companyName,
+                street,
+                houseNumber,
+                plz,
+                city
+        );
+        addressForm.setColspan(companyName, 4);
+        addressForm.setColspan(street, 3);
+        addressForm.setColspan(houseNumber, 1);
+        addressForm.setColspan(plz, 2);
+        addressForm.setColspan(city, 2);
+        addressForm.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("500px", 4)
+        );
 
+        var informationTitle = new H4("Information");
+        var informationForm = new FormLayout();
+        var industry = new TextField("Industry");
+        var description = new TextField("Company description");
+        informationForm.add(
+                industry,
+                description
+        );
+        informationForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+
+        var contactTitle = new H4("Contact");
+        var contactForm = new FormLayout();
+        var phone = new TextField("Phone number");
+        var fax = new TextField("Fax");
+        var mobile = new TextField("Mobile");
+        var terms = new Checkbox("I agree to the ToS");
+        contactForm.add(
+                phone,
+                fax,
+                mobile,
+                terms
+        );
+        contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+
+        companyForm.add(
+                addressTitle,
+                addressForm,
+                informationTitle,
+                informationForm,
+                contactTitle,
+                contactForm
+        );
         return companyForm;
     }
 
