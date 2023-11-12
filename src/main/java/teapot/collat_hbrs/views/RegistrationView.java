@@ -19,6 +19,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -159,21 +160,32 @@ public class RegistrationView extends VerticalLayout {
 
     /**
      * Creates a form with text fields to retrieve information necessary for registration
+     *
      * @return Basic form
      */
-    private VerticalLayout buildBasicForm() {
-        var basicForm = new VerticalLayout();
-        var emailField = new TextField("E-Mail");
+    private FormLayout buildBasicForm() {
+        var basicForm = new FormLayout();
+        var usernameField = new TextField("Username");
+        var emailField = new EmailField("E-Mail");
         var passwordField = new PasswordField("Password");
         var confirmPasswordField = new PasswordField("Confirm Password");
 
-        // layout settings
-        basicForm.setHeight("max-content");
-        basicForm.setAlignItems(FlexComponent.Alignment.CENTER);
-        basicForm.setJustifyContentMode(JustifyContentMode.CENTER);
-        basicForm.setWidth("100%");
+        usernameField.setRequired(true);
+        emailField.setRequired(true);
+        passwordField.setRequired(true);
+        confirmPasswordField.setRequired(true);
+
+        basicForm.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("500px", 2)
+        );
+        basicForm.setColspan(usernameField, 2);
+        basicForm.setColspan(emailField, 2);
+        basicForm.setColspan(passwordField, 1);
+        basicForm.setColspan(confirmPasswordField, 1);
 
         basicForm.add(
+                usernameField,
                 emailField,
                 passwordField,
                 confirmPasswordField
