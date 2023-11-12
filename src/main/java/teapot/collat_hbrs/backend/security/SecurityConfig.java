@@ -34,8 +34,8 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         http
                 .formLogin(formLogin -> formLogin
-                        .defaultSuccessUrl("/searchcompany", true)
-                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("/searchcompany"))
+                        .defaultSuccessUrl("/jobsearch", true)
+                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("/jobsearch"))
                 )
                 .logout(logout -> logout.logoutSuccessUrl("/login"));
     }
