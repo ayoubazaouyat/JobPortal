@@ -1,5 +1,6 @@
 package teapot.collat_hbrs.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Anchor;
@@ -32,7 +33,9 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
         loginLayout.setJustifyContentMode(JustifyContentMode.CENTER);
 
         loginForm.setAction("login");
-        loginForm.setForgotPasswordButtonVisible(false);
+
+        loginForm.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().navigate("/passwordreset"));
+
         Anchor registerLink = new Anchor("registration", "No account? Register here");
 
         loginLayout.add(new H1("ERROR 418"), loginForm, registerLink);
