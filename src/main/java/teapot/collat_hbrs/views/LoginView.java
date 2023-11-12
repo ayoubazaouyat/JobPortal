@@ -22,11 +22,9 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
     public LoginView() {
         setSizeFull();
 
-        // Left side - Image
         Image img = new Image("themes/images/landin01.jpg", "Description of the image");
         img.setSizeFull();
 
-        // Right side - Login form
         VerticalLayout loginLayout = new VerticalLayout();
         loginLayout.addClassName("login-view");
         loginLayout.setSizeFull();
@@ -39,9 +37,8 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
         loginLayout.add(new H1("ERROR 418"), loginForm, registerLink);
 
-        // Add both components to the main layout
         add(img, loginLayout);
-        expand(img); // This makes the image section take the remaining space
+        expand(img);
     }
 
     @Override
