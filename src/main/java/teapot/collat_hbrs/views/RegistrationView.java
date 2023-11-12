@@ -123,16 +123,19 @@ public class RegistrationView extends VerticalLayout {
         selContainer.setJustifyContentMode(JustifyContentMode.CENTER);
         selContainer.setWidth("100%");
         studentContainer.setAlignItems(FlexComponent.Alignment.CENTER);
-        studentContainer.setJustifyContentMode(JustifyContentMode.CENTER);
+        studentContainer.setJustifyContentMode(JustifyContentMode.END);
         studentContainer.setWidth("100%");
         companyContainer.setAlignItems(FlexComponent.Alignment.CENTER);
-        companyContainer.setJustifyContentMode(JustifyContentMode.CENTER);
+        companyContainer.setJustifyContentMode(JustifyContentMode.END);
         companyContainer.setWidth("100%");
 
-        var studentAvatar = new Avatar();
+        var studentIcon = new Icon(VaadinIcon.USER);
+        studentIcon.setSize("var(--lumo-icon-size-l)");
+        var companyIcon = new Icon(VaadinIcon.BUILDING);
+        companyIcon.setSize("var(--lumo-icon-size-l)");
+
         var studentButton = new Button("I'm a student");
         studentButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        var companyAvatar = new Avatar();
         var companyButton = new Button("I represent a company");
         companyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -147,13 +150,19 @@ public class RegistrationView extends VerticalLayout {
             buildUI();
         });
 
-        studentContainer.add(studentAvatar);
-        studentContainer.add(studentButton);
-        companyContainer.add(companyAvatar);
-        companyContainer.add(companyButton);
+        studentContainer.add(
+                studentIcon,
+                studentButton
+        );
+        companyContainer.add(
+                companyIcon,
+                companyButton
+        );
 
-        selContainer.add(studentContainer);
-        selContainer.add(companyContainer);
+        selContainer.add(
+                studentContainer,
+                companyContainer
+        );
 
         return selContainer;
     }
