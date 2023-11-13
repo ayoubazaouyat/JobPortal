@@ -1,5 +1,6 @@
 package teapot.collat_hbrs.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Anchor;
@@ -22,11 +23,9 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
     public LoginView() {
         setSizeFull();
 
-        // Left side - Image
         Image img = new Image("themes/images/landin01.jpg", "Description of the image");
         img.setSizeFull();
 
-        // Right side - Login form
         VerticalLayout loginLayout = new VerticalLayout();
         loginLayout.addClassName("login-view");
         loginLayout.setSizeFull();
@@ -34,14 +33,15 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
         loginLayout.setJustifyContentMode(JustifyContentMode.CENTER);
 
         loginForm.setAction("login");
-        loginForm.setForgotPasswordButtonVisible(false);
+
+        loginForm.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().navigate("/passwordreset"));
+
         Anchor registerLink = new Anchor("registration", "No account? Register here");
 
         loginLayout.add(new H1("ERROR 418"), loginForm, registerLink);
 
-        // Add both components to the main layout
         add(img, loginLayout);
-        expand(img); // This makes the image section take the remaining space
+        expand(img);
     }
 
     @Override
