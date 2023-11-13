@@ -4,6 +4,9 @@ package teapot.collat_hbrs.backend;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 
+import java.sql.Date;
+import java.sql.Time;
+
 @Entity
 @Embeddable
 public class jobAdvertisement extends Account {
@@ -11,13 +14,15 @@ public class jobAdvertisement extends Account {
     // Warte auf Antwort von PO bzgl. Anforderungen zu den Stelenangeboten.
     private String title;
 
-    private String jobtitle;
+    private String description;
 
     private String requirements;
 
-    private int[] salaryRange = new int[2];
+    private double hourlywage;
 
     private boolean homeoffice;
+
+    private Date starttime;
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
 
@@ -41,20 +46,28 @@ public class jobAdvertisement extends Account {
         this.requirements = requirements;
     }
 
-    public String getJobtitle() {
-        return jobtitle;
+    public String getDescription() {
+        return description;
     }
 
-    public void setJobtitle(String jobtitle) {
-        this.jobtitle = jobtitle;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int[] getSalaryRange() {
-        return salaryRange;
+    public double getHourlywage() {
+        return hourlywage;
     }
 
-    public void setSalaryRange(int[] salaryRange) {
-        this.salaryRange = salaryRange;
+    public void setHourlywage(double hourlywage) {
+        this.hourlywage = hourlywage;
+    }
+
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
     }
 
     public boolean isHomeoffice() {
