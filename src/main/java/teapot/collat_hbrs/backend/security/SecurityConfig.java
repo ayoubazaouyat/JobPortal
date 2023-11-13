@@ -2,6 +2,7 @@ package teapot.collat_hbrs.backend.security;
 
 
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
@@ -30,12 +31,18 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         super.configure(http);
         setLoginView(http, LoginView.class);
+
+        http
+                .formLogin(formLogin -> formLogin
+                        .defaultSuccessUrl("/jobsearch", true)
+                        .successHandler(new SimpleUrlAuthenticationSuccessHandler("/jobsearch"))
+                )
+                .logout(logout -> logout.logoutSuccessUrl("/login"));
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new Pbkdf2PasswordEncoder("secret", 32, 100000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
-        //return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean

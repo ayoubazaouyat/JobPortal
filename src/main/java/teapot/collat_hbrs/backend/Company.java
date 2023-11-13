@@ -2,7 +2,6 @@ package teapot.collat_hbrs.backend;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -14,7 +13,7 @@ public class Company extends Account{
 
 
     @ElementCollection
-    private List<jobAdvertisement> jobAdvertisements = new ArrayList<>();
+    private List<JobAdvertisement> jobAdvertisements = new ArrayList<>();
 
     protected Company() {}
 
@@ -39,21 +38,21 @@ public class Company extends Account{
         this.email = email;
     }
 
-    public void setJobAdvertisements(List<jobAdvertisement> jobAdvertisements) {
+    public void setJobAdvertisements(List<JobAdvertisement> jobAdvertisements) {
         this.jobAdvertisements = jobAdvertisements;
     }
 
-    public void postJobAdvertisement(jobAdvertisement x) {
+    public void postJobAdvertisement(JobAdvertisement x) {
         jobAdvertisements.add(x);
     }
 
-    public void deleteJobAdvertisement(jobAdvertisement x) {
+    public void deleteJobAdvertisement(JobAdvertisement x) {
         jobAdvertisements.remove(x);
     }
 
 
     // um wichtige Stellenanzeigen hervorzuheben
-    public void pushJobAdvertisement(jobAdvertisement x) {
+    public void pushJobAdvertisement(JobAdvertisement x) {
         deleteJobAdvertisement(x);
         jobAdvertisements.add(0, x);
     }

@@ -66,14 +66,14 @@ public class MainLayout extends AppLayout {
         SideNav nav = new SideNav();
 
         nav.addItem(new SideNavItem("Hello World", HelloWorldView.class));
+        nav.addItem(new SideNavItem("Job Search", JobSearchView.class));
+        nav.addItem(new SideNavItem("Company Search", CompanySearchView.class));
 
         return nav;
     }
 
     private Footer createFooter() {
-        Footer layout = new Footer();
-
-        return layout;
+        return new Footer();
     }
 
     @Override

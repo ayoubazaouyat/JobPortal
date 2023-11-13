@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,17 +19,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
+import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.apache.commons.lang3.NotImplementedException;
 
 @Route("registration")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    private H1 heading;
+    private final H1 heading;
 
     int accType;
     int step;
@@ -83,18 +86,15 @@ public class RegistrationView extends VerticalLayout {
                             new H2("Student"),
                             buildStudentForm()
                     );
-                    buildNavigation(true, true);
-                    progressBar.setValue(0.8);
-                    break;
                 } else {
                     add(
                             new H2("Information for your profile"),
                             buildCompanyForm()
                     );
-                    buildNavigation(true, true);
-                    progressBar.setValue(0.8);
-                    break;
                 }
+                buildNavigation(true, true);
+                progressBar.setValue(0.8);
+                break;
             case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
@@ -102,6 +102,9 @@ public class RegistrationView extends VerticalLayout {
                 progressBar.setValue(1);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
                 break;
+
+            default:
+                throw new NotImplementedException();
         }
     }
 
@@ -120,16 +123,19 @@ public class RegistrationView extends VerticalLayout {
         selContainer.setJustifyContentMode(JustifyContentMode.CENTER);
         selContainer.setWidth("100%");
         studentContainer.setAlignItems(FlexComponent.Alignment.CENTER);
-        studentContainer.setJustifyContentMode(JustifyContentMode.CENTER);
+        studentContainer.setJustifyContentMode(JustifyContentMode.END);
         studentContainer.setWidth("100%");
         companyContainer.setAlignItems(FlexComponent.Alignment.CENTER);
-        companyContainer.setJustifyContentMode(JustifyContentMode.CENTER);
+        companyContainer.setJustifyContentMode(JustifyContentMode.END);
         companyContainer.setWidth("100%");
 
-        var studentAvatar = new Avatar();
+        var studentIcon = new Icon(VaadinIcon.USER);
+        studentIcon.setSize("var(--lumo-icon-size-l)");
+        var companyIcon = new Icon(VaadinIcon.BUILDING);
+        companyIcon.setSize("var(--lumo-icon-size-l)");
+
         var studentButton = new Button("I'm a student");
         studentButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        var companyAvatar = new Avatar();
         var companyButton = new Button("I represent a company");
         companyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
@@ -144,34 +150,51 @@ public class RegistrationView extends VerticalLayout {
             buildUI();
         });
 
-        studentContainer.add(studentAvatar);
-        studentContainer.add(studentButton);
-        companyContainer.add(companyAvatar);
-        companyContainer.add(companyButton);
+        studentContainer.add(
+                studentIcon,
+                studentButton
+        );
+        companyContainer.add(
+                companyIcon,
+                companyButton
+        );
 
-        selContainer.add(studentContainer);
-        selContainer.add(companyContainer);
+        selContainer.add(
+                studentContainer,
+                companyContainer
+        );
 
         return selContainer;
     }
 
     /**
      * Creates a form with text fields to retrieve information necessary for registration
+     *
      * @return Basic form
      */
-    private VerticalLayout buildBasicForm() {
-        var basicForm = new VerticalLayout();
-        var emailField = new TextField("E-Mail");
+    private FormLayout buildBasicForm() {
+        var basicForm = new FormLayout();
+        var usernameField = new TextField("Username");
+        var emailField = new EmailField("E-Mail");
         var passwordField = new PasswordField("Password");
         var confirmPasswordField = new PasswordField("Confirm Password");
 
-        // layout settings
-        basicForm.setHeight("max-content");
-        basicForm.setAlignItems(FlexComponent.Alignment.CENTER);
-        basicForm.setJustifyContentMode(JustifyContentMode.CENTER);
-        basicForm.setWidth("100%");
+        usernameField.setRequired(true);
+        emailField.setRequired(true);
+        passwordField.setRequired(true);
+        confirmPasswordField.setRequired(true);
+
+        basicForm.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("500px", 2)
+        );
+        basicForm.setColspan(usernameField, 2);
+        basicForm.setColspan(emailField, 2);
+        basicForm.setColspan(passwordField, 1);
+        basicForm.setColspan(confirmPasswordField, 1);
 
         basicForm.add(
+                usernameField,
                 emailField,
                 passwordField,
                 confirmPasswordField
@@ -405,7 +428,7 @@ public class RegistrationView extends VerticalLayout {
     private Button loginButton() {
         var login = new Button("Already have an Account?");
         login.setTooltipText("Click here to go to the login page");
-        login.addClickListener(buttonClickEvent -> getUI().get().navigate("login"));
+        login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
     }
 

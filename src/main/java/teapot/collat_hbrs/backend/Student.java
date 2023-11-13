@@ -9,7 +9,8 @@ public class Student extends Account {
     private String forename;
     private String email;
 
-    protected Student() {}
+    protected Student() {
+    }
 
     public Student(String surname, String forename, String username, String email) {
         this.surname = surname;
@@ -18,13 +19,11 @@ public class Student extends Account {
         this.email = email;
     }
 
-    public String getSurname() { return surname; }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setName(String surname) {
+    public void setSurname(String surname) {
         this.surname = surname;
     }
 

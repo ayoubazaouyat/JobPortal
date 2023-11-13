@@ -9,7 +9,7 @@ import java.sql.Time;
 
 @Entity
 @Embeddable
-public class jobAdvertisement extends Account {
+public class JobAdvertisement extends Account {
 
     // Warte auf Antwort von PO bzgl. Anforderungen zu den Stelenangeboten.
     private String title;
@@ -25,10 +25,6 @@ public class jobAdvertisement extends Account {
     private Date starttime;
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
-
-    public jobAdvertisement() {
-
-    }
 
     public String getTitle() {
         return title;
