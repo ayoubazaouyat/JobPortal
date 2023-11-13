@@ -70,6 +70,20 @@ public class JobPostingView extends VerticalLayout {
                 companyName, positionName, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
                 expectations, requirements, candidateCount, employeeBenefits, hrContact, postButton
         );
+        // After adding the postButton to the form
+        postButton.addClickListener(event -> {
+            // Assuming successful job posting, perform the necessary logic here.
+            // For demonstration, using a Notification to signify successful posting.
+            //Notification.show("Job posted successfully");
+
+            // Button to navigate back to the homepage from the confirmation message
+            Button backButton = new Button("Back to Homepage");
+            backButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("jobsearch")));
+            removeAll();
+            add(new H2("Job Posted Successfully"));
+            add(backButton);
+        });
+
         genForm.setColspan(companyName, 4);
         genForm.setColspan(positionName, 4);
         genForm.setColspan(fullOrPartTime, 2);
@@ -88,7 +102,7 @@ public class JobPostingView extends VerticalLayout {
                 new FormLayout.ResponsiveStep("500px", 4)
         );
 
-        add(genForm, postButton);
+        add(genForm);
 
 
     }
