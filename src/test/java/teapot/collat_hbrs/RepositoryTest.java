@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import teapot.collat_hbrs.backend.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -22,12 +25,14 @@ class RepositoryTest {
 	@Test
 	void repositoryTest() {
 
+		List<JobAdvertisement> jobs = new ArrayList<JobAdvertisement>(); // for testing purposes
+
 		Student s1 = new Student("Musterman","Max","a@example.com",
 								"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
 								"Computer Science", "mmuster");
 		Company c1 = new Company("ACME", "acme", "Musterstrasse 41a 53757 Sankt Augustin",
 								"IT", "Great company to work at", "0224112345",
-								"b@examlpe.com");
+								"b@examlpe.com", jobs);
 
 		accountRepository.deleteAll();
 
