@@ -9,9 +9,9 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID") // Use 'ID' as Primary Key
-    private long id;
+    private  long id;
     protected String username;
-    private String password;
+    private String passwordHash;
     private boolean enabled;
 
     public Long getId() {
@@ -19,9 +19,9 @@ public abstract class Account {
     }
 
     // Make this setter protected so other classes do not interfere with JPA
-    private void setId(Long id) {
+    /*private void setId(Long id) {
         this.id = id;
-    }
+    }*/
 
     public String getUsername() {
         return username;
@@ -31,12 +31,12 @@ public abstract class Account {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public boolean isEnabled() {  return enabled;}

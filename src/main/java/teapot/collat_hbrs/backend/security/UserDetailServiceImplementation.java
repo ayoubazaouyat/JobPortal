@@ -15,7 +15,7 @@ import teapot.collat_hbrs.backend.AccountRepository;
 @Service
 public class UserDetailServiceImplementation implements UserDetailsService {
 
-    private final AccountRepository  accountRepository;
+    private final AccountRepository accountRepository;
 
     @Autowired
     protected UserDetailServiceImplementation(AccountRepository accountRepository) {
@@ -24,14 +24,8 @@ public class UserDetailServiceImplementation implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-
         Optional<Account> user = accountRepository.findByUsername(userName);
-        user.orElseThrow(() -> new UsernameNotFoundException(userName + " not found."));
-
-        return new UserDetailsImplementation(user.get());
+        return new UserDetailsImplementation(user.orElseThrow(() -> new UsernameNotFoundException(userName + " not found.")));
     }
-
-
-
 }
 
