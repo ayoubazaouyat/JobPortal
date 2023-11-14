@@ -42,6 +42,7 @@ public class JobPostingView extends VerticalLayout {
         initJobPostingForm();
         add(new Hr());
     }
+
     private void initJobPostingForm() {
         var genForm = new FormLayout();
 
@@ -50,7 +51,6 @@ public class JobPostingView extends VerticalLayout {
         var fullOrPartTime = new ComboBox<>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems(new String[]{"Full-time", "Part-time"});
-
 
 
         var remoteOrInHouse = new ComboBox<>("Remote/Office");
@@ -112,6 +112,7 @@ public class JobPostingView extends VerticalLayout {
 
 
     }
+
     private void showJobDetailsNotification(String company, String position, String fullTime, String remote, String description, String jobLocation, String expect,
                                             String require, String age, String count, String benefits,
                                             String hrContactInfo) {
@@ -133,8 +134,7 @@ public class JobPostingView extends VerticalLayout {
                 "\nVielen Dank für Ihr Interesse!");
 
 
-
     }
 
 
-
+}
