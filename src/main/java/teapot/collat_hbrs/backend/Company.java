@@ -17,12 +17,12 @@ public class Company extends Account{
 
 
     @ElementCollection
-    private List<JobAdvertisement> jobAdvertisements = new ArrayList<>();
+    private List<JobAdvertisement> jobAdvertisements;
 
     protected Company() {}
 
     public Company(String name, String username, String address, String industry, String companyDescription,
-                   String landlineNumber, String email, List<JobAdvertisement> jobAdvertisements) {
+                   String landlineNumber, String email) {
         this.name = name;
         this.username = username;
         this.address = address;
@@ -30,7 +30,7 @@ public class Company extends Account{
         this.companyDescription = companyDescription;
         this.landlineNumber = landlineNumber;
         this.email = email;
-        this.jobAdvertisements = jobAdvertisements;
+        this.jobAdvertisements = new ArrayList<>();
     }
 
     public String getName() {
