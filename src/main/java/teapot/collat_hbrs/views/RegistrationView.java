@@ -26,6 +26,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
+import org.hibernate.type.TrueFalseConverter;
 
 @Route("registration")
 @AnonymousAllowed
@@ -257,24 +258,36 @@ public class RegistrationView extends VerticalLayout {
         //comboBox.setRequired(true);
         comboBoxStudgang.setLabel("choose your Studiengang:");
         var semesterNum = new NumberField("Current Semester");
+        TextField skillsField = new TextField("Skills");
+        skillsField.setPlaceholder("Enter Skills separated by commas");
+
+        skillsField.addValueChangeListener(event -> {
+            String value = event.getValue();
+            String[] skills = value.split(","); // Splitting by comma
+
+        });
         studyForm.add(
                 studiesTitle,
                 comboBox,
                 comboBoxStudgang,
-                semesterNum
+                semesterNum,
+                skillsField
         );
         var contactTitle = new H4("Contact Details :");
         var contactForm = new FormLayout();
         var phoneNumber = new TextField("Phone Number");
+
         contactForm.add(
                 contactTitle,
                 phoneNumber
         );
+
         var terms = new Checkbox("I agree to the ToS");
         studyForm.setColspan(studiesTitle,4);
         studyForm.setColspan(comboBox,4);
         studyForm.setColspan(comboBoxStudgang,4);
         studyForm.setColspan(semesterNum,4);
+        studyForm.setColspan(skillsField,4);
         contactForm.setColspan(phoneNumber,4);
         studentForm.add(
                 genForm,
@@ -282,6 +295,16 @@ public class RegistrationView extends VerticalLayout {
                 contactForm,
                 terms
         );
+        firstName.setRequired(true);
+        lastName.setRequired(true);
+        street.setRequired(true);
+        houseNumber.setRequired(true);
+        plz.setRequired(true);
+        city.setRequired(true);
+        comboBox.setRequired(true);
+        comboBoxStudgang.setRequired(true);
+
+
 
 
         // TODO Registrierung Student @Ayub

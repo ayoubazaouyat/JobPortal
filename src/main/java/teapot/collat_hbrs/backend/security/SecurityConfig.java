@@ -1,6 +1,8 @@
 package teapot.collat_hbrs.backend.security;
 
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import teapot.collat_hbrs.backend.AccountRepository;
@@ -55,4 +57,10 @@ public class SecurityConfig extends VaadinWebSecurity {
         return authProvider;
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AccountRepository accountRepository) {
+        DaoAuthenticationProvider authenticationProvider = authenticationProvider(accountRepository);
+
+        return new ProviderManager(authenticationProvider);
+    }
 }
