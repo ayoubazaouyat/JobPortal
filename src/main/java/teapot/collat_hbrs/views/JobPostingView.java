@@ -24,6 +24,12 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
+import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.html.Paragraph;
+
+
+
 
 @Route("job-posting")
 @AnonymousAllowed
@@ -106,6 +112,32 @@ public class JobPostingView extends VerticalLayout {
 
 
     }
+    private void showJobDetailsNotification(String company, String position, String fullTime, String remote, String description, String jobLocation, String expect,
+                                            String require, String age, String count, String benefits,
+                                            String hrContactInfo) {
+        Notification.show("Der Job ist schon gepostet: " +
+                "\nUnternehmen: " + company +
+                "\nPosition: " + position +
+                "\nFullTime: " + fullTime +
+                "\nremote: " + remote +
+                "\nDescription: " + description +
+                "\nJobLocation: " + jobLocation +
+                "\nexpect: " + expect +
+                "\nRequire: " + require +
+                "\nAge: " + age +
+                "\nCount: " + count +
+                "\nBenefits: " + benefits +
+                "\nHrContactinfo: " + hrContactInfo +
+
+                // ... (include other job details)
+                "\nVielen Dank für Ihr Interesse!");
+
+
+
+    }
+
+
+
 
 
 }
