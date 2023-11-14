@@ -22,7 +22,7 @@ public class Company extends Account{
     protected Company() {}
 
     public Company(String name, String username, String address, String industry, String companyDescription,
-                   String landlineNumber, String email) {
+                   String landlineNumber, String email, List<JobAdvertisement> jobAdvertisements) {
         this.name = name;
         this.username = username;
         this.address = address;
@@ -30,6 +30,7 @@ public class Company extends Account{
         this.companyDescription = companyDescription;
         this.landlineNumber = landlineNumber;
         this.email = email;
+        this.jobAdvertisements = jobAdvertisements;
     }
 
     public String getName() {
