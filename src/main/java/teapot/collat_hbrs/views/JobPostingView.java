@@ -1,34 +1,20 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Hr;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.PermitAll;
-import com.vaadin.flow.component.notification.Notification.Position;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.html.Paragraph;
-
-
 
 
 @Route("job-posting")
@@ -36,7 +22,6 @@ import com.vaadin.flow.component.html.Paragraph;
 public class JobPostingView extends VerticalLayout {
 
     public JobPostingView() {
-        var genForm = new FormLayout();
         // Set up the layout of the form
         add(new H2("Job Posting "));
         initJobPostingForm();
@@ -48,14 +33,14 @@ public class JobPostingView extends VerticalLayout {
 
         var companyName = new TextField("Name of company");
         var positionName = new TextField("Position name");
-        var fullOrPartTime = new ComboBox<>("Full/Part-time");
+        var fullOrPartTime = new ComboBox<String>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
-        fullOrPartTime.setItems(new String[]{"Full-time", "Part-time"});
+        fullOrPartTime.setItems("Full-time", "Part-time");
 
 
-        var remoteOrInHouse = new ComboBox<>("Remote/Office");
+        var remoteOrInHouse = new ComboBox<String>("Remote/Office");
         remoteOrInHouse.setClearButtonVisible(true);
-        remoteOrInHouse.setItems(new String[]{"Remote", "Office"});
+        remoteOrInHouse.setItems("Remote", "Office");
 
         var textDescription = new TextArea("Text description");
         var location = new TextField("Location/Address");

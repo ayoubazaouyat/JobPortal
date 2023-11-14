@@ -43,19 +43,19 @@ public class JobSearchView extends VerticalLayout {
     private void initSearch() {
         var searchLayout = new FormLayout();
         var jobTitleField = new TextField("Name");
-        var locationField = new MultiSelectComboBox<>("Location");
-        var categorySelector = new ComboBox<>("Category");
+        var locationField = new MultiSelectComboBox<String>("Location");
+        var categorySelector = new ComboBox<String>("Category");
         var untilDatePicker = new DatePicker("Until");
-        var typeSelector = new MultiSelectComboBox<>("Type");
+        var typeSelector = new MultiSelectComboBox<String>("Type");
         var searchButton = new Button("Search");
 
         locationField.setItems(cities);
         locationField.setClearButtonVisible(true);
         categorySelector.setClearButtonVisible(true);
-        categorySelector.setItems(new String[]{"Software Developer", "Web Designer"}); // TODO Demo values, get real values from database
+        categorySelector.setItems("Software Developer", "Web Designer"); // TODO Demo values, get real values from database
         untilDatePicker.setClearButtonVisible(true);
         typeSelector.setClearButtonVisible(false);
-        typeSelector.setItems(new String[]{"Full time", "Part time", "Student worker", "Internship"});
+        typeSelector.setItems("Full time", "Part time", "Student worker", "Internship");
         typeSelector.setClearButtonVisible(true);
         searchButton.addThemeVariants(ButtonVariant.LUMO_ICON);
         searchButton.setIcon(new Icon(VaadinIcon.SEARCH));

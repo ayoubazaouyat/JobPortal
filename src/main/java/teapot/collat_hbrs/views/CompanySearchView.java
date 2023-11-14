@@ -40,9 +40,9 @@ public class CompanySearchView extends VerticalLayout {
 
         var companyField = new TextField("Name");
         var locationField = new TextField("Location");
-        var categorySelector = new ComboBox<>("Category");
+        var categorySelector = new ComboBox<String>("Category");
         categorySelector.setClearButtonVisible(true);
-        categorySelector.setItems(new String[]{"Software Developer", "Web Designer"}); // Demo values
+        categorySelector.setItems("Software Developer", "Web Designer"); // Demo values
 
         var untilDatePicker = new DatePicker("Until");
         var fullTimeCheckbox = new Checkbox("Full Time");
