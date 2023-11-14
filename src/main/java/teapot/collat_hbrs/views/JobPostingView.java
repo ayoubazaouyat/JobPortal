@@ -138,7 +138,3 @@ public class JobPostingView extends VerticalLayout {
 
 
 
-
-
-}
-
