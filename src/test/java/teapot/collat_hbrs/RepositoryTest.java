@@ -22,10 +22,12 @@ class RepositoryTest {
 	@Test
 	void repositoryTest() {
 
-		Student s1 = new Student("Musterman","Max","mmuster","a@example.com");
-		Company c1 = new Company("ACME", "acme", "Musterstrasse", "41a",
-				"53757", "Sankt Augustin", "IT", "Great company to work at",
-				"0224112345", "b@examlpe.com");
+		Student s1 = new Student("Musterman","Max","a@example.com",
+								"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
+								"Computer Science", "mmuster");
+		Company c1 = new Company("ACME", "acme", "Musterstrasse 41a 53757 Sankt Augustin",
+								"IT", "Great company to work at", "0224112345",
+								"b@examlpe.com");
 
 		accountRepository.deleteAll();
 
