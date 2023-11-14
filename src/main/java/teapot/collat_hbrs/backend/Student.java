@@ -10,32 +10,24 @@ public class Student extends Account {
     private String surname;
     private String forename;
     private String email;
-
-    private String street;
-    private String houseNumber;
-    private String zipCode;
-    private String city;
+    private String address; // consisting of streetName, houseNumber, postalCode, city
     private String phone;
     private String studyProgram;
-
 
     @ElementCollection
     private List<String> skills;
     protected Student() {
     }
 
-    public Student(String surname, String forename, String username, String email) {
+    public Student(String surname, String forename, String email, String address, String phone,
+                   String studyProgram, String username) {
         this.surname = surname;
         this.forename = forename;
-        this.username = username;
         this.email = email;
-
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.zipCode = zipCode;
-        this.city = city;
+        this.address = address;
         this.phone = phone;
         this.studyProgram = studyProgram;
+        this.username = username;
         this.skills = skills;
     }
 
