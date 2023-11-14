@@ -9,10 +9,7 @@ import java.util.List;
 @DiscriminatorValue("C")
 public class Company extends Account{
     private String name;
-    private String streetName;
-    private String houseNumber; // Use String because houseNumber could be 41a or similiar
-    private String postalCode;
-    private String city;
+    private String address; // consisting of streetName, houseNumber, postalCode, city
     private String industry; // Branche
     private String companyDescription;
     private String landlineNumber;
@@ -24,20 +21,17 @@ public class Company extends Account{
 
     protected Company() {}
 
-    public Company(String name, String username, String streetName, String houseNumber,
-                   String postalCode, String city, String industry, String companyDescription,
+    public Company(String name, String username, String address, String industry, String companyDescription,
                    String landlineNumber, String email) {
         this.name = name;
         this.username = username;
-        this.streetName = streetName;
-        this.houseNumber = houseNumber;
-        this.postalCode = postalCode;
-        this.city = city;
+        this.address = address;
         this.industry = industry;
         this.companyDescription = companyDescription;
         this.landlineNumber = landlineNumber;
         this.email = email;
     }
+
     public String getName() {
         return name;
     }
@@ -46,36 +40,12 @@ public class Company extends Account{
         this.name = name;
     }
 
-    public String getStreetName() {
-        return streetName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getIndustry() {
