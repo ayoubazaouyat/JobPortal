@@ -25,14 +25,12 @@ class RepositoryTest {
 	@Test
 	void repositoryTest() {
 
-		List<JobAdvertisement> jobs = new ArrayList<JobAdvertisement>(); // for testing purposes
-
 		Student s1 = new Student("Musterman","Max","a@example.com",
 								"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
 								"Computer Science", "mmuster");
 		Company c1 = new Company("ACME", "acme", "Musterstrasse 41a 53757 Sankt Augustin",
 								"IT", "Great company to work at", "0224112345",
-								"b@examlpe.com", jobs);
+								"b@examlpe.com");
 
 		accountRepository.deleteAll();
 
