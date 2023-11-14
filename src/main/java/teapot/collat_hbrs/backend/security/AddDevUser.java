@@ -20,7 +20,7 @@ public class AddDevUser implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        Student testuser = new Student("admin", "admin", "admin", "");
+        Student testuser = new Student("admin", "admin", "", "", "", "", "admin");
         userService.registerAccount(testuser, "admin");
     }
 
