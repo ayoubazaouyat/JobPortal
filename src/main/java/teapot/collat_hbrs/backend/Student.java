@@ -2,6 +2,7 @@ package teapot.collat_hbrs.backend;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Student extends Account {
         this.phone = phone;
         this.studyProgram = studyProgram;
         this.username = username;
-        this.skills = skills;
+        this.skills = new ArrayList<>();
     }
 
     public String getSurname() {
@@ -81,6 +82,14 @@ public class Student extends Account {
 
     public void setSkills(List<String> skills) {
         this.skills = skills;
+    }
+
+    public void addSkill(String x) {
+        skills.add(x);
+    }
+
+    public void deleteSkill(String x) {
+        skills.remove(x);
     }
 }
 
