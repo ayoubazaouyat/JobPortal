@@ -6,6 +6,7 @@ import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
@@ -361,7 +362,9 @@ public class RegistrationView extends VerticalLayout {
         var phone = new TextField("Phone number");
         phone.setRequired(true);
         var fax = new TextField("Fax");
-        var terms = new Checkbox("I agree to the ToS");
+        var terms = new CheckboxGroup<>("Do you agree to the Terms of Service?");
+        terms.setItems("Yes, I agree");
+        terms.setRequired(true);
         contactForm.add(
                 phone,
                 fax,
