@@ -1,6 +1,8 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import teapot.collat_hbrs.views.helloworld.HelloWorldView;
@@ -53,7 +55,7 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("My App");
+        H1 appName = new H1("Coll@HBRS");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
@@ -65,9 +67,9 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Hello World", HelloWorldView.class));
-        nav.addItem(new SideNavItem("Job Search", JobSearchView.class));
-        nav.addItem(new SideNavItem("Company Search", CompanySearchView.class));
+        nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, new Icon(VaadinIcon.CLOSE_CIRCLE)));
+        nav.addItem(new SideNavItem("Job Search", JobSearchView.class, new Icon(VaadinIcon.NOTEBOOK)));
+        nav.addItem(new SideNavItem("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)));
 
         return nav;
     }
