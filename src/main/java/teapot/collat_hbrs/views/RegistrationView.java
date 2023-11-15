@@ -301,12 +301,6 @@ public class RegistrationView extends VerticalLayout {
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
 
-
-
-
-        // TODO Registrierung Student @Ayub
-
-
         return studentForm;
     }
 
