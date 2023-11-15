@@ -12,6 +12,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -362,15 +363,16 @@ public class RegistrationView extends VerticalLayout {
         var phone = new TextField("Phone number");
         phone.setRequired(true);
         var fax = new TextField("Fax");
+        contactForm.add(
+                phone,
+                fax
+        );
+        contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
+
+        var separator = new Hr();
         var terms = new CheckboxGroup<>("Do you agree to the Terms of Service?");
         terms.setItems("Yes, I agree");
         terms.setRequired(true);
-        contactForm.add(
-                phone,
-                fax,
-                terms
-        );
-        contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
 
         companyForm.add(
                 addressTitle,
@@ -378,7 +380,9 @@ public class RegistrationView extends VerticalLayout {
                 informationTitle,
                 informationForm,
                 contactTitle,
-                contactForm
+                contactForm,
+                separator,
+                terms
         );
         return companyForm;
     }
