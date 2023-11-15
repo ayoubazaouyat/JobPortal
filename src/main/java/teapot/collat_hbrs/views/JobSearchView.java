@@ -73,7 +73,7 @@ public class JobSearchView extends VerticalLayout {
         searchLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 3),
-                new FormLayout.ResponsiveStep("100px", 6)
+                new FormLayout.ResponsiveStep("1000px", 6)
         );
 
         add(searchLayout);
