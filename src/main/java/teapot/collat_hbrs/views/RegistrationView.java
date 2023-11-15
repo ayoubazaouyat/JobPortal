@@ -2,7 +2,6 @@ package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -25,7 +24,6 @@ import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
-import org.hibernate.type.TrueFalseConverter;
 
 @Route("registration")
 @AnonymousAllowed
