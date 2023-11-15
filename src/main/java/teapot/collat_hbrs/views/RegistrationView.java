@@ -319,10 +319,15 @@ public class RegistrationView extends VerticalLayout {
         var addressTitle = new H4("Address");
         var addressForm = new FormLayout();
         var companyName = new TextField("Company name");
+        companyName.setRequired(true);
         var street = new TextField("Street name");
+        street.setRequired(true);
         var houseNumber = new NumberField("House number");
+        houseNumber.setRequired(true);
         var plz = new NumberField("PLZ");
+        plz.setRequired(true);
         var city = new TextField("City");
+        city.setRequired(true);
         addressForm.add(
                 addressTitle,
                 companyName,
@@ -344,7 +349,9 @@ public class RegistrationView extends VerticalLayout {
         var informationTitle = new H4("Information");
         var informationForm = new FormLayout();
         var industry = new TextField("Industry");
+        industry.setRequired(true);
         var description = new TextField("Company description");
+        description.setRequired(true);
         informationForm.add(
                 industry,
                 description
@@ -354,13 +361,12 @@ public class RegistrationView extends VerticalLayout {
         var contactTitle = new H4("Contact");
         var contactForm = new FormLayout();
         var phone = new TextField("Phone number");
+        phone.setRequired(true);
         var fax = new TextField("Fax");
-        var mobile = new TextField("Mobile");
         var terms = new Checkbox("I agree to the ToS");
         contactForm.add(
                 phone,
                 fax,
-                mobile,
                 terms
         );
         contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
