@@ -1,5 +1,6 @@
 package teapot.collat_hbrs.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -49,6 +50,7 @@ public class MainLayout extends AppLayout {
 
         String username = securityService.getAuthenticatedUser().getUsername();
         Button logout = new Button("Log out " + username, e -> securityService.logout());
+        logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/landing"));
         VerticalLayout verticalLayout = new VerticalLayout(logout);
         verticalLayout.setAlignItems(FlexComponent.Alignment.END);
         addToNavbar(verticalLayout);
