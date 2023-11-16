@@ -29,6 +29,7 @@ import org.apache.commons.lang3.NotImplementedException;
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
+    private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
 
     int accType;
@@ -68,7 +69,7 @@ public class RegistrationView extends VerticalLayout {
                         loginButton()
                 );
                 buildNavigation(false, false);
-                progressBar.setValue(0.3333);
+                progressBar.setValue(1/NUMEROFSTEPS);
                 break;
             case 2:
                 add(
@@ -76,7 +77,7 @@ public class RegistrationView extends VerticalLayout {
                         buildBasicForm()
                 );
                 buildNavigation(true, true);
-                progressBar.setValue(0.6666);
+                progressBar.setValue(2/NUMEROFSTEPS);
                 break;
             case 3:
                 if (accType == 0) {
@@ -91,13 +92,13 @@ public class RegistrationView extends VerticalLayout {
                     );
                 }
                 buildNavigation(true, true);
-                progressBar.setValue(0.8);
+                progressBar.setValue(3/NUMEROFSTEPS);
                 break;
             case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
                 buildNavigation(false, false);
-                progressBar.setValue(1);
+                progressBar.setValue(4/NUMEROFSTEPS);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
                 break;
 
