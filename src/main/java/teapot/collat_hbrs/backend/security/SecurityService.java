@@ -22,6 +22,10 @@ public class SecurityService {
         return userDetails.get();
     }
 
+    public boolean isAuthenticated(){
+        return authenticationContext.isAuthenticated();
+    }
+
     public void logout() {
         authenticationContext.logout();
     }

@@ -46,14 +46,15 @@ public class MainLayout extends AppLayout {
 
         addToNavbar(true, toggle, viewTitle);
 
-        //Logout Button
-
-        String username = securityService.getAuthenticatedUser().getUsername();
-        Button logout = new Button("Log out " + username, e -> securityService.logout());
-        logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/landing"));
-        VerticalLayout verticalLayout = new VerticalLayout(logout);
-        verticalLayout.setAlignItems(FlexComponent.Alignment.END);
-        addToNavbar(verticalLayout);
+        //Only add Logout Button when a user is loged in
+        if(securityService.isAuthenticated()){
+            String username = securityService.getAuthenticatedUser().getUsername();
+            Button logout = new Button("Log out " + username, e -> securityService.logout());
+            logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/landing"));
+            VerticalLayout verticalLayout = new VerticalLayout(logout);
+            verticalLayout.setAlignItems(FlexComponent.Alignment.END);
+            addToNavbar(verticalLayout);
+        }
     }
 
     private void addDrawerContent() {
