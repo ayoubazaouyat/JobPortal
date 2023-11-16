@@ -14,12 +14,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import jakarta.annotation.security.PermitAll;
 
 @PageTitle("Landing")
-@Route(value = "landing", layout = MainLayout.class)
-@PermitAll
+@Route(value = "", layout = MainLayout.class)
+@AnonymousAllowed
 @Uses(Icon.class)
 public class LandingView extends Composite<VerticalLayout> {
 
