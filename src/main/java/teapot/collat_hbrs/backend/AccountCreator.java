@@ -18,9 +18,6 @@ public class AccountCreator {
     private String companyIndustry;
     private String companyDescription;
 
-    public AccountCreator() {
-    }
-
 
     public Account buildCompany() {
         return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
