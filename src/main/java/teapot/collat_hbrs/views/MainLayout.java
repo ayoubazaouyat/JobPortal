@@ -46,12 +46,19 @@ public class MainLayout extends AppLayout {
 
         addToNavbar(true, toggle, viewTitle);
 
-        //Only add Logout Button when a user is loged in
+        //Check if the user is logged in and add login/logout button accordingly
         if(securityService.isAuthenticated()){
             String username = securityService.getAuthenticatedUser().getUsername();
             Button logout = new Button("Log out " + username, e -> securityService.logout());
-            logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/landing"));
+            logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/"));
             VerticalLayout verticalLayout = new VerticalLayout(logout);
+            verticalLayout.setAlignItems(FlexComponent.Alignment.END);
+            addToNavbar(verticalLayout);
+        }
+        else {
+            Button login = new Button("Log in");
+            login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/login"));
+            VerticalLayout verticalLayout = new VerticalLayout(login);
             verticalLayout.setAlignItems(FlexComponent.Alignment.END);
             addToNavbar(verticalLayout);
         }
