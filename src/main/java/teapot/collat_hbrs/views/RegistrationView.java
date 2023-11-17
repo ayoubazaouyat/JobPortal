@@ -41,6 +41,7 @@ public class RegistrationView extends VerticalLayout {
     String studentAdresse;
     String studentPhone;
     String studentProgram;
+    private UserService userService ;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
 
@@ -51,12 +52,14 @@ public class RegistrationView extends VerticalLayout {
     /**
      * Constructor
      */
-    public RegistrationView() {
+    public RegistrationView(UserService userService) {
         // TODO Make it only accessible when the user is not logged in
+        this.userService = userService;
         heading = new H1("Registration");
         step = 1;
         buildUI();
     }
+
 
     /**
      * Creates the UI (from scratch)
@@ -427,6 +430,8 @@ public class RegistrationView extends VerticalLayout {
             /**
              * ADD ACCOUNT TO DATABASE HERE.
              */
+            userService.registerAccount(acc,password);
+
 
         }
         // layout settings
