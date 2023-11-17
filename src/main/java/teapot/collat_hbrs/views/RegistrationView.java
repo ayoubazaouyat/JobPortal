@@ -441,10 +441,10 @@ public class RegistrationView extends VerticalLayout {
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
 
             //ADD ACCOUNT TO DATABASE HERE.
-            if(accType == 0)
-                userService.registerAccount(accountCreator.buildStudent(), password);
-            else
-                userService.registerAccount(accountCreator.buildCompany(), password);
+            userService.registerAccount(accountCreator.buildStudent(), password);
+        }
+        else {
+            userService.registerAccount(accountCreator.buildCompany(), password);
 
         }
         // layout settings
