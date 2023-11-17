@@ -24,11 +24,23 @@ import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
+import teapot.collat_hbrs.backend.Account;
+import teapot.collat_hbrs.backend.Student;
+import teapot.collat_hbrs.backend.StudentRepository;
+import teapot.collat_hbrs.backend.security.UserService;
 
 @Route("registration")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
-
+    Account acc;
+    String username;
+    String email;
+    String password;
+    String studentfirstName ;
+    String studentlastName;
+    String studentAdresse;
+    String studentPhone;
+    String studentProgram;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
 
@@ -192,6 +204,16 @@ public class RegistrationView extends VerticalLayout {
         basicForm.setColspan(passwordField, 1);
         basicForm.setColspan(confirmPasswordField, 1);
 
+        //add event listener
+        usernameField.addValueChangeListener(event -> {
+            username = usernameField.getValue();
+        });
+        emailField.addValueChangeListener(event -> {
+            email = emailField.getValue();
+        });
+        passwordField.addValueChangeListener(event -> {
+            password = passwordField.getValue();
+        });
         basicForm.add(
                 usernameField,
                 emailField,
@@ -301,6 +323,15 @@ public class RegistrationView extends VerticalLayout {
         city.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
+        firstName.addValueChangeListener(event -> studentfirstName = firstName.getValue());
+        lastName.addValueChangeListener(event-> studentlastName = lastName.getValue());
+        street.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
+        houseNumber.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
+        plz.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
+        city.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
+        phoneNumber.addValueChangeListener(event -> studentPhone = phoneNumber.getValue());
+        comboBoxStudgang.addValueChangeListener(event -> studentProgram = comboBoxStudgang.getValue());
+
 
         return studentForm;
     }
@@ -388,7 +419,16 @@ public class RegistrationView extends VerticalLayout {
         var buildScreen = new VerticalLayout();
         var successMessage = new H2("You are ready to go!");
         var homeButton = new Button();
+        if (accType== 0) {
+            String message = "Hey "+studentfirstName+", we are happy to have you!";
 
+            Notification.show(message, 5000, Notification.Position.TOP_CENTER);
+            acc = new Student(studentlastName,studentfirstName,email,studentAdresse,studentPhone,studentProgram,username);
+            /**
+             * ADD ACCOUNT TO DATABASE HERE.
+             */
+
+        }
         // layout settings
         buildScreen.setAlignItems(FlexComponent.Alignment.CENTER);
         buildScreen.setJustifyContentMode(JustifyContentMode.CENTER);
