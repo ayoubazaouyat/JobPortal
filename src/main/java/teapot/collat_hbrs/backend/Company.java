@@ -8,11 +8,11 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("C")
 public class Company extends Account{
-    private String name;
+    private String companyName;
     private String address; // consisting of streetName, houseNumber, postalCode, city
     private String industry; // Branche
     private String companyDescription;
-    private String landlineNumber;
+    private String phoneNumber;
     private String email;
 
 
@@ -21,24 +21,23 @@ public class Company extends Account{
 
     protected Company() {}
 
-    public Company(String name, String username, String address, String industry, String companyDescription,
-                   String landlineNumber, String email) {
-        this.name = name;
+    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
+        this.companyName = companyName;
         this.username = username;
         this.address = address;
         this.industry = industry;
         this.companyDescription = companyDescription;
-        this.landlineNumber = landlineNumber;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.jobAdvertisements = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCompanyName(String name) {
+        this.companyName = name;
     }
 
     public String getAddress() {
@@ -65,12 +64,12 @@ public class Company extends Account{
         this.companyDescription = companyDescription;
     }
 
-    public String getLandlineNumber() {
-        return landlineNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setLandlineNumber(String landlineNumber) {
-        this.landlineNumber = landlineNumber;
+    public void setPhoneNumber(String landlineNumber) {
+        this.phoneNumber = landlineNumber;
     }
 
     public String getEmail() {

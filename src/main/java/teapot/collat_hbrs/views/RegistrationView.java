@@ -25,8 +25,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
 import teapot.collat_hbrs.backend.Account;
+import teapot.collat_hbrs.backend.AccountBuilder;
 import teapot.collat_hbrs.backend.Student;
-import teapot.collat_hbrs.backend.StudentRepository;
 import teapot.collat_hbrs.backend.security.UserService;
 
 @Route("registration")
@@ -42,8 +42,10 @@ public class RegistrationView extends VerticalLayout {
     String studentPhone;
     String studentProgram;
     private UserService userService ;
+    private AccountBuilder accountBuilder;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
+
 
     int accType;
     int step;
@@ -426,7 +428,7 @@ public class RegistrationView extends VerticalLayout {
             String message = "Hey "+studentfirstName+", we are happy to have you!";
 
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
-            acc = new Student(studentlastName,studentfirstName,email,studentAdresse,studentPhone,studentProgram,username);
+            acc = new Student(username, email, studentlastName,studentfirstName, studentAdresse,studentPhone,studentProgram);
             /**
              * ADD ACCOUNT TO DATABASE HERE.
              */

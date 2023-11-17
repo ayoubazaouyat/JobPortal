@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import teapot.collat_hbrs.backend.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -25,12 +22,12 @@ class RepositoryTest {
 	@Test
 	void repositoryTest() {
 
-		Student s1 = new Student("Musterman","Max","a@example.com",
-								"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
-								"Computer Science", "mmuster");
-		Company c1 = new Company("ACME", "acme", "Musterstrasse 41a 53757 Sankt Augustin",
-								"IT", "Great company to work at", "0224112345",
-								"b@examlpe.com");
+		Student s1 = new Student("mmuster", "a@example.com", "Musterman","Max",
+				"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
+								"Computer Science");
+		Company c1 = new Company("acme", "b@examlpe.com", "ACME", "Musterstrasse 41a 53757 Sankt Augustin",
+				"0224112345", "IT", "Great company to work at"
+		);
 
 		accountRepository.deleteAll();
 

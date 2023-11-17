@@ -12,7 +12,7 @@ public class Student extends Account {
     private String forename;
     private String email;
     private String address; // consisting of streetName, houseNumber, postalCode, city
-    private String phone;
+    private String phoneNumber;
     private String studyProgram;
 
     @ElementCollection
@@ -20,13 +20,13 @@ public class Student extends Account {
     protected Student() {
     }
 
-    public Student(String surname, String forename, String email, String address, String phone,
-                   String studyProgram, String username) {
+    public Student(String username, String email, String surname, String forename, String address, String phoneNumber,
+                   String studyProgram) {
         this.surname = surname;
         this.forename = forename;
         this.email = email;
         this.address = address;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.studyProgram = studyProgram;
         this.username = username;
         this.skills = new ArrayList<>();
@@ -60,12 +60,12 @@ public class Student extends Account {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phone) {
+        this.phoneNumber = phone;
     }
 
     public String getStudyProgram() {
