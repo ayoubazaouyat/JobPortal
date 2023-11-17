@@ -21,30 +21,25 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
 import com.vaadin.flow.component.textfield.*;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
-import teapot.collat_hbrs.backend.Account;
-import teapot.collat_hbrs.backend.AccountBuilder;
-import teapot.collat_hbrs.backend.Student;
+import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
 
 @Route("registration")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
-    Account acc;
-    String username;
-    String email;
+
     String password;
-    String studentfirstName ;
-    String studentlastName;
     String studentAdresse;
-    String studentPhone;
-    String studentProgram;
-    private UserService userService ;
-    private AccountBuilder accountBuilder;
+    private UserService userService;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
+    private AccountCreator accountCreator = new AccountCreator();
+    Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
 
 
     int accType;
@@ -86,7 +81,7 @@ public class RegistrationView extends VerticalLayout {
                         loginButton()
                 );
                 buildNavigation(false, false);
-                progressBar.setValue(1/NUMEROFSTEPS);
+                progressBar.setValue(1 / NUMEROFSTEPS);
                 break;
             case 2:
                 add(
@@ -94,7 +89,7 @@ public class RegistrationView extends VerticalLayout {
                         buildBasicForm()
                 );
                 buildNavigation(true, true);
-                progressBar.setValue(2/NUMEROFSTEPS);
+                progressBar.setValue(2 / NUMEROFSTEPS);
                 break;
             case 3:
                 if (accType == 0) {
@@ -109,13 +104,13 @@ public class RegistrationView extends VerticalLayout {
                     );
                 }
                 buildNavigation(true, true);
-                progressBar.setValue(3/NUMEROFSTEPS);
+                progressBar.setValue(3 / NUMEROFSTEPS);
                 break;
             case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
-                buildNavigation(false, false);
-                progressBar.setValue(4/NUMEROFSTEPS);
+                buildNavigation(true, false);
+                progressBar.setValue(4 / NUMEROFSTEPS);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
                 break;
 
@@ -126,6 +121,7 @@ public class RegistrationView extends VerticalLayout {
 
     /**
      * Creates the selector where the user can choose between creating a stundend or company account
+     *
      * @return Account Selector
      */
     private HorizontalLayout buildAccountTypeSelector() {
@@ -200,6 +196,12 @@ public class RegistrationView extends VerticalLayout {
         passwordField.setRequired(true);
         confirmPasswordField.setRequired(true);
 
+        //bind data to accountBuilder
+        binder.bind(usernameField, AccountCreator::getUsername, AccountCreator::setUsername);
+        binder.bind(emailField, AccountCreator::getEmail, AccountCreator::setEmail);
+        //load possible previous data
+        binder.readBean(accountCreator);
+
         basicForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 2)
@@ -209,16 +211,11 @@ public class RegistrationView extends VerticalLayout {
         basicForm.setColspan(passwordField, 1);
         basicForm.setColspan(confirmPasswordField, 1);
 
-        //add event listener
-        usernameField.addValueChangeListener(event -> {
-            username = usernameField.getValue();
-        });
-        emailField.addValueChangeListener(event -> {
-            email = emailField.getValue();
-        });
+
         passwordField.addValueChangeListener(event -> {
             password = passwordField.getValue();
         });
+
         basicForm.add(
                 usernameField,
                 emailField,
@@ -235,7 +232,7 @@ public class RegistrationView extends VerticalLayout {
         var title = new H4("General Informations :");
         var genForm = new FormLayout();
         var firstName = new TextField("First Name");
-        var lastName= new TextField("Last Name");
+        var lastName = new TextField("Last Name");
         var street = new TextField("Street name");
         var houseNumber = new NumberField("House number");
         var plz = new NumberField("PLZ");
@@ -249,9 +246,9 @@ public class RegistrationView extends VerticalLayout {
                 plz,
                 city
         );
-        genForm.setColspan(title,4);
-        genForm.setColspan(firstName,2);
-        genForm.setColspan(lastName,2);
+        genForm.setColspan(title, 4);
+        genForm.setColspan(firstName, 2);
+        genForm.setColspan(lastName, 2);
         genForm.setColspan(street, 3);
         genForm.setColspan(houseNumber, 1);
         genForm.setColspan(plz, 2);
@@ -308,12 +305,12 @@ public class RegistrationView extends VerticalLayout {
         );
 
         var terms = new Checkbox("I agree to the ToS");
-        studyForm.setColspan(studiesTitle,4);
-        studyForm.setColspan(comboBox,4);
-        studyForm.setColspan(comboBoxStudgang,4);
-        studyForm.setColspan(semesterNum,4);
-        studyForm.setColspan(skillsField,4);
-        contactForm.setColspan(phoneNumber,4);
+        studyForm.setColspan(studiesTitle, 4);
+        studyForm.setColspan(comboBox, 4);
+        studyForm.setColspan(comboBoxStudgang, 4);
+        studyForm.setColspan(semesterNum, 4);
+        studyForm.setColspan(skillsField, 4);
+        contactForm.setColspan(phoneNumber, 4);
         studentForm.add(
                 genForm,
                 studyForm,
@@ -328,15 +325,19 @@ public class RegistrationView extends VerticalLayout {
         city.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
-        firstName.addValueChangeListener(event -> studentfirstName = firstName.getValue());
-        lastName.addValueChangeListener(event-> studentlastName = lastName.getValue());
-        street.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
-        houseNumber.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
-        plz.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
-        city.addValueChangeListener(event -> studentAdresse= street.getValue()+" "+ houseNumber.getValue() + "\n" + plz.getValue()+ " "+ city.getValue());
-        phoneNumber.addValueChangeListener(event -> studentPhone = phoneNumber.getValue());
-        comboBoxStudgang.addValueChangeListener(event -> studentProgram = comboBoxStudgang.getValue());
 
+        binder.bind(firstName, AccountCreator::getForename, AccountCreator::setForename);
+        binder.bind(lastName, AccountCreator::getSurname, AccountCreator::setSurname);
+        binder.bind(phoneNumber, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
+        binder.bind(comboBoxStudgang, AccountCreator::getStudyProgram, AccountCreator::setStudyProgram);
+
+        //TODO combine address for binder
+        street.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
+        houseNumber.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
+        plz.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
+        city.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
+
+        binder.readBean(accountCreator);
 
         return studentForm;
     }
@@ -403,6 +404,15 @@ public class RegistrationView extends VerticalLayout {
         terms.setItems("Yes, I agree");
         terms.setRequired(true);
 
+        binder.bind(companyName, AccountCreator::getCompanyName, AccountCreator::setCompanyName);
+        binder.bind(description, AccountCreator::getCompanyDescription, AccountCreator::setCompanyDescription);
+        binder.bind(industry, AccountCreator::getCompanyIndustry, AccountCreator::setCompanyIndustry);
+        binder.bind(phone, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
+        //TODO combine address for binder
+
+
+        binder.readBean(accountCreator);
+
         companyForm.add(
                 addressTitle,
                 addressForm,
@@ -418,22 +428,23 @@ public class RegistrationView extends VerticalLayout {
 
     /**
      * Creates the last screen showing that the registration was successful
+     *
      * @return Registration successful message
      */
     private VerticalLayout buildFinishedScreen() {
         var buildScreen = new VerticalLayout();
         var successMessage = new H2("You are ready to go!");
         var homeButton = new Button();
-        if (accType== 0) {
-            String message = "Hey "+studentfirstName+", we are happy to have you!";
+        if (accType == 0) {
+            String message = "Hey " + accountCreator.getSurname() + ", we are happy to have you!";
 
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
-            acc = new Student(username, email, studentlastName,studentfirstName, studentAdresse,studentPhone,studentProgram);
-            /**
-             * ADD ACCOUNT TO DATABASE HERE.
-             */
-            userService.registerAccount(acc,password);
 
+            //ADD ACCOUNT TO DATABASE HERE.
+            if(accType == 0)
+                userService.registerAccount(accountCreator.buildStudent(), password);
+            else
+                userService.registerAccount(accountCreator.buildCompany(), password);
 
         }
         // layout settings
@@ -456,6 +467,7 @@ public class RegistrationView extends VerticalLayout {
 
     /**
      * Creates buttons and a progress bar to navigate between registration steps
+     *
      * @param backEnabled User is able to go a step back
      * @param nextEnabled User is able to go a step forward
      */
@@ -476,11 +488,13 @@ public class RegistrationView extends VerticalLayout {
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         backButton.addClickListener(buttonClickEvent -> {
+            saveFormData();
             step--;
             buildUI();
         });
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
+            saveFormData();
             step++;
             buildUI();
         });
@@ -497,6 +511,7 @@ public class RegistrationView extends VerticalLayout {
 
     /**
      * Creates a button to navigate to the login page if the user already has an account
+     *
      * @return Login button
      */
     private Button loginButton() {
@@ -504,6 +519,16 @@ public class RegistrationView extends VerticalLayout {
         login.setTooltipText("Click here to go to the login page");
         login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
+    }
+
+    private void saveFormData(){
+        //save form data
+        try {
+            binder.writeBean(accountCreator);
+        } catch (ValidationException e) {
+            //TODO handle validation property maybe use binder.isValid()
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -1,6 +1,6 @@
 package teapot.collat_hbrs.backend;
 
-public class AccountBuilder {
+public class AccountCreator {
 
     //shared values
     private String username;
@@ -18,56 +18,57 @@ public class AccountBuilder {
     private String companyIndustry;
     private String companyDescription;
 
-    public AccountBuilder(String username, String email) {
-        this.username = username;
-        this.email = email;
+    public AccountCreator() {
     }
 
 
-    public Account buildCompany(){
+    public Account buildCompany() {
         return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
     }
 
-    public Account buildStudent(){
+    public Account buildStudent() {
         return new Student(username, email, surname, forename, address, phoneNumber, studyProgram);
     }
 
-    public AccountBuilder setAddress(String address){
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
         this.address = address;
-        return this;
     }
 
-    public AccountBuilder setStudentName(String forename, String surname){
-        this.forename = forename;
-        this.surname = surname;
-        return this;
-    }
-
-    public AccountBuilder setCompanyName(String companyName){
-        this.companyName = companyName;
-        return this;
-    }
-
-    public AccountBuilder setPhoneNumber(){
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        return this;
     }
 
-    public AccountBuilder setCompanyIndustry(String companyIndustry) {
-        this.companyIndustry = companyIndustry;
-        return this;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public AccountBuilder setCompanyDescription(String companyDescription) {
-        this.companyDescription = companyDescription;
-        return this;
+    public void setForename(String forename) {
+        this.forename = forename;
     }
 
-    public AccountBuilder setStudyProgram(String studyProgram) {
+    public void setStudyProgram(String studyProgram) {
         this.studyProgram = studyProgram;
-        return this;
     }
 
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyIndustry(String companyIndustry) {
+        this.companyIndustry = companyIndustry;
+    }
+
+    public void setCompanyDescription(String companyDescription) {
+        this.companyDescription = companyDescription;
+    }
 
     public String getUsername() {
         return username;
