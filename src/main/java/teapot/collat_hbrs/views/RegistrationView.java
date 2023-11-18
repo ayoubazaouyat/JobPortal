@@ -22,6 +22,7 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
 import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
@@ -32,7 +33,6 @@ import teapot.collat_hbrs.backend.security.UserService;
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    private String password;
     private String studentAdresse;
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
@@ -193,19 +193,23 @@ public class RegistrationView extends VerticalLayout {
     private FormLayout buildBasicForm() {
         var basicForm = new FormLayout();
         var usernameField = new TextField("Username");
-        var emailField = new EmailField("E-Mail");
+        var emailField = new TextField("E-Mail");
         passwordField = new PasswordField("Password");
         confirmPasswordField = new PasswordField("Confirm Password");
 
         //bind form data to accountBuilder and mark it as required
         //TODO create proper Validators for email and Password;
         binder.forField(usernameField).asRequired("Username is required.").bind(AccountCreator::getUsername, AccountCreator::setUsername);
-        binder.forField(emailField).asRequired("Email is required.").bind(AccountCreator::getEmail, AccountCreator::setEmail);
+        binder.forField(emailField).asRequired("Email is required.")
+                .withValidator(new EmailValidator("Not a valid Email"))
+                .bind(AccountCreator::getEmail, AccountCreator::setEmail);
         binder.forField(passwordField).asRequired("Password is required")
                 .withValidator(password -> password.length() >= 6, "Password must be at least six characters long.")
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
         binder.forField(confirmPasswordField).withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
+
+
 
         //load possible previous data
         binder.readBean(accountCreator);
@@ -454,10 +458,10 @@ public class RegistrationView extends VerticalLayout {
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
 
             //ADD ACCOUNT TO DATABASE HERE.
-            userService.registerAccount(accountCreator.buildStudent(), password);
+            userService.registerAccount(accountCreator.buildStudent(), accountCreator.getPassword());
         }
         else {
-            userService.registerAccount(accountCreator.buildCompany(), password);
+            userService.registerAccount(accountCreator.buildCompany(), accountCreator.getPassword());
 
         }
         // layout settings
@@ -569,7 +573,7 @@ public class RegistrationView extends VerticalLayout {
         return true;
     }
 
-    private boolean validatePasswords() {
+        private boolean validatePasswords() {
         if(passwordField.isEmpty() || confirmPasswordField.isEmpty()
                 || passwordField.getValue().length() < 2
                 || !passwordField.getValue().equals(confirmPasswordField.getValue())) {
