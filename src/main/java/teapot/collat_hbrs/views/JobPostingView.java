@@ -22,6 +22,20 @@ import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 @Route("job-posting")
 @AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
+    private TextField companyName;
+    private TextField positionName;
+    private ComboBox<String> fullOrPartTime;
+    private ComboBox<String> remoteOrInHouse;
+    private TextArea textDescription;
+    private TextField location;
+    private DatePicker offerAge;
+    private TextArea expectations ;
+    private  TextArea requirements ;
+
+    private TextField candidateCount;
+    private TextArea employeeBenefits ;
+    private TextArea hrContact ;
+    private Button postButton;
 
     private final JobAdvertisementService jobAdvertisementService;
 
@@ -39,48 +53,49 @@ public class JobPostingView extends VerticalLayout {
 
 
     private void initJobPostingForm() {
-        var genForm = new FormLayout();
+        FormLayout genForm = new FormLayout();
 
-        var companyName = new TextField("Name of company");
+        companyName = new TextField("Name of company");
         companyName.setRequired(true);
-        var positionName = new TextField("Position name");
+        positionName = new TextField("Position name");
         positionName.setRequired(true);
-        var fullOrPartTime = new ComboBox<String>("Full/Part-time");
+        fullOrPartTime = new ComboBox<>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems("Full-time", "Part-time");
         fullOrPartTime.setRequired(true);
-
-
-        var remoteOrInHouse = new ComboBox<String>("Remote/Office");
+        remoteOrInHouse = new ComboBox<String>("Remote/Office");
         remoteOrInHouse.setClearButtonVisible(true);
         remoteOrInHouse.setItems("Remote", "Office");
 
-        var textDescription = new TextArea("Text description");
-        var location = new TextField("Location/Address");
+        textDescription = new TextArea("Text description");
+        location = new TextField("Location/Address");
         location.setRequired(true);
-        var offerAge = new DatePicker("Application Deadline");
+        offerAge = new DatePicker("Application Deadline");
         offerAge.setRequired(true);
 
-        var expectations = new TextArea("What's waiting for you");
-        var requirements = new TextArea("What we expect");
+        expectations = new TextArea("What's waiting for you");
+        requirements = new TextArea("What we expect");
+        candidateCount = new TextField("Number of candidates");
+        employeeBenefits = new TextArea("Employee Benefits");
+        hrContact = new TextArea("Contact of HR Manager (Optional)");
 
-        var candidateCount = new TextField("Number of candidates");
-        var employeeBenefits = new TextArea("Employee Benefits");
-        var hrContact = new TextArea("Contact of HR Manager (Optional)");
 
-        // Button to submit the job posting
-        var postButton = new Button("Post Job");
+
+        postButton = new Button("Post Job");
         postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         postButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         genForm.add(
                 companyName, positionName, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
                 expectations, requirements, candidateCount, employeeBenefits, hrContact, postButton
         );
-        // After adding the postButton to the form
+
         postButton.addClickListener(event -> {
-            if (companyName.isEmpty() || positionName.isEmpty() || location.isEmpty() || fullOrPartTime.isEmpty() ||offerAge.isEmpty()) {
+            if (companyName.isEmpty() || positionName.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
                 Notification.show("Please fill in the required fields: Name of company and Position name");
             } else {
+
+                displayEnteredInformation();
+                addEditAndConfirmButtons();
                 // For demonstration, using a Notification to signify successful posting.
                 // Notification.show("Job posted successfully");
 
@@ -90,9 +105,9 @@ public class JobPostingView extends VerticalLayout {
                 removeAll();
                 add(new H2("Job Posted Successfully"));
                 add(backButton);
+
             }
         });
-
 
         genForm.setColspan(companyName, 4);
         genForm.setColspan(positionName, 4);
@@ -109,35 +124,45 @@ public class JobPostingView extends VerticalLayout {
         genForm.setColspan(postButton, 2);
         genForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("500px", 4)
-        );
+                new FormLayout.ResponsiveStep("500px", 4));
 
         add(genForm);
+    }
+    private void displayEnteredInformation() {
+        removeAll();
+        add(new H2("Are you sure of the information?"));
+
+        add(new TextField("Name of company", companyName.getValue()));
+        add(new TextField("Position name", positionName.getValue()));
+        add(new TextField("Full/Part-time", fullOrPartTime.getValue()));
+        add(new TextField("remoteOrInHouse", remoteOrInHouse.getValue()));
+        add(new TextField("textDescription", textDescription.getValue()));
+        add(new TextField("location", location.getValue()));
+        add(new TextField("offerAge", String.valueOf(offerAge.getValue())));
+        add(new TextField("Name of company", expectations.getValue()));
+        add(new TextField("Name of company", requirements.getValue()));
+        add(new TextField("Name of company", candidateCount.getValue()));
+        add(new TextField("Name of company", employeeBenefits.getValue()));
+        add(new TextField("Name of company", hrContact.getValue()));
+        add(new TextField("Name of company", employeeBenefits.getValue()));
+
 
 
     }
 
-    private void showJobDetailsNotification(String company, String position, String fullTime, String remote, String description, String jobLocation, String expect,
-                                            String require, String age, String count, String benefits,
-                                            String hrContactInfo) {
-        Notification.show("Der Job ist schon gepostet: " +
-                "\nUnternehmen: " + company +
-                "\nPosition: " + position +
-                "\nFullTime: " + fullTime +
-                "\nremote: " + remote +
-                "\nDescription: " + description +
-                "\nJobLocation: " + jobLocation +
-                "\nexpect: " + expect +
-                "\nRequire: " + require +
-                "\nAge: " + age +
-                "\nCount: " + count +
-                "\nBenefits: " + benefits +
-                "\nHrContactinfo: " + hrContactInfo +
+    private void addEditAndConfirmButtons() {
+        Button editButton = new Button("Edit Job Posting");
+        editButton.addClickListener(e -> {
+            removeAll();
+            initJobPostingForm();
+        });
 
-                // ... (include other job details)
-                "\nVielen Dank für Ihr Interesse!");
+        Button confirmButton = new Button("Confirm Job Posting");
+        confirmButton.addClickListener(e -> {
+            Notification.show("Job posted successfully");
+        });
 
-
+        add(editButton, confirmButton);
     }
 
     private void saveJobAdvertisement(String title) {
