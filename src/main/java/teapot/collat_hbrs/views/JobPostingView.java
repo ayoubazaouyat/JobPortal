@@ -32,10 +32,13 @@ public class JobPostingView extends VerticalLayout {
         var genForm = new FormLayout();
 
         var companyName = new TextField("Name of company");
+        companyName.setRequired(true);
         var positionName = new TextField("Position name");
+        positionName.setRequired(true);
         var fullOrPartTime = new ComboBox<String>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems("Full-time", "Part-time");
+        fullOrPartTime.setRequired(true);
 
 
         var remoteOrInHouse = new ComboBox<String>("Remote/Office");
@@ -44,7 +47,9 @@ public class JobPostingView extends VerticalLayout {
 
         var textDescription = new TextArea("Text description");
         var location = new TextField("Location/Address");
+        location.setRequired(true);
         var offerAge = new DatePicker("Application Deadline");
+        offerAge.setRequired(true);
 
         var expectations = new TextArea("What's waiting for you");
         var requirements = new TextArea("What we expect");
@@ -63,17 +68,22 @@ public class JobPostingView extends VerticalLayout {
         );
         // After adding the postButton to the form
         postButton.addClickListener(event -> {
-            // Assuming successful job posting, perform the necessary logic here.
-            // For demonstration, using a Notification to signify successful posting.
-            //Notification.show("Job posted successfully");
+            if (companyName.isEmpty() || positionName.isEmpty() || location.isEmpty() || fullOrPartTime.isEmpty() ||offerAge.isEmpty()) {
+                Notification.show("Please fill in the required fields: Name of company and Position name");
+            } else {
+                // Assuming successful job posting, perform the necessary logic here.
+                // For demonstration, using a Notification to signify successful posting.
+                // Notification.show("Job posted successfully");
 
-            // Button to navigate back to the homepage from the confirmation message
-            Button backButton = new Button("Back to Homepage");
-            backButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("jobsearch")));
-            removeAll();
-            add(new H2("Job Posted Successfully"));
-            add(backButton);
+                // Button to navigate back to the homepage from the confirmation message
+                Button backButton = new Button("Back to Homepage");
+                backButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("/")));
+                removeAll();
+                add(new H2("Job Posted Successfully"));
+                add(backButton);
+            }
         });
+
 
         genForm.setColspan(companyName, 4);
         genForm.setColspan(positionName, 4);
