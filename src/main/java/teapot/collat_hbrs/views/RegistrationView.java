@@ -28,6 +28,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
 import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
+import teapot.collat_hbrs.frontend.PasswordValidator;
 
 @Route("registration")
 @AnonymousAllowed
@@ -204,7 +205,7 @@ public class RegistrationView extends VerticalLayout {
                 .withValidator(new EmailValidator("Not a valid Email"))
                 .bind(AccountCreator::getEmail, AccountCreator::setEmail);
         binder.forField(passwordField).asRequired("Password is required")
-                .withValidator(password -> password.length() >= 6, "Password must be at least six characters long.")
+                .withValidator(new PasswordValidator())
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
         binder.forField(confirmPasswordField).withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
