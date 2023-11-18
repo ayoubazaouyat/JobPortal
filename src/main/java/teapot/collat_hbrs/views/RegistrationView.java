@@ -22,7 +22,6 @@ import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
 import com.vaadin.flow.component.textfield.*;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
@@ -35,10 +34,10 @@ public class RegistrationView extends VerticalLayout {
 
     String password;
     String studentAdresse;
-    private UserService userService;
+    private final UserService userService;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
-    private AccountCreator accountCreator = new AccountCreator();
+    private final AccountCreator accountCreator = new AccountCreator();
     Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
 
 
@@ -191,14 +190,16 @@ public class RegistrationView extends VerticalLayout {
         var passwordField = new PasswordField("Password");
         var confirmPasswordField = new PasswordField("Confirm Password");
 
-        usernameField.setRequired(true);
-        emailField.setRequired(true);
-        passwordField.setRequired(true);
-        confirmPasswordField.setRequired(true);
+        //bind form data to accountBuilder and mark it as required
+        //TODO create proper Validators for email and Password;
+        binder.forField(usernameField).asRequired("Username is required.").bind(AccountCreator::getUsername, AccountCreator::setUsername);
+        binder.forField(emailField).asRequired("Email is required.").bind(AccountCreator::getEmail, AccountCreator::setEmail);
+        binder.forField(passwordField).asRequired("Password is required")
+                .withValidator(password -> password.length() >= 6, "Password must be at least six characters long.")
+                .bind(AccountCreator::getPassword,AccountCreator::setPassword);
+        binder.forField(confirmPasswordField).withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
+                .bind(AccountCreator::getPassword,AccountCreator::setPassword);
 
-        //bind data to accountBuilder
-        binder.bind(usernameField, AccountCreator::getUsername, AccountCreator::setUsername);
-        binder.bind(emailField, AccountCreator::getEmail, AccountCreator::setEmail);
         //load possible previous data
         binder.readBean(accountCreator);
 
@@ -212,9 +213,6 @@ public class RegistrationView extends VerticalLayout {
         basicForm.setColspan(confirmPasswordField, 1);
 
 
-        passwordField.addValueChangeListener(event -> {
-            password = passwordField.getValue();
-        });
 
         basicForm.add(
                 usernameField,
@@ -488,15 +486,28 @@ public class RegistrationView extends VerticalLayout {
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         backButton.addClickListener(buttonClickEvent -> {
-            saveFormData();
-            step--;
-            buildUI();
+            if(binder.isValid()){
+                binder.writeBeanIfValid(accountCreator);
+                step--;
+                buildUI();
+            }
+            else {
+                Notification.show("Please fill in the required fields");
+            }
         });
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
-            saveFormData();
-            step++;
-            buildUI();
+            //Test if fields are correct
+            if(binder.isValid()){
+                binder.writeBeanIfValid(accountCreator);
+                step++;
+                buildUI();
+            }
+            else {
+                //show validation error to user
+                binder.validate();
+                Notification.show("Please fill in the required fields");
+            }
         });
         nextButton.addClickShortcut(Key.ENTER);
 
@@ -519,16 +530,6 @@ public class RegistrationView extends VerticalLayout {
         login.setTooltipText("Click here to go to the login page");
         login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
-    }
-
-    private void saveFormData(){
-        //save form data
-        try {
-            binder.writeBean(accountCreator);
-        } catch (ValidationException e) {
-            //TODO handle validation property maybe use binder.isValid()
-            throw new RuntimeException(e);
-        }
     }
 
 }

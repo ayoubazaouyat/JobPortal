@@ -23,8 +23,7 @@ public class Company extends Account{
 
     protected Company() {}
 
-    public Company(Long companyId, String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
-        this.companyId = companyId;
+    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
         this.companyName = companyName;
         this.username = username;
         this.address = address;
@@ -33,14 +32,6 @@ public class Company extends Account{
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.jobAdvertisements = new ArrayList<>();
-    }
-
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
     }
 
     public String getCompanyName() {

@@ -2,10 +2,10 @@ package teapot.collat_hbrs.backend;
 
 public class AccountCreator {
 
-    private Long id;
     //shared values
     private String username;
     private String email;
+    private String password;
     private String address;
     private String phoneNumber;
 
@@ -21,7 +21,7 @@ public class AccountCreator {
 
 
     public Account buildCompany() {
-        return new Company(id, username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
+        return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
     }
 
     public Account buildStudent() {
@@ -34,6 +34,10 @@ public class AccountCreator {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setAddress(String address) {
@@ -74,6 +78,10 @@ public class AccountCreator {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getAddress() {
