@@ -1,12 +1,15 @@
 package teapot.collat_hbrs.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Hr;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -17,6 +20,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
+
+import java.awt.*;
+import java.util.Collection;
 
 
 @Route("job-posting")
@@ -99,13 +105,6 @@ public class JobPostingView extends VerticalLayout {
                 // For demonstration, using a Notification to signify successful posting.
                 // Notification.show("Job posted successfully");
 
-                // Button to navigate back to the homepage from the confirmation message
-                Button backButton = new Button("Back to Homepage");
-                backButton.addClickListener(e -> getUI().ifPresent(ui -> ui.navigate("/")));
-                removeAll();
-                add(new H2("Job Posted Successfully"));
-                add(backButton);
-
             }
         });
 
@@ -164,6 +163,9 @@ public class JobPostingView extends VerticalLayout {
 
         add(editButton, confirmButton);
     }
+
+
+
 
     private void saveJobAdvertisement(String title) {
         JobAdvertisement jobAdvertisement = new JobAdvertisement();
