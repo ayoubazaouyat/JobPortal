@@ -84,6 +84,10 @@ public class Company extends Account{
         this.jobAdvertisements = jobAdvertisements;
     }
 
+    public List<JobAdvertisement> getJobAdvertisements() {
+        return jobAdvertisements;
+    }
+
     public void postJobAdvertisement(JobAdvertisement x) {
         jobAdvertisements.add(x);
     }
