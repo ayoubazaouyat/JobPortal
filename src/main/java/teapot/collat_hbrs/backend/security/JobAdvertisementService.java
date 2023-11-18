@@ -20,7 +20,7 @@ public class JobAdvertisementService {
 
     public JobAdvertisement addJobAdvertisement(JobAdvertisement jobAdvertisement) {
         if (jobAdvertisement.getTitle() == null || jobAdvertisement.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Bitte vergeben Sie einen Stellentitel.");
+            throw new IllegalArgumentException("Please assign the job title");
         }
 
         return jobAdvertisementRepository.save(jobAdvertisement);

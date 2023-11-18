@@ -23,7 +23,7 @@ public class CompanyService {
 
     public Company getCompanyById(Long companyId) {
         return companyRepository.findById(companyId)
-                .orElseThrow(() -> new IllegalArgumentException("Unternehmen nicht gefunden"));
+                .orElseThrow(() -> new IllegalArgumentException("Company not found"));
     }
 
     public List<Company> getAllCompanies() {
@@ -33,7 +33,7 @@ public class CompanyService {
 
     public Company addCompany(Company company) {
         if (company.getCompanyName() == null || company.getCompanyName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Bitte vergeben Sie den Namen Ihres Unernehmens.");
+            throw new IllegalArgumentException("Please assign the company name");
         }
         return companyRepository.save(company);
     }
