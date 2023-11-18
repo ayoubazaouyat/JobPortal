@@ -1,17 +1,21 @@
 package teapot.collat_hbrs.backend;
 
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.sql.Time;
 
 @Entity
-@Embeddable
+//@Embeddable
+@DiscriminatorValue("J")
 public class JobAdvertisement extends Account {
 
-    // Warte auf Antwort von PO bzgl. Anforderungen zu den Stelenangeboten.
+    @ManyToOne
+    @JoinColumn(name = "companyName")
+    private Company company;
+
+    private Long jobAdvertisementId;
     private String title;
 
     private String description;
@@ -25,6 +29,24 @@ public class JobAdvertisement extends Account {
     private Date starttime;
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
+
+
+
+    public Long getJobAdvertisementId() {
+        return jobAdvertisementId;
+    }
+
+    public void setJobAdvertisementId(Long jobAdvertisementId) {
+        this.jobAdvertisementId = jobAdvertisementId;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public String getTitle() {
         return title;

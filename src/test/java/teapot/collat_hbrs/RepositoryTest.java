@@ -25,7 +25,7 @@ class RepositoryTest {
 		Student s1 = new Student("mmuster", "a@example.com", "Musterman","Max",
 				"Musterstrasse 41a 53757 Sankt Augustin", "01513142271",
 								"Computer Science");
-		Company c1 = new Company("acme", "b@examlpe.com", "ACME", "Musterstrasse 41a 53757 Sankt Augustin",
+		Company c1 = new Company(1L,"acme", "b@examlpe.com", "ACME", "Musterstrasse 41a 53757 Sankt Augustin",
 				"0224112345", "IT", "Great company to work at"
 		);
 

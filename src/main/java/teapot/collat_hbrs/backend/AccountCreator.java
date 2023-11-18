@@ -2,6 +2,7 @@ package teapot.collat_hbrs.backend;
 
 public class AccountCreator {
 
+    private Long id;
     //shared values
     private String username;
     private String email;
@@ -20,7 +21,7 @@ public class AccountCreator {
 
 
     public Account buildCompany() {
-        return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
+        return new Company(id, username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
     }
 
     public Account buildStudent() {
