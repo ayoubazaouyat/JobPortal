@@ -33,8 +33,14 @@ import teapot.collat_hbrs.backend.security.UserService;
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    String password;
-    String studentAdresse;
+    private String password;
+    private String studentAdresse;
+    private PasswordField passwordField;
+    private PasswordField confirmPasswordField;
+    TextField Studentstreet = new TextField("Street name");
+    NumberField StudenthouseNumber = new NumberField("House number");
+    NumberField Studentplz = new NumberField("PLZ");
+    TextField Studentcity = new TextField("City");
     private UserService userService;
     private static final double NUMEROFSTEPS = 4;
     private final H1 heading;
@@ -188,8 +194,8 @@ public class RegistrationView extends VerticalLayout {
         var basicForm = new FormLayout();
         var usernameField = new TextField("Username");
         var emailField = new EmailField("E-Mail");
-        var passwordField = new PasswordField("Password");
-        var confirmPasswordField = new PasswordField("Confirm Password");
+        passwordField = new PasswordField("Password");
+        confirmPasswordField = new PasswordField("Confirm Password");
 
         usernameField.setRequired(true);
         emailField.setRequired(true);
@@ -197,8 +203,13 @@ public class RegistrationView extends VerticalLayout {
         confirmPasswordField.setRequired(true);
 
         //bind data to accountBuilder
-        binder.bind(usernameField, AccountCreator::getUsername, AccountCreator::setUsername);
-        binder.bind(emailField, AccountCreator::getEmail, AccountCreator::setEmail);
+        binder.forField(usernameField)
+                .asRequired("Username is required")
+                .bind(AccountCreator::getUsername, AccountCreator::setUsername);
+        binder.forField(emailField)
+                .asRequired("Email is required ")
+                .bind(AccountCreator::getEmail, AccountCreator::setEmail);
+
         //load possible previous data
         binder.readBean(accountCreator);
 
@@ -233,26 +244,26 @@ public class RegistrationView extends VerticalLayout {
         var genForm = new FormLayout();
         var firstName = new TextField("First Name");
         var lastName = new TextField("Last Name");
-        var street = new TextField("Street name");
-        var houseNumber = new NumberField("House number");
-        var plz = new NumberField("PLZ");
-        var city = new TextField("City");
+        Studentstreet = new TextField("Street name");
+        StudenthouseNumber = new NumberField("House number");
+        Studentplz = new NumberField("PLZ");
+        Studentcity = new TextField("City");
         genForm.add(
                 title,
                 firstName,
                 lastName,
-                street,
-                houseNumber,
-                plz,
-                city
+                Studentstreet,
+                StudenthouseNumber,
+                Studentplz,
+                Studentcity
         );
         genForm.setColspan(title, 4);
         genForm.setColspan(firstName, 2);
         genForm.setColspan(lastName, 2);
-        genForm.setColspan(street, 3);
-        genForm.setColspan(houseNumber, 1);
-        genForm.setColspan(plz, 2);
-        genForm.setColspan(city, 2);
+        genForm.setColspan(Studentstreet, 3);
+        genForm.setColspan(StudenthouseNumber, 1);
+        genForm.setColspan(Studentplz, 2);
+        genForm.setColspan(Studentcity, 2);
         genForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 4)
@@ -319,23 +330,31 @@ public class RegistrationView extends VerticalLayout {
         );
         firstName.setRequired(true);
         lastName.setRequired(true);
-        street.setRequired(true);
-        houseNumber.setRequired(true);
-        plz.setRequired(true);
-        city.setRequired(true);
+        Studentstreet.setRequired(true);
+        StudenthouseNumber.setRequired(true);
+        Studentplz.setRequired(true);
+        Studentcity.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
 
-        binder.bind(firstName, AccountCreator::getForename, AccountCreator::setForename);
-        binder.bind(lastName, AccountCreator::getSurname, AccountCreator::setSurname);
-        binder.bind(phoneNumber, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
-        binder.bind(comboBoxStudgang, AccountCreator::getStudyProgram, AccountCreator::setStudyProgram);
+        binder.forField(firstName)
+                .asRequired("Please enter your first name")
+                .bind(AccountCreator::getForename, AccountCreator::setForename);
+        binder.forField(lastName)
+                .asRequired("Please enter your last name")
+                .bind(AccountCreator::getSurname, AccountCreator::setSurname);
+        binder.forField(phoneNumber)
+                .asRequired("Please enter your phone number")
+                .bind(AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
+        binder.forField(comboBoxStudgang)
+                .asRequired("Please choose your field of study")
+                .bind(AccountCreator::getStudyProgram, AccountCreator::setStudyProgram);
 
         //TODO combine address for binder
-        street.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
-        houseNumber.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
-        plz.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
-        city.addValueChangeListener(event -> studentAdresse = street.getValue() + " " + houseNumber.getValue() + "\n" + plz.getValue() + " " + city.getValue());
+        Studentstreet.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
+        StudenthouseNumber.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
+        Studentplz.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
+        Studentcity.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
 
         binder.readBean(accountCreator);
 
@@ -495,8 +514,20 @@ public class RegistrationView extends VerticalLayout {
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
             saveFormData();
-            step++;
-            buildUI();
+            boolean isValidStep = true;
+
+            if (step == 2) {
+                isValidStep = binder.validate().isOk() && validatePasswords();
+            } else if (step == 3 && accType == 0) { // Check address only for student form (accType == 0)
+                isValidStep = validateAdresse();
+            }
+
+            if (isValidStep) {
+                step++;
+                buildUI();
+            } else {
+                Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
+            }
         });
         nextButton.addClickShortcut(Key.ENTER);
 
@@ -507,6 +538,72 @@ public class RegistrationView extends VerticalLayout {
         );
 
         this.add(navigation);
+    }
+
+    private boolean validateAdresse() {
+        if(Studentstreet.isEmpty()
+                || StudenthouseNumber.isEmpty()
+                || Studentplz.isEmpty()
+                || Studentcity.isEmpty()) {
+            /**
+             * ADD a Number cheker HERE
+             */
+            if (Studentstreet.isEmpty() ) {
+                Studentstreet.setInvalid(true);
+                Studentstreet.setErrorMessage("this field is required");
+            }
+            if (StudenthouseNumber.isEmpty() ) {
+                StudenthouseNumber.setInvalid(true);
+                StudenthouseNumber.setErrorMessage("this field is required");
+            }
+            if (Studentplz.isEmpty() ) {
+                Studentplz.setInvalid(true);
+                Studentplz.setErrorMessage("this field is required");
+            }
+            if (Studentcity.isEmpty() ) {
+                Studentcity.setInvalid(true);
+                Studentcity.setErrorMessage("this field is required");
+            }
+            return false;
+        }
+        Studentstreet.setInvalid(false);
+        StudenthouseNumber.setInvalid(false);
+        Studentplz.setInvalid(false);
+        Studentcity.setInvalid(false);
+
+        return true;
+    }
+
+    private boolean validatePasswords() {
+        if(passwordField.isEmpty() || confirmPasswordField.isEmpty()
+                || passwordField.getValue().length() < 2
+                || !passwordField.getValue().equals(confirmPasswordField.getValue())) {
+            if (passwordField.isEmpty() || confirmPasswordField.isEmpty()) {
+                if(passwordField.isEmpty()) {
+                    passwordField.setInvalid(true);
+                    passwordField.setErrorMessage("Password fields cannot be empty");
+                }
+                if (confirmPasswordField.isEmpty()){
+                    confirmPasswordField.setInvalid(true);
+                    confirmPasswordField.setErrorMessage("Please confirm your Password");
+                }
+            }
+            if (passwordField.getValue().length() < 2) {
+                passwordField.setInvalid(true);
+                passwordField.setErrorMessage("Password must be at least 2 characters long");
+            }
+            if (!passwordField.getValue().equals(confirmPasswordField.getValue())) {
+                passwordField.setInvalid(true);
+                passwordField.setErrorMessage("Passwords do not match");
+                confirmPasswordField.setInvalid(true);
+                confirmPasswordField.setErrorMessage("Passwords do not match");
+            }
+            return false;
+        }
+
+        passwordField.setInvalid(false);
+        confirmPasswordField.setInvalid(false);
+        return true;
     }
 
     /**
