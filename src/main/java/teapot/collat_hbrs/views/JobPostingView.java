@@ -15,18 +15,28 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
 
 @Route("job-posting")
 @AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
 
-    public JobPostingView() {
+    private final JobAdvertisementService jobAdvertisementService;
+
+    private TextField titleField = new TextField("Title");
+
+
+    public JobPostingView(JobAdvertisementService jobAdvertisementService) {
+        this.jobAdvertisementService = jobAdvertisementService;
         // Set up the layout of the form
         add(new H2("Job Posting "));
         initJobPostingForm();
         add(new Hr());
+
     }
+
 
     private void initJobPostingForm() {
         var genForm = new FormLayout();
@@ -71,7 +81,6 @@ public class JobPostingView extends VerticalLayout {
             if (companyName.isEmpty() || positionName.isEmpty() || location.isEmpty() || fullOrPartTime.isEmpty() ||offerAge.isEmpty()) {
                 Notification.show("Please fill in the required fields: Name of company and Position name");
             } else {
-                // Assuming successful job posting, perform the necessary logic here.
                 // For demonstration, using a Notification to signify successful posting.
                 // Notification.show("Job posted successfully");
 
@@ -131,5 +140,14 @@ public class JobPostingView extends VerticalLayout {
 
     }
 
+    private void saveJobAdvertisement(String title) {
+        JobAdvertisement jobAdvertisement = new JobAdvertisement();
+        jobAdvertisement.setTitle(title);
 
+        jobAdvertisementService.addJobAdvertisement(jobAdvertisement);
+    }
+
+    public JobAdvertisementService getJobAdvertisementService() {
+        return jobAdvertisementService;
+    }
 }

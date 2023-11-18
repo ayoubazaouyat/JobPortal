@@ -13,7 +13,7 @@ public class JobAdvertisementService {
     private EntityManager entityManager;
 
 
-    @Autowired
+
     public JobAdvertisementService(JobAdvertisementRepository jobAdvertisementRepository) {
         this.jobAdvertisementRepository = jobAdvertisementRepository;
     }

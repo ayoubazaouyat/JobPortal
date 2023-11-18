@@ -21,7 +21,7 @@ public class CompanyController {
         this.jobAdvertisementService = jobAdvertisementService;
     }
 
-    public Company createCompany(@RequestBody Company company) {
+    public Company addCompany(@RequestBody Company company) {
         return companyService.addCompany(company);
     }
 

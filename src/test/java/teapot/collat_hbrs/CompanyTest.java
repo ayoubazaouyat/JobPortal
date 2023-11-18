@@ -15,7 +15,7 @@ class CompanyTest {
 
     @BeforeEach
     public void setup() {
-        c1 = new Company("acme", "b@examlpe.com", "ACME", "Musterstrasse 41a 53757 Sankt Augustin",
+        c1 = new Company(1L,"acme", "b@examlpe.com", "ACME", "Musterstrasse 41a 53757 Sankt Augustin",
                 "0224112345", "IT", "Great company to work at");
     }
 
