@@ -16,10 +16,6 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public Company createCompany(Company company) {
-        // Hier könntest du Validierungen oder andere Geschäftslogik hinzufügen
-        return companyRepository.save(company);
-    }
 
     public Company getCompanyById(Long companyId) {
         return companyRepository.findById(companyId)
