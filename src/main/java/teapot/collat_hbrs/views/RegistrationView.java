@@ -522,6 +522,23 @@ public class RegistrationView extends VerticalLayout {
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
+                /*
+                boolean isValidStep = true;
+
+            if (step == 2) {
+                isValidStep = binder.validate().isOk() && validatePasswords();
+            } else if (step == 3 && accType == 0) { // Check address only for student form (accType == 0)
+                isValidStep = validateAdresse();
+            }
+
+            if (isValidStep) {
+                step++;
+                buildUI();
+            } else {
+                Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
+            }
+
+                 */
             }
             else {
                 //show validation error to user
