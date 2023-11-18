@@ -22,7 +22,7 @@ public class CompanyController {
     }
 
     public Company createCompany(@RequestBody Company company) {
-        return companyService.createCompany(company);
+        return companyService.addCompany(company);
     }
 
     public List<JobAdvertisement> getJobAdvertisements(@PathVariable Long companyId) {
