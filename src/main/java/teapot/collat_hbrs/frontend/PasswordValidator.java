@@ -10,7 +10,7 @@ public class PasswordValidator implements Validator<String> {
 
     @Override
     public ValidationResult apply(String password, ValueContext valueContext) {
-        if(password.length() <= MINPASSWORDLENGTH) return ValidationResult.error("Password must be at least " + MINPASSWORDLENGTH + " characters long");
+        if(password.length() < MINPASSWORDLENGTH) return ValidationResult.error("Password must be at least " + MINPASSWORDLENGTH + " characters long");
         return ValidationResult.ok();
     }
 }

@@ -199,15 +199,23 @@ public class RegistrationView extends VerticalLayout {
         confirmPasswordField = new PasswordField("Confirm Password");
 
         //bind form data to accountBuilder and mark it as required
-        //TODO create proper Validators for email and Password;
-        binder.forField(usernameField).asRequired("Username is required.").bind(AccountCreator::getUsername, AccountCreator::setUsername);
-        binder.forField(emailField).asRequired("Email is required.")
+        binder.forField(usernameField)
+                .asRequired("Username is required.")
+                .bind(AccountCreator::getUsername, AccountCreator::setUsername);
+
+        binder.forField(emailField)
+                .asRequired("Email is required.")
                 .withValidator(new EmailValidator("Not a valid Email"))
                 .bind(AccountCreator::getEmail, AccountCreator::setEmail);
+
         binder.forField(passwordField).asRequired("Password is required")
                 .withValidator(new PasswordValidator())
+                .withValidator(password -> confirmPasswordField.getValue().equals(password),"Passwords must match.")
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
-        binder.forField(confirmPasswordField).withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
+
+        binder.forField(confirmPasswordField).asRequired("Password is required")
+                .withValidator(new PasswordValidator())
+                .withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
                 .bind(AccountCreator::getPassword,AccountCreator::setPassword);
 
 
@@ -518,32 +526,14 @@ public class RegistrationView extends VerticalLayout {
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
             //Test if fields are correct
-            if(binder.isValid()){
+            if(binder.validate().isOk() & (step != 3 || validateAdresse())){
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
-                /*
-                boolean isValidStep = true;
-
-            if (step == 2) {
-                isValidStep = binder.validate().isOk() && validatePasswords();
-            } else if (step == 3 && accType == 0) { // Check address only for student form (accType == 0)
-                isValidStep = validateAdresse();
-            }
-
-            if (isValidStep) {
-                step++;
-                buildUI();
-            } else {
-                Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
-            }
-
-                 */
             }
             else {
                 //show validation error to user
-                binder.validate();
-                Notification.show("Please fill in the required fields");
+                Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
             }
         });
         nextButton.addClickShortcut(Key.ENTER);
@@ -562,8 +552,8 @@ public class RegistrationView extends VerticalLayout {
                 || StudenthouseNumber.isEmpty()
                 || Studentplz.isEmpty()
                 || Studentcity.isEmpty()) {
-            /**
-             * ADD a Number cheker HERE
+            /*
+             * ADD a Number checker HERE
              */
             if (Studentstreet.isEmpty() ) {
                 Studentstreet.setInvalid(true);
@@ -591,37 +581,6 @@ public class RegistrationView extends VerticalLayout {
         return true;
     }
 
-        private boolean validatePasswords() {
-        if(passwordField.isEmpty() || confirmPasswordField.isEmpty()
-                || passwordField.getValue().length() < 2
-                || !passwordField.getValue().equals(confirmPasswordField.getValue())) {
-            if (passwordField.isEmpty() || confirmPasswordField.isEmpty()) {
-                if(passwordField.isEmpty()) {
-                    passwordField.setInvalid(true);
-                    passwordField.setErrorMessage("Password fields cannot be empty");
-                }
-                if (confirmPasswordField.isEmpty()){
-                    confirmPasswordField.setInvalid(true);
-                    confirmPasswordField.setErrorMessage("Please confirm your Password");
-                }
-            }
-            if (passwordField.getValue().length() < 2) {
-                passwordField.setInvalid(true);
-                passwordField.setErrorMessage("Password must be at least 2 characters long");
-            }
-            if (!passwordField.getValue().equals(confirmPasswordField.getValue())) {
-                passwordField.setInvalid(true);
-                passwordField.setErrorMessage("Passwords do not match");
-                confirmPasswordField.setInvalid(true);
-                confirmPasswordField.setErrorMessage("Passwords do not match");
-            }
-            return false;
-        }
-
-        passwordField.setInvalid(false);
-        confirmPasswordField.setInvalid(false);
-        return true;
-    }
 
     /**
      * Creates a button to navigate to the login page if the user already has an account
