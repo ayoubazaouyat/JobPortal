@@ -73,7 +73,7 @@ public class LandingView extends Composite<VerticalLayout> {
         layoutRow4.setWidth("100%");
         layoutRow4.setHeight("32px");
         routerLink.setText("About us");
-        routerLink.setRoute(LandingView.class);
+        routerLink.setRoute(AboutUsView.class); // leite zu About Us-Seite
         layoutRow4.setAlignSelf(FlexComponent.Alignment.CENTER, routerLink);
         //routerLink.setWidth("84px");
         routerLink2.setText("Language");
