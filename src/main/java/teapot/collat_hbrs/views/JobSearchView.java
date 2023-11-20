@@ -9,14 +9,17 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
+import teapot.collat_hbrs.backend.Company;
+import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.views.components.JobResultWidget;
 
 @Route(value = "jobsearch", layout = MainLayout.class)
 @PageTitle("Job Search | Coll@HBRS")
@@ -30,17 +33,25 @@ public class JobSearchView extends VerticalLayout {
      * Constructor
      */
     public JobSearchView() {
-        add(new H1("Job Search"));
-        initSearch();
-        add(new Hr());
+        H1 heading = new H1("Job Search");
+        FormLayout search = initSearch();
+        Hr separator = new Hr();
+        Scroller results = resultsContainer();
 
-        add(new Paragraph("- - - Results go here - - -"));
+        add(
+                heading,
+                search,
+                separator,
+                results
+        );
+
+        setHeightFull();
     }
 
     /**
      * Creates the search fields
      */
-    private void initSearch() {
+    private FormLayout initSearch() {
         var searchLayout = new FormLayout();
         var jobTitleField = new TextField("Name");
         var locationField = new MultiSelectComboBox<String>("Location");
@@ -76,7 +87,33 @@ public class JobSearchView extends VerticalLayout {
                 new FormLayout.ResponsiveStep("1000px", 6)
         );
 
-        add(searchLayout);
+        return searchLayout;
+    }
+
+    private Scroller resultsContainer() {
+        VerticalLayout results = new VerticalLayout();
+
+        // Demo job advertisements
+        JobAdvertisement ad = new JobAdvertisement();
+        ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
+        ad.setLocation("Cologne");
+        ad.setTitle("Test Job");
+
+        JobResultWidget[] jobs = new JobResultWidget[10];
+        for (int x = 0; x < jobs.length; x++) {
+            jobs[x] = new JobResultWidget(ad);
+            results.add(jobs[x]);
+        }
+        // ------------------------
+
+        Scroller scroller = new Scroller(results);
+        scroller.setWidthFull();
+        scroller.setHeightFull();
+        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
+
+        results.add(); // TODO Add job ads from database (in the future: including filtering)
+
+        return scroller;
     }
 
 }
