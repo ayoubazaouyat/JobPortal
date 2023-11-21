@@ -1,6 +1,8 @@
 package teapot.collat_hbrs.backend;
 
 
+import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -14,11 +16,12 @@ public class JobAdvertisement extends Account {
     @ManyToOne
     @JoinColumn(name = "companyName")
     private Company company;
-
     private Long jobAdvertisementId;
     private String title;
 
-    private String description;
+    private String textDescription;
+
+    private ComboBox<String>  fullOrPartTime;
 
     private String requirements;
 
@@ -26,11 +29,20 @@ public class JobAdvertisement extends Account {
 
     private boolean homeoffice;
 
+    private DatePicker offerAge;
+
     private Date starttime;
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
 
 
+    public ComboBox<String> getFullOrPartTime() {
+        return fullOrPartTime;
+    }
+
+    public void setFullOrPartTime(ComboBox<String> fullOrPartTime) {
+        this.fullOrPartTime = fullOrPartTime;
+    }
 
     public Long getJobAdvertisementId() {
         return jobAdvertisementId;
@@ -64,12 +76,21 @@ public class JobAdvertisement extends Account {
         this.requirements = requirements;
     }
 
-    public String getDescription() {
-        return description;
+
+    public DatePicker getOfferAge() {
+        return offerAge;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setOfferAge(DatePicker offerAge) {
+        this.offerAge = offerAge;
+    }
+
+    public String getTextDescription() {
+        return textDescription;
+    }
+
+    public void setTextDescription(String description) {
+        this.textDescription = description;
     }
 
     public double getHourlywage() {

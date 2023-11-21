@@ -9,7 +9,6 @@ import java.util.List;
 @DiscriminatorValue("C")
 public class Company extends Account{
 
-    private Long companyId;
     private String companyName;
     private String address; // consisting of streetName, houseNumber, postalCode, city
     private String industry; // Branche

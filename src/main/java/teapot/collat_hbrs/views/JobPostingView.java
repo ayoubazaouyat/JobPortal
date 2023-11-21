@@ -28,8 +28,13 @@ import java.util.Collection;
 @Route("job-posting")
 @AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
+
+    public JobAdvertisementService getJobAdvertisementService() {
+        return jobAdvertisementService;
+    }
+
     private TextField companyName;
-    private TextField positionName;
+    private TextField address;
     private ComboBox<String> fullOrPartTime;
     private ComboBox<String> remoteOrInHouse;
     private TextArea textDescription;
@@ -63,8 +68,8 @@ public class JobPostingView extends VerticalLayout {
 
         companyName = new TextField("Name of company");
         companyName.setRequired(true);
-        positionName = new TextField("Position name");
-        positionName.setRequired(true);
+        address = new TextField("Position name");
+        address.setRequired(true);
         fullOrPartTime = new ComboBox<>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems("Full-time", "Part-time");
@@ -91,12 +96,12 @@ public class JobPostingView extends VerticalLayout {
         postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         postButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         genForm.add(
-                companyName, positionName, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
+                companyName, address, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
                 expectations, requirements, candidateCount, employeeBenefits, hrContact, postButton
         );
 
         postButton.addClickListener(event -> {
-            if (companyName.isEmpty() || positionName.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
+            if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
                 Notification.show("Please fill in the required fields: Name of company and Position name");
             } else {
 
@@ -109,7 +114,7 @@ public class JobPostingView extends VerticalLayout {
         });
 
         genForm.setColspan(companyName, 4);
-        genForm.setColspan(positionName, 4);
+        genForm.setColspan(address, 4);
         genForm.setColspan(fullOrPartTime, 2);
         genForm.setColspan(remoteOrInHouse, 2);
         genForm.setColspan(textDescription, 4);
@@ -132,7 +137,7 @@ public class JobPostingView extends VerticalLayout {
         add(new H2("Are you sure of the information?"));
 
         add(new TextField("Name of company", companyName.getValue()));
-        add(new TextField("Position name", positionName.getValue()));
+        add(new TextField("Position name", address.getValue()));
         add(new TextField("Full/Part-time", fullOrPartTime.getValue()));
         add(new TextField("remoteOrInHouse", remoteOrInHouse.getValue()));
         add(new TextField("textDescription", textDescription.getValue()));
@@ -158,6 +163,7 @@ public class JobPostingView extends VerticalLayout {
 
         Button confirmButton = new Button("Confirm Job Posting");
         confirmButton.addClickListener(e -> {
+            saveJobAdvertisement();
             Notification.show("Job posted successfully");
         });
 
@@ -167,14 +173,22 @@ public class JobPostingView extends VerticalLayout {
 
 
 
-    private void saveJobAdvertisement(String title) {
+    private void saveJobAdvertisement() {
         JobAdvertisement jobAdvertisement = new JobAdvertisement();
-        jobAdvertisement.setTitle(title);
+        jobAdvertisement.getCompany().setCompanyName(companyName.getValue());
+        jobAdvertisement.getCompany().setAddress(address.getValue());
+        //jobAdvertisement.setFullOrPartTime(fullOrPartTime.getValue());
+        //jobAdvertisement.setRemoteOrInHouse(remoteOrInHouse.getValue());
+        jobAdvertisement.setTextDescription(textDescription.getValue());
+        jobAdvertisement.setLocation(location.getValue());
+        //jobAdvertisement.setOfferAge(offerAge.getValue());
+        //jobAdvertisement.setExpectations(expectations.getValue());
+        jobAdvertisement.setRequirements(requirements.getValue());
+        //jobAdvertisement.setCandidateCount(candidateCount.getValue());
+        //jobAdvertisement.setEmployeeBenefits(employeeBenefits.getValue());
+        //jobAdvertisement.setHrContact(hrContact.getValue());
 
         jobAdvertisementService.addJobAdvertisement(jobAdvertisement);
     }
 
-    public JobAdvertisementService getJobAdvertisementService() {
-        return jobAdvertisementService;
-    }
 }
