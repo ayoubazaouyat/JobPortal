@@ -11,6 +11,7 @@ import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/companies")
 public class CompanyController {
     private final CompanyService companyService;
     private final JobAdvertisementService jobAdvertisementService;
@@ -21,15 +22,19 @@ public class CompanyController {
         this.jobAdvertisementService = jobAdvertisementService;
     }
 
+
     public Company addCompany(@RequestBody Company company) {
         return companyService.addCompany(company);
     }
 
+
+    @GetMapping("/{companyId}/jobAdvertisements")
     public List<JobAdvertisement> getJobAdvertisements(@PathVariable Long companyId) {
         Company company = companyService.getCompanyById(companyId);
         return company.getJobAdvertisements();
     }
 
+    @PostMapping("/{companyId}/jobAdvertisements")
     public JobAdvertisement addJobAdvertisement(@PathVariable Long companyId, @RequestBody JobAdvertisement jobAdvertisement) {
         Company company = companyService.getCompanyById(companyId);
         jobAdvertisement.setCompany(company);
