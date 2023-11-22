@@ -6,13 +6,11 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -20,14 +18,30 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
 
 @Route("job-posting")
 @AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
+    private String previousCompanyName;
+    private String previousAddress;
+    private String TimeType;
+    private String previousRemoteHouse;
+    private String previousDescription;
+    private String previousLocation;
+    private String previousAge;
+    private String previousExpect;
+    private String previousRequ;
+    private String previouscandidateCount;
+    private String previousBenefits;
+    private  String previoushrContact;
+
 
     public JobAdvertisementService getJobAdvertisementService() {
         return jobAdvertisementService;
@@ -103,8 +117,11 @@ public class JobPostingView extends VerticalLayout {
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
                 Notification.show("Please fill in the required fields: Name of company and Position name");
+            } else if (offerAge.getValue().isBefore(LocalDate.now())) {
+                Notification.show("Application Deadline cannot be in the past");
             } else {
 
+                storeEnteredData();
                 displayEnteredInformation();
                 addEditAndConfirmButtons();
                 // For demonstration, using a Notification to signify successful posting.
@@ -132,45 +149,98 @@ public class JobPostingView extends VerticalLayout {
 
         add(genForm);
     }
+
+    private void storeEnteredData() {
+        previousCompanyName = companyName.getValue();
+        previousAddress = address.getValue();
+        TimeType= fullOrPartTime.getValue();
+        previousRemoteHouse= remoteOrInHouse.getValue();
+        previousDescription= textDescription.getValue();
+        previousLocation= location.getValue();
+       // previousAge= offerAge.getValue();
+        previousExpect= expectations.getValue();
+        previousRequ=requirements.getValue();
+        previouscandidateCount=candidateCount.getValue();
+        previousBenefits=employeeBenefits.getValue();
+        previoushrContact= hrContact.getValue();
+
+    }
+
     private void displayEnteredInformation() {
         removeAll();
         add(new H2("Are you sure of the information?"));
 
-        add(new TextField("Name of company", companyName.getValue()));
-        add(new TextField("Position name", address.getValue()));
-        add(new TextField("Full/Part-time", fullOrPartTime.getValue()));
-        add(new TextField("remoteOrInHouse", remoteOrInHouse.getValue()));
-        add(new TextField("textDescription", textDescription.getValue()));
-        add(new TextField("location", location.getValue()));
-        add(new TextField("offerAge", String.valueOf(offerAge.getValue())));
-        add(new TextField("Name of company", expectations.getValue()));
-        add(new TextField("Name of company", requirements.getValue()));
-        add(new TextField("Name of company", candidateCount.getValue()));
-        add(new TextField("Name of company", employeeBenefits.getValue()));
-        add(new TextField("Name of company", hrContact.getValue()));
-        add(new TextField("Name of company", employeeBenefits.getValue()));
+        // Create a flexible layout to center and display entered information in two columns
+        FlexLayout enteredInfoLayout = new FlexLayout();
+        enteredInfoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
+        // Create two vertical layouts for each column
+        VerticalLayout leftColumn = new VerticalLayout();
+        VerticalLayout rightColumn = new VerticalLayout();
 
+        // Add entered information as paragraphs to the respective columns
+        leftColumn.add(
+                new Paragraph("Name of company: " + companyName.getValue()),
+                new Paragraph("Position name: " + address.getValue()),
+                new Paragraph("Full/Part-time: " + fullOrPartTime.getValue()),
+                new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
+                new Paragraph("Text description: " + textDescription.getValue())
+                // Add more information as needed
+        );
 
+        rightColumn.add(
+                new Paragraph("Location: " + location.getValue()),
+                new Paragraph("Application Deadline: " + offerAge.getValue()),
+                new Paragraph("What's waiting for you: " + expectations.getValue()),
+                new Paragraph("What we expect: " + requirements.getValue()),
+                new Paragraph("Number of candidates: " + candidateCount.getValue())
+                // Add more information as needed
+        );
+
+        // Add the columns to the flexible layout
+        enteredInfoLayout.add(leftColumn, rightColumn);
+
+        // Add the entered information layout to the main view
+        add(enteredInfoLayout);
     }
+
 
     private void addEditAndConfirmButtons() {
         Button editButton = new Button("Edit Job Posting");
         editButton.addClickListener(e -> {
+            // Remove current content and display form with previous entered data
             removeAll();
-            initJobPostingForm();
+            displayFormWithPreviousData();
         });
 
         Button confirmButton = new Button("Confirm Job Posting");
         confirmButton.addClickListener(e -> {
-            saveJobAdvertisement();
+            // Save the job advertisement
             Notification.show("Job posted successfully");
+            saveJobAdvertisement();
         });
 
         add(editButton, confirmButton);
     }
 
+    private void displayFormWithPreviousData() {
+        initJobPostingForm();
+        // Set previously entered data in the form fields
+        companyName.setValue(previousCompanyName);
+        address.setValue(previousAddress);
+        fullOrPartTime.setValue(TimeType);
+        remoteOrInHouse.setValue(previousRemoteHouse);
+        textDescription.setValue(previousDescription);
+        location.setValue(previousLocation);
+        // previousAge= offerAge.getValue();
+        expectations.setValue(previousExpect);
+        requirements.setValue(previousRequ);
+        candidateCount.setValue(previouscandidateCount);
+        employeeBenefits.setValue(previousBenefits);
+        hrContact.setValue(previoushrContact);
 
+        // Set other field values similarly...
+    }
 
 
     private void saveJobAdvertisement() {
