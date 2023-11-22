@@ -28,18 +28,25 @@ public class CompanyController {
     }
 
 
-    @GetMapping("/{companyId}/jobAdvertisements")
-    public List<JobAdvertisement> getJobAdvertisements(@PathVariable Long companyId) {
-        Company company = companyService.getCompanyById(companyId);
+    @GetMapping("/{companyName}/jobAdvertisements")
+    public List<JobAdvertisement> getJobAdvertisements(@PathVariable String companyName) {
+        Company company = companyService.findByName(getCompanies(), companyName);
         return company.getJobAdvertisements();
     }
 
-    @PostMapping("/{companyId}/jobAdvertisements")
-    public JobAdvertisement addJobAdvertisement(@PathVariable Long companyId, @RequestBody JobAdvertisement jobAdvertisement) {
-        Company company = companyService.getCompanyById(companyId);
+    @GetMapping("/companies")
+    public List<Company> getCompanies() {
+        List<Company> companies = companyService.getAllCompanies();
+        return companies;
+    }
+
+    @PostMapping("/{companyName}/jobAdvertisements")
+    public JobAdvertisement addJobAdvertisement(@PathVariable String companyName, @RequestBody JobAdvertisement jobAdvertisement) {
+        Company company = companyService.findByName(getCompanies(), companyName);
         jobAdvertisement.setCompany(company);
         return jobAdvertisementService.addJobAdvertisement(jobAdvertisement);
     }
+
 
 
 }

@@ -17,9 +17,13 @@ public class CompanyService {
     }
 
 
-    public Company getCompanyById(Long companyId) {
-        return companyRepository.findById(companyId)
-                .orElseThrow(() -> new IllegalArgumentException("Company not found"));
+    public Company findByName(List<Company> companies, String companyName) {
+        for (Company company : companies) {
+            if (company.getCompanyName().equals(companyName)) {
+                return company;
+            }
+        }
+        throw new IllegalArgumentException("Company with name '" + companyName + "' not found");
     }
 
     public List<Company> getAllCompanies() {
