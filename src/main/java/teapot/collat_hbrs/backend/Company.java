@@ -8,8 +8,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("C")
 public class Company extends Account{
-    @Id
-    @GeneratedValue
+
     private String companyName;
     private String address; // consisting of streetName, houseNumber, postalCode, city
     private String industry; // Branche
