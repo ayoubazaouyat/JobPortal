@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -17,6 +18,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 import java.awt.*;
 import java.util.Collection;
@@ -164,27 +167,38 @@ public class JobPostingView extends VerticalLayout {
         removeAll();
         add(new H2("Are you sure of the information?"));
 
-        // Create a vertical layout to display entered information
-        VerticalLayout enteredInfoLayout = new VerticalLayout();
+        // Create a flexible layout to center and display entered information in two columns
+        FlexLayout enteredInfoLayout = new FlexLayout();
+        enteredInfoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        // Add entered information as paragraphs to the layout
-        enteredInfoLayout.add(new Paragraph("Name of company: " + companyName.getValue()));
-        enteredInfoLayout.add(new Paragraph("Position name: " + address.getValue()));
-        enteredInfoLayout.add(new Paragraph("Full/Part-time: " + fullOrPartTime.getValue()));
-        enteredInfoLayout.add(new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()));
-        enteredInfoLayout.add(new Paragraph("Text description: " + textDescription.getValue()));
-        enteredInfoLayout.add(new Paragraph("Location: " + location.getValue()));
-        enteredInfoLayout.add(new Paragraph("Application Deadline: " + offerAge.getValue()));
-        enteredInfoLayout.add(new Paragraph("What's waiting for you: " + expectations.getValue()));
-        enteredInfoLayout.add(new Paragraph("What we expect: " + requirements.getValue()));
-        enteredInfoLayout.add(new Paragraph("Number of candidates: " + candidateCount.getValue()));
-        enteredInfoLayout.add(new Paragraph("Employee Benefits: " + employeeBenefits.getValue()));
-        enteredInfoLayout.add(new Paragraph("Contact of HR Manager: " + hrContact.getValue()));
+        // Create two vertical layouts for each column
+        VerticalLayout leftColumn = new VerticalLayout();
+        VerticalLayout rightColumn = new VerticalLayout();
+
+        // Add entered information as paragraphs to the respective columns
+        leftColumn.add(
+                new Paragraph("Name of company: " + companyName.getValue()),
+                new Paragraph("Position name: " + address.getValue()),
+                new Paragraph("Full/Part-time: " + fullOrPartTime.getValue()),
+                new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
+                new Paragraph("Text description: " + textDescription.getValue())
+                // Add more information as needed
+        );
+
+        rightColumn.add(
+                new Paragraph("Location: " + location.getValue()),
+                new Paragraph("Application Deadline: " + offerAge.getValue()),
+                new Paragraph("What's waiting for you: " + expectations.getValue()),
+                new Paragraph("What we expect: " + requirements.getValue()),
+                new Paragraph("Number of candidates: " + candidateCount.getValue())
+                // Add more information as needed
+        );
+
+        // Add the columns to the flexible layout
+        enteredInfoLayout.add(leftColumn, rightColumn);
 
         // Add the entered information layout to the main view
         add(enteredInfoLayout);
-
-
     }
 
 
