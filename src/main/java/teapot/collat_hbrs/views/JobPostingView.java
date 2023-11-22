@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -143,7 +144,8 @@ public class JobPostingView extends VerticalLayout {
         add(new H2("Are you sure of the information?"));
 
         // Create a vertical layout to display entered information
-        VerticalLayout enteredInfoLayout = new VerticalLayout();
+        HorizontalLayout enteredInfoLayout = new HorizontalLayout();
+        enteredInfoLayout.setSpacing(true);
 
         // Add entered information as paragraphs to the layout
         enteredInfoLayout.add(new Paragraph("Name of company: " + companyName.getValue()));
