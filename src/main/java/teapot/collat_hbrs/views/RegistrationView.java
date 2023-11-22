@@ -20,7 +20,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.component.progressbar.ProgressBarVariant;
-import com.vaadin.flow.component.textfield.*;
+import com.vaadin.flow.component.textfield.NumberField;
+import com.vaadin.flow.component.textfield.PasswordField;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.Route;
@@ -210,14 +213,13 @@ public class RegistrationView extends VerticalLayout {
 
         binder.forField(passwordField).asRequired("Password is required")
                 .withValidator(new PasswordValidator())
-                .withValidator(password -> confirmPasswordField.getValue().equals(password),"Passwords must match.")
-                .bind(AccountCreator::getPassword,AccountCreator::setPassword);
+                .withValidator(password -> confirmPasswordField.getValue().equals(password), "Passwords must match.")
+                .bind(AccountCreator::getPassword, AccountCreator::setPassword);
 
         binder.forField(confirmPasswordField).asRequired("Password is required")
                 .withValidator(new PasswordValidator())
-                .withValidator(password -> passwordField.getValue().equals(password),"Passwords must match.")
-                .bind(AccountCreator::getPassword,AccountCreator::setPassword);
-
+                .withValidator(password -> passwordField.getValue().equals(password), "Passwords must match.")
+                .bind(AccountCreator::getPassword, AccountCreator::setPassword);
 
 
         //load possible previous data
@@ -231,7 +233,6 @@ public class RegistrationView extends VerticalLayout {
         basicForm.setColspan(emailField, 2);
         basicForm.setColspan(passwordField, 1);
         basicForm.setColspan(confirmPasswordField, 1);
-
 
 
         basicForm.add(
@@ -468,8 +469,7 @@ public class RegistrationView extends VerticalLayout {
 
             //ADD ACCOUNT TO DATABASE HERE.
             userService.registerAccount(accountCreator.buildStudent(), accountCreator.getPassword());
-        }
-        else {
+        } else {
             userService.registerAccount(accountCreator.buildCompany(), accountCreator.getPassword());
 
         }
@@ -514,6 +514,8 @@ public class RegistrationView extends VerticalLayout {
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         backButton.addClickListener(buttonClickEvent -> {
+            // TODO commented out, because User is not able to go back without finishing the form
+            /*
             if(binder.isValid()){
                 binder.writeBeanIfValid(accountCreator);
                 step--;
@@ -522,16 +524,18 @@ public class RegistrationView extends VerticalLayout {
             else {
                 Notification.show("Please fill in the required fields");
             }
+            */
+            step--;
+            buildUI();
         });
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
             //Test if fields are correct
-            if(binder.validate().isOk() & (step != 3 || validateAdresse())){
+            if (binder.validate().isOk() & (step != 3 || validateAdresse())) {
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
-            }
-            else {
+            } else {
                 //show validation error to user
                 Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
             }
@@ -548,26 +552,26 @@ public class RegistrationView extends VerticalLayout {
     }
 
     private boolean validateAdresse() {
-        if(Studentstreet.isEmpty()
+        if (Studentstreet.isEmpty()
                 || StudenthouseNumber.isEmpty()
                 || Studentplz.isEmpty()
                 || Studentcity.isEmpty()) {
             /*
              * ADD a Number checker HERE
              */
-            if (Studentstreet.isEmpty() ) {
+            if (Studentstreet.isEmpty()) {
                 Studentstreet.setInvalid(true);
                 Studentstreet.setErrorMessage("this field is required");
             }
-            if (StudenthouseNumber.isEmpty() ) {
+            if (StudenthouseNumber.isEmpty()) {
                 StudenthouseNumber.setInvalid(true);
                 StudenthouseNumber.setErrorMessage("this field is required");
             }
-            if (Studentplz.isEmpty() ) {
+            if (Studentplz.isEmpty()) {
                 Studentplz.setInvalid(true);
                 Studentplz.setErrorMessage("this field is required");
             }
-            if (Studentcity.isEmpty() ) {
+            if (Studentcity.isEmpty()) {
                 Studentcity.setInvalid(true);
                 Studentcity.setErrorMessage("this field is required");
             }
