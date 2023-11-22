@@ -22,13 +22,13 @@ public class Student extends Account {
 
     public Student(String username, String email, String surname, String forename, String address, String phoneNumber,
                    String studyProgram) {
+        setUsername(username);
+        setEmail(email);
         this.surname = surname;
         this.forename = forename;
-        this.email = email;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.studyProgram = studyProgram;
-        this.username = username;
         this.skills = new ArrayList<>();
     }
 
@@ -51,14 +51,6 @@ public class Student extends Account {
     public String getAddress() { return address; }
 
     public void setAddress(String address) { this.address = address; }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;

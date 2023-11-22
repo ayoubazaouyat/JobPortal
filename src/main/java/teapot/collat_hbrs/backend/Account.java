@@ -10,8 +10,9 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID") // Use 'ID' as Primary Key
     private  long id;
-    protected String username;
+    private String username;
     private String passwordHash;
+    private String email;
     private boolean enabled;
 
     public Long getId() {
@@ -37,6 +38,14 @@ public abstract class Account {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isEnabled() {  return enabled;}

@@ -14,8 +14,6 @@ public class Company extends Account{
     private String industry; // Branche
     private String companyDescription;
     private String phoneNumber;
-    private String email;
-
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobAdvertisement> jobAdvertisements;
@@ -23,13 +21,13 @@ public class Company extends Account{
     protected Company() {}
 
     public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
+        setUsername(username);
+        setEmail(email);
         this.companyName = companyName;
-        this.username = username;
         this.address = address;
         this.industry = industry;
         this.companyDescription = companyDescription;
         this.phoneNumber = phoneNumber;
-        this.email = email;
         this.jobAdvertisements = new ArrayList<>();
     }
 
@@ -71,14 +69,6 @@ public class Company extends Account{
 
     public void setPhoneNumber(String landlineNumber) {
         this.phoneNumber = landlineNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setJobAdvertisements(List<JobAdvertisement> jobAdvertisements) {
