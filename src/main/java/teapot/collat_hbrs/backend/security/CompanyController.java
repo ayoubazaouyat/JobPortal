@@ -1,4 +1,4 @@
-/*
+
 package teapot.collat_hbrs.backend.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,4 +52,3 @@ public class CompanyController {
 }
 
 
- */
