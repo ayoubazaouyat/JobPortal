@@ -23,10 +23,10 @@ public class AboutUsView extends Composite<VerticalLayout> {
         Paragraph textMedium2 = new Paragraph();
         getContent().setWidth("100%");
         getContent().getStyle().set("flex-grow", "1");
-        h2.setText("What is call@hbrs?");
+        h2.setText("What is Coll@HBRS?");
         h2.setWidth("max-content");
         textMedium.setText(
-                "call@hbrs is a job portal designed for students, to make searching for a job easier for them, while also making it easier for companies to find new employees with a fresh mindset. Searching for a job while also studying can be a tedious process for students, so call@hbrs is intended to help students out with searching for a job while also maintaining their studies.");
+                "Coll@HBRS is a job portal designed for students, to make searching for a job easier for them, while also making it easier for companies to find new employees with a fresh mindset. Searching for a job while also studying can be a tedious process for students, so Coll@HBRS is intended to help students out with searching for a job while also maintaining their studies.");
         textMedium.setWidth("100%");
         textMedium.setHeight("100px");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
