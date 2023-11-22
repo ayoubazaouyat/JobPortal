@@ -7,14 +7,16 @@ import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
+import teapot.collat_hbrs.backend.Company;
+import teapot.collat_hbrs.views.components.CompanyResultWidget;
 
 @Route(value = "companysearch", layout = MainLayout.class)
 @PageTitle("Company Search | Coll@HBRS")
@@ -28,17 +30,25 @@ public class CompanySearchView extends VerticalLayout {
      * Constructor
      */
     public CompanySearchView() {
-        add(new H1("Company Search"));
-        initSearch();
-        add(new Hr());
+        H1 heading = new H1("Company Search");
+        FormLayout search = initSearch();
+        Hr separator = new Hr();
+        Scroller results = resultsContainer();
 
-        add(new Paragraph("- - - Results go here - - -"));
+        add(
+                heading,
+                search,
+                separator,
+                results
+        );
+
+        setHeightFull();
     }
 
     /**
      * Creates the search fields
      */
-    private void initSearch() {
+    private FormLayout initSearch() {
         var searchLayout = new FormLayout();
         var companyField = new TextField("Company Name");
         var locationField = new MultiSelectComboBox<String>("Location");
@@ -66,7 +76,30 @@ public class CompanySearchView extends VerticalLayout {
                 new FormLayout.ResponsiveStep("1000px", 4)
         );
 
-        add(searchLayout);
+        return searchLayout;
+    }
+
+    private Scroller resultsContainer() {
+        VerticalLayout results = new VerticalLayout();
+
+        // Demo companies
+        Company com = new Company("microsoft", "", "Microsoft", "Cologne", "", "", "");
+
+        CompanyResultWidget[] companies = new CompanyResultWidget[10];
+        for (int x = 0; x < companies.length; x++) {
+            companies[x] = new CompanyResultWidget(com);
+            results.add(companies[x]);
+        }
+        // ------------------------
+
+        Scroller scroller = new Scroller(results);
+        scroller.setWidthFull();
+        scroller.setHeightFull();
+        scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
+
+        results.add(); // TODO Add job ads from database (in the future: including filtering)
+
+        return scroller;
     }
 
 }
