@@ -27,6 +27,17 @@ import java.util.Collection;
 public class JobPostingView extends VerticalLayout {
     private String previousCompanyName;
     private String previousAddress;
+    private String TimeType;
+    private String previousRemoteHouse;
+    private String previousDescription;
+    private String previousLocation;
+    private String previousAge;
+    private String previousExpect;
+    private String previousRequ;
+    private String previouscandidateCount;
+    private String previousBenefits;
+    private  String previoushrContact;
+
 
     public JobAdvertisementService getJobAdvertisementService() {
         return jobAdvertisementService;
@@ -136,6 +147,17 @@ public class JobPostingView extends VerticalLayout {
     private void storeEnteredData() {
         previousCompanyName = companyName.getValue();
         previousAddress = address.getValue();
+        TimeType= fullOrPartTime.getValue();
+        previousRemoteHouse= remoteOrInHouse.getValue();
+        previousDescription= textDescription.getValue();
+        previousLocation= location.getValue();
+       // previousAge= offerAge.getValue();
+        previousExpect= expectations.getValue();
+        previousRequ=requirements.getValue();
+        previouscandidateCount=candidateCount.getValue();
+        previousBenefits=employeeBenefits.getValue();
+        previoushrContact= hrContact.getValue();
+
     }
 
     private void displayEnteredInformation() {
@@ -189,6 +211,17 @@ public class JobPostingView extends VerticalLayout {
         // Set previously entered data in the form fields
         companyName.setValue(previousCompanyName);
         address.setValue(previousAddress);
+        fullOrPartTime.setValue(TimeType);
+        remoteOrInHouse.setValue(previousRemoteHouse);
+        textDescription.setValue(previousDescription);
+        location.setValue(previousLocation);
+        // previousAge= offerAge.getValue();
+        expectations.setValue(previousExpect);
+        requirements.setValue(previousRequ);
+        candidateCount.setValue(previouscandidateCount);
+        employeeBenefits.setValue(previousBenefits);
+        hrContact.setValue(previoushrContact);
+
         // Set other field values similarly...
     }
 
