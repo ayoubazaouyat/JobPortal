@@ -24,7 +24,7 @@ public class PasswordResetView extends VerticalLayout {
         var backButton = new Button("Back to login page");
 
         backButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        backButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/login"));
+        backButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LoginView.class));
 
         setAlignItems(Alignment.CENTER);
 

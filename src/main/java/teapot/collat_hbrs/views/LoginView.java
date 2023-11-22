@@ -7,10 +7,7 @@ import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("login")
@@ -34,9 +31,9 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
         loginForm.setAction("login");
 
-        loginForm.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().navigate("/passwordreset"));
+        loginForm.addForgotPasswordListener(forgotPasswordEvent -> UI.getCurrent().navigate(PasswordResetView.class));
 
-        Anchor registerLink = new Anchor("registration", "No account? Register here");
+        RouterLink registerLink = new RouterLink("No account? Register here", RegistrationView.class);
 
         loginLayout.add(new H1("ERROR 418"), loginForm, registerLink);
 

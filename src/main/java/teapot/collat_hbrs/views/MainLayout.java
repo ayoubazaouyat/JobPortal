@@ -50,13 +50,13 @@ public class MainLayout extends AppLayout {
         if (securityService.isAuthenticated()) {
             String username = securityService.getAuthenticatedUser().getUsername();
             Button logout = new Button("Log out " + username, e -> securityService.logout());
-            logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/"));
+            logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LandingView.class));
             VerticalLayout verticalLayout = new VerticalLayout(logout);
             verticalLayout.setAlignItems(FlexComponent.Alignment.END);
             addToNavbar(verticalLayout);
         } else {
             Button login = new Button("Log in");
-            login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/login"));
+            login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LoginView.class));
             VerticalLayout verticalLayout = new VerticalLayout(login);
             verticalLayout.setAlignItems(FlexComponent.Alignment.END);
             addToNavbar(verticalLayout);
