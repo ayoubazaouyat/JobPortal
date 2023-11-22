@@ -79,6 +79,8 @@ public class MainLayout extends AppLayout {
         nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, new Icon(VaadinIcon.CLOSE_CIRCLE)));
         nav.addItem(new SideNavItem("Job Search", JobSearchView.class, new Icon(VaadinIcon.NOTEBOOK)));
         nav.addItem(new SideNavItem("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)));
+        nav.addItem(new SideNavItem("About Us", AboutUsView.class, new Icon(VaadinIcon.INFO_CIRCLE)));
+        nav.addItem(new SideNavItem("Contact", ContactView.class, new Icon(VaadinIcon.ENVELOPE)));
 
         return nav;
     }
