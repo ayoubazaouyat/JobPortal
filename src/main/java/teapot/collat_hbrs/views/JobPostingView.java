@@ -22,6 +22,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
 
@@ -116,6 +117,8 @@ public class JobPostingView extends VerticalLayout {
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
                 Notification.show("Please fill in the required fields: Name of company and Position name");
+            } else if (offerAge.getValue().isBefore(LocalDate.now())) {
+                Notification.show("Application Deadline cannot be in the past");
             } else {
 
                 storeEnteredData();
