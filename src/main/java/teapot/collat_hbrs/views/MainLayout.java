@@ -1,24 +1,24 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Footer;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import teapot.collat_hbrs.views.helloworld.HelloWorldView;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import teapot.collat_hbrs.backend.security.SecurityService;
+import teapot.collat_hbrs.views.helloworld.HelloWorldView;
 
 
 /**
@@ -47,15 +47,14 @@ public class MainLayout extends AppLayout {
         addToNavbar(true, toggle, viewTitle);
 
         //Check if the user is logged in and add login/logout button accordingly
-        if(securityService.isAuthenticated()){
+        if (securityService.isAuthenticated()) {
             String username = securityService.getAuthenticatedUser().getUsername();
             Button logout = new Button("Log out " + username, e -> securityService.logout());
             logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/"));
             VerticalLayout verticalLayout = new VerticalLayout(logout);
             verticalLayout.setAlignItems(FlexComponent.Alignment.END);
             addToNavbar(verticalLayout);
-        }
-        else {
+        } else {
             Button login = new Button("Log in");
             login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/login"));
             VerticalLayout verticalLayout = new VerticalLayout(login);
@@ -65,9 +64,9 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("Coll@HBRS");
-        appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-        Header header = new Header(appName);
+        Image logo = new Image("/themes/images/logo.svg", "Logo");
+        logo.getStyle().setMargin("1rem");
+        Header header = new Header(logo);
 
         Scroller scroller = new Scroller(createNavigation());
 
