@@ -216,8 +216,8 @@ public class JobPostingView extends VerticalLayout {
         Button confirmButton = new Button("Confirm Job Posting");
         confirmButton.addClickListener(e -> {
             // Save the job advertisement
-            saveJobAdvertisement();
             Notification.show("Job posted successfully");
+            saveJobAdvertisement();
         });
 
         add(editButton, confirmButton);
