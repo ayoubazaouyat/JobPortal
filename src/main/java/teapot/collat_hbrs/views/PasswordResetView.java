@@ -11,10 +11,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import teapot.collat_hbrs.backend.Account;
+import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.backend.security.UserService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
 @Route("passwordreset")
@@ -23,17 +26,21 @@ import java.util.Random;
 public class PasswordResetView extends VerticalLayout implements HasUrlParameter<String> {
 
     private final UserService userService;
+    private final AccountRepository accountRepository;
+    private final TextField username;
+    private final TextField email;
 
-    public PasswordResetView(UserService userService) {
+    public PasswordResetView(UserService userService, AccountRepository accountRepository) {
         this.userService = userService;
+        this.accountRepository = accountRepository;
         var heading = new H1("Forgot your password?");
         // Image source: https://knowyourmeme.com/memes/sad-emoji, accessed 12.11.2023
 
 
-        TextField username = new TextField("Username");
+        username = new TextField("Username");
         username.setWidth("500px");
 
-        TextField email = new TextField("Email");
+        email = new TextField("Email");
         email.setWidth("500px");
 
 
@@ -73,23 +80,36 @@ public class PasswordResetView extends VerticalLayout implements HasUrlParameter
     }
 
     private void resetPassword(ClickEvent<Button> buttonClickEvent) {
-        char[] allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-        Random random = new Random();
 
-        char[] password = new char[8];
-        for (int i = 0; i < 8; i++) {
-            password[i] = allowedCharacters[random.nextInt(allowedCharacters.length)];
+        Optional<Account> optionalAccount = accountRepository.findByUsername(username.getValue());
+        if (optionalAccount.isEmpty()) {
+            //user not found
+            return;
         }
+        Account account = optionalAccount.get();
 
-        Dialog dialog = new Dialog();
+        //check if username and email match
+        if (account.getUsername().equals(username.getValue()) && account.getEmail().equals(email.getValue())) {
+            //Set new password
+            char[] allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+            Random random = new Random();
 
-        dialog.setHeaderTitle("New Password");
-        Text text = new Text(new String(password));
-        dialog.add(text);
-        Button closeButton = new Button("Ok", e -> dialog.close());
-        dialog.getFooter().add(closeButton);
+            char[] password = new char[8];
+            for (int i = 0; i < 8; i++) {
+                password[i] = allowedCharacters[random.nextInt(allowedCharacters.length)];
+            }
 
-        dialog.open();
+            userService.changePassword(username.getValue(), new String(password));
+
+            Dialog dialog = new Dialog();
+            dialog.setHeaderTitle("New Password");
+            Text text = new Text(new String(password));
+            dialog.add(text);
+            Button closeButton = new Button("Ok", e -> dialog.close());
+            dialog.getFooter().add(closeButton);
+
+            dialog.open();
+        }
 
     }
 
