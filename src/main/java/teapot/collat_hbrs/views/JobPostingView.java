@@ -154,6 +154,7 @@ public class JobPostingView extends VerticalLayout {
 
     }
 
+
     private void addEditAndConfirmButtons() {
         Button editButton = new Button("Edit Job Posting");
         editButton.addClickListener(e -> {
