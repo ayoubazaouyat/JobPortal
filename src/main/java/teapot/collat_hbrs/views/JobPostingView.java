@@ -17,6 +17,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.PermitAll;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -26,9 +27,11 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Route(value = "Job-posting ", layout = MainLayout.class)
-@PageTitle("job-posting | Coll@HBRS")
-@AnonymousAllowed
+@Route(value = "Job posten", layout = MainLayout.class)
+@PageTitle("Job posten | Coll@HBRS")
+@PermitAll
+
+
 public class JobPostingView extends VerticalLayout {
     private String previousCompanyName;
     private String previousAddress;
@@ -71,7 +74,7 @@ public class JobPostingView extends VerticalLayout {
     public JobPostingView(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
         // Set up the layout of the form
-        add(new H2("Job Posting "));
+        add(new H2("Job posten "));
         initJobPostingForm();
         add(new Hr());
 
@@ -117,7 +120,7 @@ public class JobPostingView extends VerticalLayout {
 
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
-                Notification.show("Please fill in the required fields");
+                Notification.show("Please fill in the required fields: Name of company and Position name");
             } else if (offerAge.getValue().isBefore(LocalDate.now())) {
                 Notification.show("Application Deadline cannot be in the past");
             } else {
