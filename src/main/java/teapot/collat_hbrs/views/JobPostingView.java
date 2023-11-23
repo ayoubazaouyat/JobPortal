@@ -21,7 +21,7 @@ import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
-import java.awt.*;
+//import java.awt.*;//
 import java.time.LocalDate;
 import java.util.Collection;
 
