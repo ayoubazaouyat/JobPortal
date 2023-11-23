@@ -119,7 +119,7 @@ public class RegistrationView extends VerticalLayout {
             case 4:
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
-                buildNavigation(true, false);
+                buildNavigation(false, false);
                 progressBar.setValue(4 / NUMEROFSTEPS);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
                 break;
