@@ -14,10 +14,8 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import jakarta.annotation.security.PermitAll;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -27,9 +25,9 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Route(value = "Job-posting ", layout = MainLayout.class)
-@PageTitle("job-posting | Coll@HBRS")
-@PermitAll
+
+@Route("job-posting")
+@AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
     private String previousCompanyName;
     private String previousAddress;
