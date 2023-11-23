@@ -117,7 +117,7 @@ public class JobPostingView extends VerticalLayout {
 
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
-                Notification.show("Please fill in the required fields: Name of company and Position name");
+                Notification.show("Please fill in the required fields");
             } else if (offerAge.getValue().isBefore(LocalDate.now())) {
                 Notification.show("Application Deadline cannot be in the past");
             } else {
