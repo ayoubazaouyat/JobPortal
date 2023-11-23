@@ -27,7 +27,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Route(value = "Job posten", layout = MainLayout.class)
+@Route(value = "PostJob", layout = MainLayout.class)
 @PageTitle("Job posten | Coll@HBRS")
 @PermitAll
 
