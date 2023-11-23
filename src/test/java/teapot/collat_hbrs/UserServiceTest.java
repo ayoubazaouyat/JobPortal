@@ -83,7 +83,7 @@ class UserServiceTest {
             userServiceMock.changePassword("nonExistentName", "NewPassword");
         });
         assertEquals("username 'nonExistentName' not found.", e.getMessage());
-        // Here is a troubleshooting test
+        // Here is a test for verification
         // If this test succeeds, it means that an account with a non-existent username is present, it should actually fail
         //assertTrue(accountRepository.findByUsername("nonExistentName").isPresent());
     }
