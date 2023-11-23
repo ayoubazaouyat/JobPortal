@@ -75,7 +75,7 @@ public class MainLayout extends AppLayout {
 
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
-
+        nav.addItem(new SideNavItem("job-posting", JobPostingView.class, new Icon(VaadinIcon.ACADEMY_CAP)));
         nav.addItem(new SideNavItem("Job Search", JobSearchView.class, new Icon(VaadinIcon.NOTEBOOK)));
         nav.addItem(new SideNavItem("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)));
         nav.addItem(new SideNavItem("About Us", AboutUsView.class, new Icon(VaadinIcon.INFO_CIRCLE)));
