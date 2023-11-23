@@ -14,6 +14,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import teapot.collat_hbrs.backend.JobAdvertisement;
@@ -25,8 +26,8 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import java.time.LocalDate;
 import java.util.Collection;
 
-
-@Route("job-posting")
+@Route(value = "Job-posting ", layout = MainLayout.class)
+@PageTitle("job-posting | Coll@HBRS")
 @AnonymousAllowed
 public class JobPostingView extends VerticalLayout {
     private String previousCompanyName;
@@ -116,7 +117,7 @@ public class JobPostingView extends VerticalLayout {
 
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
-                Notification.show("Please fill in the required fields: Name of company and Position name");
+                Notification.show("Please fill in the required fields");
             } else if (offerAge.getValue().isBefore(LocalDate.now())) {
                 Notification.show("Application Deadline cannot be in the past");
             } else {
