@@ -15,10 +15,10 @@ import teapot.collat_hbrs.backend.Account;
 import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.backend.security.UserService;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 @Route("passwordreset")
 @PageTitle("Password Reset | Coll@HBRS")
@@ -29,13 +29,14 @@ public class PasswordResetView extends VerticalLayout implements HasUrlParameter
     private final AccountRepository accountRepository;
     private final TextField username;
     private final TextField email;
+    private final SecureRandom rng;
 
     public PasswordResetView(UserService userService, AccountRepository accountRepository) {
         this.userService = userService;
         this.accountRepository = accountRepository;
-        var heading = new H1("Forgot your password?");
-        // Image source: https://knowyourmeme.com/memes/sad-emoji, accessed 12.11.2023
+        rng = new SecureRandom();
 
+        var heading = new H1("Forgot your password?");
 
         username = new TextField("Username");
         username.setWidth("500px");
@@ -92,11 +93,10 @@ public class PasswordResetView extends VerticalLayout implements HasUrlParameter
         if (account.getUsername().equals(username.getValue()) && account.getEmail().equals(email.getValue())) {
             //Set new password
             char[] allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-            Random random = new Random();
 
             char[] password = new char[8];
             for (int i = 0; i < 8; i++) {
-                password[i] = allowedCharacters[random.nextInt(allowedCharacters.length)];
+                password[i] = allowedCharacters[rng.nextInt(allowedCharacters.length)];
             }
 
             userService.changePassword(username.getValue(), new String(password));
