@@ -21,7 +21,10 @@ public class JobAdvertisement extends Account {
 
     private String textDescription;
 
-    private ComboBox<String>  fullOrPartTime;
+    private String  fullOrPartTime;
+
+
+    private String remoteOrInHouse;
 
     private String requirements;
 
@@ -29,18 +32,24 @@ public class JobAdvertisement extends Account {
 
     private boolean homeoffice;
 
-    private DatePicker offerAge;
+    private java.time.LocalDate offerAge;
+
+    private String expectations;
 
     private Date starttime;
+
+    private String candidateCount;
+
+    private String employeeBenefits;
 
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
 
 
-    public ComboBox<String> getFullOrPartTime() {
+    public String getFullOrPartTime() {
         return fullOrPartTime;
     }
 
-    public void setFullOrPartTime(ComboBox<String> fullOrPartTime) {
+    public void setFullOrPartTime(String fullOrPartTime) {
         this.fullOrPartTime = fullOrPartTime;
     }
 
@@ -74,15 +83,6 @@ public class JobAdvertisement extends Account {
 
     public void setRequirements(String requirements) {
         this.requirements = requirements;
-    }
-
-
-    public DatePicker getOfferAge() {
-        return offerAge;
-    }
-
-    public void setOfferAge(DatePicker offerAge) {
-        this.offerAge = offerAge;
     }
 
     public String getTextDescription() {
@@ -125,4 +125,43 @@ public class JobAdvertisement extends Account {
         this.location = location;
     }
 
+    public String getRemoteOrInHouse() {
+        return remoteOrInHouse;
+    }
+
+    public void setRemoteOrInHouse(String remoteOrInHouse) {
+        this.remoteOrInHouse = remoteOrInHouse;
+    }
+
+    public String getExpectations() {
+        return expectations;
+    }
+
+    public void setExpectations(String expectations) {
+        this.expectations = expectations;
+    }
+
+    public String getCandidateCount() {
+        return candidateCount;
+    }
+
+    public void setCandidateCount(String candidateCount) {
+        this.candidateCount = candidateCount;
+    }
+
+    public String getEmployeeBenefits() {
+        return employeeBenefits;
+    }
+
+    public void setEmployeeBenefits(String employeeBenefits) {
+        this.employeeBenefits = employeeBenefits;
+    }
+
+    public java.time.LocalDate getOfferAge() {
+        return offerAge;
+    }
+
+    public void setOfferAge(java.time.LocalDate offerAge) {
+        this.offerAge = offerAge;
+    }
 }

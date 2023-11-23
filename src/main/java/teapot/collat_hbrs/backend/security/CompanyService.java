@@ -1,6 +1,5 @@
 package teapot.collat_hbrs.backend.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.CompanyRepository;
@@ -31,10 +30,5 @@ public class CompanyService {
     }
 
 
-    public Company addCompany(Company company) {
-        if (company.getCompanyName() == null || company.getCompanyName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Please assign the company name");
-        }
-        return companyRepository.save(company);
-    }
+
 }
