@@ -482,6 +482,7 @@ public class RegistrationView extends VerticalLayout {
         homeButton.setIcon(new Icon(VaadinIcon.HOME));
         homeButton.setHeight("50px");
         homeButton.setWidth("50px");
+        homeButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LoginView.class));
 
         buildScreen.add(
                 successMessage,
