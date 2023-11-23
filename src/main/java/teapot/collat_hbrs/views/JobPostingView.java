@@ -27,8 +27,8 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Route(value = "job-posting", layout = MainLayout.class)
-@PageTitle("job-posting | Coll@HBRS")
+@Route(value = "Job posten", layout = MainLayout.class)
+@PageTitle("Job posten | Coll@HBRS")
 @PermitAll
 
 
@@ -74,7 +74,7 @@ public class JobPostingView extends VerticalLayout {
     public JobPostingView(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
         // Set up the layout of the form
-        add(new H2("Job Posting "));
+        add(new H2("Job posten "));
         initJobPostingForm();
         add(new Hr());
 
