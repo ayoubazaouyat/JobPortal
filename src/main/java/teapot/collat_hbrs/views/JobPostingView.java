@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -221,7 +222,12 @@ public class JobPostingView extends VerticalLayout {
             saveJobAdvertisement();
         });
 
-        add(editButton, confirmButton);
+        Button backButton = new Button("Back to Landing Page");
+        backButton.addClickListener(e -> {
+            UI.getCurrent().navigate("");
+        });
+
+        add(editButton, confirmButton, backButton);
     }
 
     private void displayFormWithPreviousData() {
