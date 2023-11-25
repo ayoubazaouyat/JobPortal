@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -35,8 +36,9 @@ public class MainLayout extends AppLayout {
         toggle.setAriaLabel("Menu toggle");
 
         Image logo = new Image("/themes/images/logo.svg", "Logo");
+        Anchor logoLink = new Anchor("/", logo);
 
-        addToNavbar(true, toggle, logo);
+        addToNavbar(true, toggle, logoLink);
 
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
