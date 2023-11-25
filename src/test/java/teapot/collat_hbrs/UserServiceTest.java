@@ -35,7 +35,6 @@ class UserServiceTest {
         s3 = new Student("Duplicate", "", "Test", "Test", "", "", "");
         s4 = new Student("Change", "", "Test", "Test", "", "", "");
         MockitoAnnotations.initMocks(this);
-        accountRepository.save(s4);
     }
 
     @AfterEach
@@ -44,7 +43,6 @@ class UserServiceTest {
         s2 = null;
         s3 = null;
         s4 = null;
-        accountRepository.deleteAll();
     }
 
     @Test
