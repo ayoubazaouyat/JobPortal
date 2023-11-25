@@ -4,9 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
+import com.vaadin.flow.dom.Style;
 import teapot.collat_hbrs.backend.security.SecurityService;
 
 
@@ -58,9 +57,14 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
+        H2 navTitle = new H2("Navigation");
+        navTitle.getStyle().setTextAlign(Style.TextAlign.CENTER);
+        navTitle.getStyle().setColor("var(--lumo-secondary-text-color)");
+        Header header = new Header(navTitle);
+
         Scroller scroller = new Scroller(createNavigation());
 
-        addToDrawer(scroller, createFooter());
+        addToDrawer(header, scroller, createFooter());
     }
 
     private SideNav createNavigation() {
