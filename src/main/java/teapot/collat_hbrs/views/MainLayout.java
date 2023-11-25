@@ -5,8 +5,6 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -15,18 +13,13 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 import teapot.collat_hbrs.backend.security.SecurityService;
-import teapot.collat_hbrs.views.helloworld.HelloWorldView;
 
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
-
-    private H2 viewTitle;
 
     private final SecurityService securityService;
 
@@ -41,10 +34,9 @@ public class MainLayout extends AppLayout {
         DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
 
-        viewTitle = new H2();
-        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
+        Image logo = new Image("/themes/images/logo.svg", "Logo");
 
-        addToNavbar(true, toggle, viewTitle);
+        addToNavbar(true, toggle, logo);
 
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
@@ -64,13 +56,9 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        Image logo = new Image("/themes/images/logo.svg", "Logo");
-        logo.getStyle().setMargin("1rem");
-        Header header = new Header(logo);
-
         Scroller scroller = new Scroller(createNavigation());
 
-        addToDrawer(header, scroller, createFooter());
+        addToDrawer(scroller, createFooter());
     }
 
     private SideNav createNavigation() {
@@ -88,14 +76,4 @@ public class MainLayout extends AppLayout {
         return new Footer();
     }
 
-    @Override
-    protected void afterNavigation() {
-        super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
-    }
-
-    private String getCurrentPageTitle() {
-        PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
-        return title == null ? "" : title.value();
-    }
 }
