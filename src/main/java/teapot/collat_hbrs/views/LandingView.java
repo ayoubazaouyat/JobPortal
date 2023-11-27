@@ -49,7 +49,7 @@ public class LandingView extends Composite<VerticalLayout> {
         layoutColumn2.getStyle().set("flex-grow", "1");
         h1.setText("Welcome to Coll@HBRS");
         h1.setWidth("max-content");
-        textLarge.setText("Description of Page");
+        textLarge.setText("The student-based job portal");
         textLarge.setWidth("100%");
         textLarge.getStyle().set("font-size", "var(--lumo-font-size-xl)");
         layoutRow2.setWidthFull();
