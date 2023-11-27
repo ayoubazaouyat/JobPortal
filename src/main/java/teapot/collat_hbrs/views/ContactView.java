@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Composite;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
@@ -69,6 +70,11 @@ public class ContactView extends Composite<VerticalLayout> {
         textMedium.setWidth("100%");
         textMedium.setHeight("100px");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
+        Button buttonPrimary3 = new Button();
+        buttonPrimary3.setText("Back");
+        buttonPrimary3.setWidth("min-content");
+        buttonPrimary3.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        buttonPrimary3.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/"));
         getContent().add(h2);
         getContent().add(layoutRow);
         layoutRow.add(buttonPrimary);
@@ -80,5 +86,6 @@ public class ContactView extends Composite<VerticalLayout> {
         layoutColumn3.add(h23);
         layoutColumn3.add(h42);
         layoutColumn3.add(textMedium);
+        layoutColumn3.add(buttonPrimary3);
     }
 }

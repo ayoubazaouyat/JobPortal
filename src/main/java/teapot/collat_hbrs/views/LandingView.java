@@ -26,7 +26,6 @@ public class LandingView extends Composite<VerticalLayout> {
 
     public LandingView() {
         HorizontalLayout layoutRow = new HorizontalLayout();
-        Paragraph textMedium = new Paragraph();
         VerticalLayout layoutColumn2 = new VerticalLayout();
         H1 h1 = new H1();
         Paragraph textLarge = new Paragraph();
@@ -42,9 +41,6 @@ public class LandingView extends Composite<VerticalLayout> {
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
         layoutRow.setHeight("120px");
-        textMedium.setText("Banner");
-        textMedium.setWidth("100%");
-        textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
         layoutColumn2.setWidth("100%");
         layoutColumn2.getStyle().set("flex-grow", "1");
         h1.setText("Welcome to Coll@HBRS");
@@ -76,12 +72,11 @@ public class LandingView extends Composite<VerticalLayout> {
         routerLink.setRoute(AboutUsView.class); // leite zu About Us-Seite
         layoutRow4.setAlignSelf(FlexComponent.Alignment.CENTER, routerLink);
         //routerLink.setWidth("84px");
-        routerLink2.setText("Language");
-        routerLink2.setRoute(LandingView.class);
+        routerLink2.setText("Contact");
+        routerLink2.setRoute(ContactView.class);
         layoutRow4.setAlignSelf(FlexComponent.Alignment.CENTER, routerLink2);
         //routerLink2.setWidth("min-content");
         getContent().add(layoutRow);
-        layoutRow.add(textMedium);
         getContent().add(layoutColumn2);
         layoutColumn2.add(h1);
         layoutColumn2.add(textLarge);
