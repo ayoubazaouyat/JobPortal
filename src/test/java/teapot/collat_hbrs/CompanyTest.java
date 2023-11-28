@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CompanyTest {
 
     Company c1;
-    JobAdvertisement j1, j2;
+    JobAdvertisement j1;
+    JobAdvertisement j2;
 
     @BeforeEach
     public void setup() {
@@ -29,19 +30,19 @@ class CompanyTest {
      */
 
     @Test
-    void list_is_empty_when_company_is_created() {
+    void listIsEmptyWhenCompanyIsCreated() {
         assertEquals(0, c1.getJobAdvertisements().size());
     }
 
     @Test
-    void list_is_incremented_when_jobAdvert_is_added() {
+    void listIsIncrementedWhenJobAdvertIsAdded() {
         assertEquals(0, c1.getJobAdvertisements().size());
         c1.postJobAdvertisement(j1);
         assertEquals(1, c1.getJobAdvertisements().size());
     }
 
     @Test
-    void list_is_decremented_when_jobAdvert_is_deleted() {
+    void listIsDecrementedWhenJobAdvertIsDeleted() {
         assertEquals(0, c1.getJobAdvertisements().size());
         c1.postJobAdvertisement(j1);
         assertEquals(1, c1.getJobAdvertisements().size());
@@ -50,7 +51,7 @@ class CompanyTest {
     }
 
     @Test
-    void jobAdvert_is_correctly_added() {
+    void jobAdvertIsCorrectlyAdded() {
         c1.postJobAdvertisement(j1);
         assertEquals(j1, c1.getJobAdvertisements().get(0));
         c1.postJobAdvertisement(j2);
@@ -58,7 +59,7 @@ class CompanyTest {
     }
 
     @Test
-    void jobAdvert_is_correctly_deleted() {
+    void jobAdvertIsCorrectlyDeleted() {
         c1.postJobAdvertisement(j1);
         assertEquals(j1, c1.getJobAdvertisements().get(0));
         c1.postJobAdvertisement(j2);
