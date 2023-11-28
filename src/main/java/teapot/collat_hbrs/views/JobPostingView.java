@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -27,12 +28,15 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Route(value = "Job posten", layout = MainLayout.class)
+@Route(value = "PostJob", layout = MainLayout.class)
 @PageTitle("Job posten | Coll@HBRS")
 @PermitAll
 
 
 public class JobPostingView extends VerticalLayout {
+
+    private JobAdvertisementService jobAdvertisementService;
+
     private String previousCompanyName;
     private String previousAddress;
     private String TimeType;
@@ -45,11 +49,6 @@ public class JobPostingView extends VerticalLayout {
     private String previouscandidateCount;
     private String previousBenefits;
     private  String previoushrContact;
-
-
-    public JobAdvertisementService getJobAdvertisementService() {
-        return jobAdvertisementService;
-    }
 
     private TextField companyName;
     private TextField address;
@@ -66,7 +65,6 @@ public class JobPostingView extends VerticalLayout {
     private TextArea hrContact ;
     private Button postButton;
 
-    private final JobAdvertisementService jobAdvertisementService;
 
     private TextField titleField = new TextField("Title");
 
@@ -120,7 +118,7 @@ public class JobPostingView extends VerticalLayout {
 
         postButton.addClickListener(event -> {
             if (companyName.isEmpty() || address.isEmpty() ||location.isEmpty()||fullOrPartTime.isEmpty()||offerAge.isEmpty()) {
-                Notification.show("Please fill in the required fields: Name of company and Position name");
+                Notification.show("Please fill in the required fields");
             } else if (offerAge.getValue().isBefore(LocalDate.now())) {
                 Notification.show("Application Deadline cannot be in the past");
             } else {
@@ -224,7 +222,12 @@ public class JobPostingView extends VerticalLayout {
             saveJobAdvertisement();
         });
 
-        add(editButton, confirmButton);
+        Button backButton = new Button("Back to Landing Page");
+        backButton.addClickListener(e -> {
+            UI.getCurrent().navigate("");
+        });
+
+        add(editButton, confirmButton, backButton);
     }
 
     private void displayFormWithPreviousData() {
@@ -251,16 +254,15 @@ public class JobPostingView extends VerticalLayout {
         JobAdvertisement jobAdvertisement = new JobAdvertisement();
         jobAdvertisement.getCompany().setCompanyName(companyName.getValue());
         jobAdvertisement.getCompany().setAddress(address.getValue());
-        //jobAdvertisement.setFullOrPartTime(fullOrPartTime.getValue());
-        //jobAdvertisement.setRemoteOrInHouse(remoteOrInHouse.getValue());
+        jobAdvertisement.setFullOrPartTime(fullOrPartTime.getValue());
+        jobAdvertisement.setRemoteOrInHouse(remoteOrInHouse.getValue());
         jobAdvertisement.setTextDescription(textDescription.getValue());
         jobAdvertisement.setLocation(location.getValue());
-        //jobAdvertisement.setOfferAge(offerAge.getValue());
-        //jobAdvertisement.setExpectations(expectations.getValue());
+        jobAdvertisement.setOfferAge(offerAge.getValue());
+        jobAdvertisement.setExpectations(expectations.getValue());
         jobAdvertisement.setRequirements(requirements.getValue());
-        //jobAdvertisement.setCandidateCount(candidateCount.getValue());
-        //jobAdvertisement.setEmployeeBenefits(employeeBenefits.getValue());
-        //jobAdvertisement.setHrContact(hrContact.getValue());
+        jobAdvertisement.setCandidateCount(candidateCount.getValue());
+        jobAdvertisement.setEmployeeBenefits(employeeBenefits.getValue());
 
         jobAdvertisementService.addJobAdvertisement(jobAdvertisement);
     }

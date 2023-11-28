@@ -4,10 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -15,18 +12,14 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.theme.lumo.LumoUtility;
+import com.vaadin.flow.dom.Style;
 import teapot.collat_hbrs.backend.security.SecurityService;
-import teapot.collat_hbrs.views.helloworld.HelloWorldView;
 
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
-
-    private H2 viewTitle;
 
     private final SecurityService securityService;
 
@@ -41,10 +34,10 @@ public class MainLayout extends AppLayout {
         DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
 
-        viewTitle = new H2();
-        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
+        Image logo = new Image("/themes/images/logo.svg", "Logo");
+        Anchor logoLink = new Anchor("/", logo);
 
-        addToNavbar(true, toggle, viewTitle);
+        addToNavbar(true, toggle, logoLink);
 
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
@@ -64,9 +57,10 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        Image logo = new Image("/themes/images/logo.svg", "Logo");
-        logo.getStyle().setMargin("1rem");
-        Header header = new Header(logo);
+        H2 navTitle = new H2("Navigation");
+        navTitle.getStyle().setTextAlign(Style.TextAlign.CENTER);
+        navTitle.getStyle().setColor("var(--lumo-secondary-text-color)");
+        Header header = new Header(navTitle);
 
         Scroller scroller = new Scroller(createNavigation());
 
@@ -75,7 +69,7 @@ public class MainLayout extends AppLayout {
 
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
-        nav.addItem(new SideNavItem("Job posten", JobPostingView.class, new Icon(VaadinIcon.ACADEMY_CAP)));
+        nav.addItem(new SideNavItem("Post a Job", JobPostingView.class, new Icon(VaadinIcon.ACADEMY_CAP)));
         nav.addItem(new SideNavItem("Job Search", JobSearchView.class, new Icon(VaadinIcon.NOTEBOOK)));
         nav.addItem(new SideNavItem("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)));
         nav.addItem(new SideNavItem("About Us", AboutUsView.class, new Icon(VaadinIcon.INFO_CIRCLE)));
@@ -88,14 +82,4 @@ public class MainLayout extends AppLayout {
         return new Footer();
     }
 
-    @Override
-    protected void afterNavigation() {
-        super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
-    }
-
-    private String getCurrentPageTitle() {
-        PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
-        return title == null ? "" : title.value();
-    }
 }

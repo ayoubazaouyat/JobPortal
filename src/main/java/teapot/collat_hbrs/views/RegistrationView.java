@@ -26,6 +26,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
@@ -33,7 +34,8 @@ import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
 import teapot.collat_hbrs.frontend.PasswordValidator;
 
-@Route("registration")
+@Route(value = "registration", layout = MainLayout.class)
+@PageTitle("Registration | Coll@HBRS")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
@@ -482,6 +484,7 @@ public class RegistrationView extends VerticalLayout {
         homeButton.setIcon(new Icon(VaadinIcon.HOME));
         homeButton.setHeight("50px");
         homeButton.setWidth("50px");
+        homeButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LoginView.class));
 
         buildScreen.add(
                 successMessage,
