@@ -18,15 +18,17 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class UserServiceTest {
 
-    Student s1, s2, s3, s4;
+    Student s1;
+    Student s2;
+    Student s3;
+    Student s4;
 
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @Mock
     private AccountRepository accountRepository;
     @InjectMocks
-    private UserService userService, userServiceMock;
+    private UserService userService;
 
     @BeforeEach
     public void setup() {
@@ -46,25 +48,25 @@ class UserServiceTest {
     }
 
     @Test
-    void username_is_empty() {
+    void usernameIsEmpty() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> userService.registerAccount(s1, "Test"));
         assertEquals("empty username not allowed", e.getMessage());
     }
 
     @Test
-    void password_is_empty() {
+    void passwordIsEmpty() {
         Exception e = assertThrows(IllegalArgumentException.class, () -> userService.registerAccount(s2, ""));
         assertEquals("empty password not allowed", e.getMessage());
     }
 
     @Test
-    void duplicate_usernames_not_allowed() {
+    void duplicateUsernamesNotAllowed() {
         when(accountRepository.findByUsername(s3.getUsername())).thenReturn(Optional.of(s3));
         assertThrows(IllegalArgumentException.class, () -> userService.registerAccount(s3, "testPassword"));
     }
 
     @Test
-    void change_password_test() {
+    void changePasswordTest() {
         // Test password change
         when(accountRepository.findByUsername(s4.getUsername())).thenReturn(Optional.of(s4));
         userService.changePassword(s4.getUsername(), "NewPassword");
