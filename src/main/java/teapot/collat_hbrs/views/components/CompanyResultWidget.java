@@ -30,7 +30,7 @@ public class CompanyResultWidget extends HorizontalLayout {
      * Builds the widget
      */
     private void buildWidget() {
-        Image logo = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png", company.getCompanyName());
+        Image logo = new Image("/themes/images/profile_placeholder.png", company.getCompanyName() + " Logo");
         VerticalLayout companyInformation = buildInfo();
         Button openJobButton = new Button();
 
