@@ -2,7 +2,9 @@ package teapot.collat_hbrs.views.components;
 
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -15,6 +17,7 @@ public class JobResultWidget extends HorizontalLayout {
 
     /**
      * Creates a horizontal widget which displays one job result
+     *
      * @param job Job Advertisement
      */
     public JobResultWidget(JobAdvertisement job) {
@@ -27,7 +30,7 @@ public class JobResultWidget extends HorizontalLayout {
      * Builds the widget
      */
     private void buildWidget() {
-        Image logo = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png", job.getCompany().getCompanyName());
+        Image logo = new Image("/themes/images/profile_placeholder.png", job.getCompany().getCompanyName() + " Logo");
         VerticalLayout jobInformation = buildInfo();
         Button openJobButton = new Button();
 
@@ -52,6 +55,7 @@ public class JobResultWidget extends HorizontalLayout {
 
     /**
      * Builds the information part of the widget
+     *
      * @return Information container
      */
     private VerticalLayout buildInfo() {
