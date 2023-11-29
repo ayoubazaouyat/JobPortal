@@ -89,7 +89,7 @@ public class JobPostingView extends VerticalLayout {
         address.setRequired(true);
         fullOrPartTime = new ComboBox<>("Full/Part-time");
         fullOrPartTime.setClearButtonVisible(true);
-        fullOrPartTime.setItems("Full-time", "Part-time");
+        fullOrPartTime.setItems("Full-time", "Part-time","Working Srudent","internship");
         fullOrPartTime.setRequired(true);
         remoteOrInHouse = new ComboBox<String>("Remote/Office");
         remoteOrInHouse.setClearButtonVisible(true);
