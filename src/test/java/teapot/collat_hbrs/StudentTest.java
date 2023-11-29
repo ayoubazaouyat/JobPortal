@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class StudentTest {
 
     Student s1;
+    String skill1 = "Programming";
+    String skill2 = "Hacking";
 
     @BeforeEach
     public void setup() {
@@ -29,41 +31,41 @@ class StudentTest {
      */
 
     @Test
-    void list_is_empty_when_student_is_created() {
+    void listIsEmptyWhenStudentIsCreated() {
         assertEquals(0, s1.getSkills().size());
     }
 
     @Test
-    void list_is_incremented_when_skill_is_added() {
+    void listIsIncrementedWhenSkillIsAdded() {
         assertEquals(0, s1.getSkills().size());
-        s1.addSkill("Programming");
+        s1.addSkill(skill1);
         assertEquals(1, s1.getSkills().size());
     }
 
     @Test
-    void list_is_decremented_when_skill_is_deleted() {
+    void listIsDecrementedWhenSkillIsDeleted() {
         assertEquals(0, s1.getSkills().size());
-        s1.addSkill("Programming");
+        s1.addSkill(skill1);
         assertEquals(1, s1.getSkills().size());
-        s1.deleteSkill("Programming");
+        s1.deleteSkill(skill1);
         assertEquals(0, s1.getSkills().size());
     }
 
     @Test
-    void skill_is_correctly_added() {
-        s1.addSkill("Programming");
-        assertEquals("Programming", s1.getSkills().get(0));
-        s1.addSkill("Hacking");
-        assertEquals("Hacking", s1.getSkills().get(1));
+    void skillIsCorrectlyAdded() {
+        s1.addSkill(skill1);
+        assertEquals(skill1, s1.getSkills().get(0));
+        s1.addSkill(skill2);
+        assertEquals(skill2, s1.getSkills().get(1));
     }
 
     @Test
-    void skill_is_correctly_deleted() {
-        s1.addSkill("Programming");
-        assertEquals("Programming", s1.getSkills().get(0));
-        s1.addSkill("Hacking");
-        assertEquals("Hacking", s1.getSkills().get(1));
-        s1.deleteSkill("Programming");
-        assertEquals("Hacking", s1.getSkills().get(0));
+    void skillIsCorrectlyDeleted() {
+        s1.addSkill(skill1);
+        assertEquals(skill1, s1.getSkills().get(0));
+        s1.addSkill(skill2);
+        assertEquals(skill2, s1.getSkills().get(1));
+        s1.deleteSkill(skill1);
+        assertEquals(skill2, s1.getSkills().get(0));
     }
 }

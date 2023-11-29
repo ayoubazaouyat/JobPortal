@@ -10,7 +10,6 @@ import java.util.List;
 public class Student extends Account {
     private String surname;
     private String forename;
-    private String email;
     private String address; // consisting of streetName, houseNumber, postalCode, city
     private String phoneNumber;
     private String studyProgram;
