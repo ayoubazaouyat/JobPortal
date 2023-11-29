@@ -208,17 +208,22 @@ public class JobPostingView extends VerticalLayout {
 
 
     private void addEditAndConfirmButtons() {
-        Button editButton = new Button("Edit Job Posting");
+        Button editButton = new Button("Edit ");
         editButton.addClickListener(e -> {
             // Remove current content and display form with previous entered data
             removeAll();
             displayFormWithPreviousData();
         });
 
-        Button confirmButton = new Button("Confirm Job Posting");
+        Button confirmButton = new Button("Confirmation");
         confirmButton.addClickListener(e -> {
-            // Save the job advertisement
+
+
+            // Display a confirmation message
             Notification.show("Job posted successfully");
+
+            // Ask if the user wants to post another job
+            getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
             saveJobAdvertisement();
         });
 
@@ -228,6 +233,37 @@ public class JobPostingView extends VerticalLayout {
         });
 
         add(editButton, confirmButton, backButton);
+    }
+    private void askForAnotherJob() {
+        // Create a Notification to ask the user if they want to post another job
+        Notification confirmationNotification = new Notification(
+                "Job posted successfully. Do you want to post another job?",
+                0, // Duration 0 means it stays open until the user closes it
+                Notification.Position.MIDDLE);
+
+
+        // Create buttons for yes and no
+        Button yesButton = new Button("another job posten", clickEvent -> {
+            // Close the notification
+            confirmationNotification.close();
+
+            // Reload the page
+            UI.getCurrent().getPage().executeJs("window.location.reload();");
+        });
+
+        Button noButton = new Button("Return to Homepage", clickEvent -> {
+            // Close the notification
+            confirmationNotification.close();
+
+            // Navigate back to the landing page
+            UI.getCurrent().navigate("");
+        });
+
+        // Add buttons to the notification
+        confirmationNotification.add(yesButton, noButton);
+
+        // Open the notification
+        confirmationNotification.open();
     }
 
     private void displayFormWithPreviousData() {
