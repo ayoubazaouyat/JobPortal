@@ -64,6 +64,7 @@ public class JobPostingView extends VerticalLayout {
     private TextArea employeeBenefits ;
     private TextArea hrContact ;
     private Button postButton;
+    private Button confirmButton;
 
 
     private TextField titleField = new TextField("Title");
@@ -215,7 +216,7 @@ public class JobPostingView extends VerticalLayout {
             displayFormWithPreviousData();
         });
 
-        Button confirmButton = new Button("Confirmation");
+        confirmButton = new Button("Confirmation");
         confirmButton.addClickListener(e -> {
 
 
@@ -224,6 +225,7 @@ public class JobPostingView extends VerticalLayout {
 
             // Ask if the user wants to post another job
             getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
+            confirmButton.setEnabled(false);
             saveJobAdvertisement();
         });
 
@@ -237,34 +239,38 @@ public class JobPostingView extends VerticalLayout {
     private void askForAnotherJob() {
         // Create a Notification to ask the user if they want to post another job
         Notification confirmationNotification = new Notification(
-                "Job posted successfully. Do you want to post another job?",
+                "Job posted successfully. What would you like to do next?",
                 0, // Duration 0 means it stays open until the user closes it
                 Notification.Position.MIDDLE);
 
-
-        // Create buttons for yes and no
-        Button yesButton = new Button("another job posten", clickEvent -> {
+        // Create buttons for post another job and cancel
+        Button postAnotherJobButton = new Button("Post Another Job", clickEvent -> {
             // Close the notification
             confirmationNotification.close();
 
-            // Reload the page
+            // Optionally, you can perform any additional actions for "Post Another Job" here
+
+            // For now, let's just reload the page
             UI.getCurrent().getPage().executeJs("window.location.reload();");
         });
 
-        Button noButton = new Button("Return to Homepage", clickEvent -> {
+        Button cancelButton = new Button("Cancel", clickEvent -> {
             // Close the notification
             confirmationNotification.close();
+            confirmButton.setEnabled(true);
 
-            // Navigate back to the landing page
-            UI.getCurrent().navigate("");
+            // Optionally, you can perform any additional actions for "Cancel" here
         });
 
+
         // Add buttons to the notification
-        confirmationNotification.add(yesButton, noButton);
+        confirmationNotification.add(postAnotherJobButton, cancelButton);
 
         // Open the notification
         confirmationNotification.open();
     }
+
+
 
     private void displayFormWithPreviousData() {
         initJobPostingForm();
