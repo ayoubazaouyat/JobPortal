@@ -24,7 +24,7 @@ import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 
-import java.awt.*;
+//import java.awt.*;//
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -68,6 +68,8 @@ public class JobPostingView extends VerticalLayout {
 
 
     private TextField titleField = new TextField("Title");
+    private Button editButton;
+
 
 
     public JobPostingView(JobAdvertisementService jobAdvertisementService) {
@@ -209,11 +211,11 @@ public class JobPostingView extends VerticalLayout {
 
 
     private void addEditAndConfirmButtons() {
-        Button editButton = new Button("Edit ");
+        editButton = new Button("Edit ");
         editButton.addClickListener(e -> {
             // Remove current content and display form with previous entered data
             removeAll();
-            displayFormWithPreviousData();
+
         });
 
         confirmButton = new Button("Confirmation");
@@ -226,6 +228,7 @@ public class JobPostingView extends VerticalLayout {
             // Ask if the user wants to post another job
             getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
             confirmButton.setEnabled(false);
+            editButton.setEnabled(false);
             saveJobAdvertisement();
         });
 
@@ -258,6 +261,7 @@ public class JobPostingView extends VerticalLayout {
             // Close the notification
             confirmationNotification.close();
             confirmButton.setEnabled(true);
+            editButton.setEnabled(true);
 
             // Optionally, you can perform any additional actions for "Cancel" here
         });
