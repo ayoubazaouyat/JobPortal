@@ -64,6 +64,7 @@ public class JobPostingView extends VerticalLayout {
     private TextArea employeeBenefits ;
     private TextArea hrContact ;
     private Button postButton;
+    private Button confirmButton;
 
 
     private TextField titleField = new TextField("Title");
@@ -215,7 +216,7 @@ public class JobPostingView extends VerticalLayout {
             displayFormWithPreviousData();
         });
 
-        Button confirmButton = new Button("Confirmation");
+        confirmButton = new Button("Confirmation");
         confirmButton.addClickListener(e -> {
 
 
@@ -224,6 +225,7 @@ public class JobPostingView extends VerticalLayout {
 
             // Ask if the user wants to post another job
             getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
+            confirmButton.setEnabled(false);
             saveJobAdvertisement();
         });
 
@@ -255,9 +257,11 @@ public class JobPostingView extends VerticalLayout {
         Button cancelButton = new Button("Cancel", clickEvent -> {
             // Close the notification
             confirmationNotification.close();
+            confirmButton.setEnabled(true);
 
             // Optionally, you can perform any additional actions for "Cancel" here
         });
+
 
         // Add buttons to the notification
         confirmationNotification.add(postAnotherJobButton, cancelButton);
