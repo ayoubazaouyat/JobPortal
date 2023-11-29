@@ -87,9 +87,9 @@ public class JobPostingView extends VerticalLayout {
         companyName.setRequired(true);
         address = new TextField("Position name");
         address.setRequired(true);
-        fullOrPartTime = new ComboBox<>("Full/Part-time");
+        fullOrPartTime = new ComboBox<>("Type");
         fullOrPartTime.setClearButtonVisible(true);
-        fullOrPartTime.setItems("Full-time", "Part-time","Working Srudent","internship");
+        fullOrPartTime.setItems("Full-time", "Part-time","Working Student","internship");
         fullOrPartTime.setRequired(true);
         remoteOrInHouse = new ComboBox<String>("Remote/Office");
         remoteOrInHouse.setClearButtonVisible(true);
@@ -185,7 +185,7 @@ public class JobPostingView extends VerticalLayout {
         leftColumn.add(
                 new Paragraph("Name of company: " + companyName.getValue()),
                 new Paragraph("Position name: " + address.getValue()),
-                new Paragraph("Full/Part-time: " + fullOrPartTime.getValue()),
+                new Paragraph("Type: " + fullOrPartTime.getValue()),
                 new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
                 new Paragraph("Text description: " + textDescription.getValue())
                 // Add more information as needed
