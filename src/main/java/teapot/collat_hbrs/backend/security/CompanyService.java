@@ -5,6 +5,7 @@ import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.CompanyRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CompanyService {
@@ -29,6 +30,32 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
+    public List<Company> getFilteredCompanies(String name, Set<String> location, Set<String> catogory) {
+        List<Company> companies = getAllCompanies();
+
+        //remove entries that do not fit the search criteria if it is bot empty
+        //TODO make filter match on similarity not equality
+        if (!name.equals("")) {
+            for (Company company : companies) {
+                if (company.getCompanyName().contains(name))
+                    companies.remove(company);
+            }
+        }
+
+        if (!location.isEmpty()) {
+            for (Company company : companies) {
+                //TODO add location filter
+            }
+        }
+
+        if (!catogory.isEmpty()) {
+            for (Company company : companies) {
+                //TODO add category filter
+            }
+        }
+
+        return companies;
+    }
 
 
 }
