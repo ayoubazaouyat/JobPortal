@@ -1,6 +1,6 @@
 package teapot.collat_hbrs.backend;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @DiscriminatorColumn(name = "ACCOUNT_TYPE")

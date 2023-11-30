@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import jakarta.annotation.security.PermitAll;
+import javax.annotation.security.PermitAll;
 
 @PageTitle("Landing")
 @Route(value = "", layout = MainLayout.class)
