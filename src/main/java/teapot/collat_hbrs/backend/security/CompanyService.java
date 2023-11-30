@@ -42,6 +42,17 @@ public class CompanyService {
             }
         }
 
+        if(!location.isEmpty()){
+            for (Company company: companies) {
+                //TODO add location filter
+            }
+        }
+
+        if(!catogory.isEmpty()){
+            for (Company company: companies) {
+                //TODO add category filter
+            }
+        }
 
         companies = companies.stream().filter(company -> company.getCompanyName().equals(name)).toList();
 

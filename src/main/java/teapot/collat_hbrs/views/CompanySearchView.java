@@ -19,6 +19,7 @@ import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.security.CompanyService;
 import teapot.collat_hbrs.views.components.CompanyResultWidget;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Route(value = "companysearch", layout = MainLayout.class)
@@ -39,7 +40,8 @@ public class CompanySearchView extends VerticalLayout {
         H1 heading = new H1("Company Search");
         FormLayout search = initSearch();
         Hr separator = new Hr();
-        resultsContainer = new Scroller(); //buildResultsContainer();
+        //Start with an empty filter to show all results
+        resultsContainer = buildResultsContainer("", new HashSet<>(), new HashSet<>());
 
         add(
                 heading,
