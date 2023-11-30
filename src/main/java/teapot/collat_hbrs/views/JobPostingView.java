@@ -215,6 +215,7 @@ public class JobPostingView extends VerticalLayout {
         editButton.addClickListener(e -> {
             // Remove current content and display form with previous entered data
             removeAll();
+            displayFormWithPreviousData();
 
         });
 
@@ -229,6 +230,7 @@ public class JobPostingView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
             confirmButton.setEnabled(false);
             editButton.setEnabled(false);
+
             saveJobAdvertisement();
         });
 
@@ -261,7 +263,8 @@ public class JobPostingView extends VerticalLayout {
             // Close the notification
             confirmationNotification.close();
             confirmButton.setEnabled(true);
-            editButton.setEnabled(true);
+            editButton.setEnabled(false);
+
 
             // Optionally, you can perform any additional actions for "Cancel" here
         });
