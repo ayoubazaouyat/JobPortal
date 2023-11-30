@@ -37,7 +37,7 @@ public class CompanyService {
         //TODO make filter match on similarity not equality
         if (!name.equals("")) {
             for (Company company : companies) {
-                if (company.getCompanyName().equals(name))
+                if (company.getCompanyName().contains(name))
                     companies.remove(company);
             }
         }
