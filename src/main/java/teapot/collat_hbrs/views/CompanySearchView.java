@@ -72,7 +72,7 @@ public class CompanySearchView extends VerticalLayout {
         searchButton.addClickShortcut(Key.ENTER);
         searchButton.addClickListener(buttonClickEvent -> {
             this.remove(resultsContainer);
-            resultsContainer = buildResultsContainer(companyField.getValue(), locationSelector.getSelectedItems(),categorySelector.getSelectedItems());
+            resultsContainer = buildResultsContainer(companyField.getValue(), locationSelector.getSelectedItems(), categorySelector.getSelectedItems());
             this.add(resultsContainer);
         });
 
@@ -106,8 +106,8 @@ public class CompanySearchView extends VerticalLayout {
         // ------------------------
 
         // TODO Add job ads from database (in the future: including filtering)
-        for (Company company: companyService.getFilteredCompanies(name,location,catogory)
-             ) {
+        for (Company company : companyService.getFilteredCompanies(name, location, catogory)
+        ) {
             results.add(new CompanyResultWidget(company));
 
         }
@@ -116,7 +116,6 @@ public class CompanySearchView extends VerticalLayout {
         scroller.setWidthFull();
         scroller.setHeightFull();
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
-
 
 
         return scroller;

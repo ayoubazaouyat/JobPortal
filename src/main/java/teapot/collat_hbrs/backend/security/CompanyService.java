@@ -35,26 +35,24 @@ public class CompanyService {
 
         //remove entries that do not fit the search criteria if it is bot empty
         //TODO make filter match on similarity not equality
-        if(!name.equals("")){
-            for (Company company: companies) {
-                if(company.getCompanyName().equals(name))
+        if (!name.equals("")) {
+            for (Company company : companies) {
+                if (company.getCompanyName().equals(name))
                     companies.remove(company);
             }
         }
 
-        if(!location.isEmpty()){
-            for (Company company: companies) {
+        if (!location.isEmpty()) {
+            for (Company company : companies) {
                 //TODO add location filter
             }
         }
 
-        if(!catogory.isEmpty()){
-            for (Company company: companies) {
+        if (!catogory.isEmpty()) {
+            for (Company company : companies) {
                 //TODO add category filter
             }
         }
-
-        companies = companies.stream().filter(company -> company.getCompanyName().equals(name)).toList();
 
         return companies;
     }
