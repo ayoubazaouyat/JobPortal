@@ -23,6 +23,14 @@ import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.html.Div;
+
+
+
+
 
 //import java.awt.*;//
 import java.time.LocalDate;
@@ -170,6 +178,22 @@ public class JobPostingView extends VerticalLayout {
         previoushrContact= hrContact.getValue();
 
     }
+    // Function to create a bold label with value
+    private Component createBoldLabel(String labelText, String value) {
+        Div container = new Div();
+
+        // Create a span for the label (bold text)
+        Span labelSpan = new Span(labelText);
+        labelSpan.getStyle().set("font-weight", "bold");
+
+        // Create a span for the value
+        Span valueSpan = new Span(value);
+
+        // Add the label and value spans to the container
+        container.add(labelSpan, valueSpan);
+
+        return container;
+    }
 
     private void displayEnteredInformation() {
         removeAll();
@@ -183,29 +207,60 @@ public class JobPostingView extends VerticalLayout {
         VerticalLayout leftColumn = new VerticalLayout();
         VerticalLayout rightColumn = new VerticalLayout();
 
+
+
+        // Add entered information as paragraphs to the respective columns
         // Add entered information as paragraphs to the respective columns
         leftColumn.add(
-                new Paragraph("Name of company: " + companyName.getValue()),
-                new Paragraph("Position name: " + address.getValue()),
-                new Paragraph("Type: " + fullOrPartTime.getValue()),
-                new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
-                new Paragraph("Text description: " + textDescription.getValue())
+                createBoldLabel("Name of company: ", companyName.getValue()),
+                createBoldLabel("Position name: ", address.getValue()),
+                createBoldLabel("Full/Part-time: ", fullOrPartTime.getValue()),
+                createBoldLabel("Remote/Office: ", remoteOrInHouse.getValue()),
+                createBoldLabel("Text description: ", textDescription.getValue())
                 // Add more information as needed
         );
-        // Set the style for the right column to prevent text wrapping
-        rightColumn.getStyle().set("white-space", "nowrap");
+
+        // Set the style for the right column to prevent text wrapping and add a left margin
+        rightColumn.getStyle().set("white-space", "nowrap").set("margin-left", "20px");
+
 
         rightColumn.add(
-                new Paragraph("Location: " + location.getValue()),
-                new Paragraph("Application Deadline: " + offerAge.getValue()),
-                new Paragraph("What's waiting for you: " + expectations.getValue()),
-                new Paragraph("What we expect: " + requirements.getValue()),
-                new Paragraph("Number of candidates: " + candidateCount.getValue())
+                createBoldLabel("Location: ", location.getValue()),
+                createBoldLabel("Application Deadline: ", offerAge.getValue().toString()),
+                createBoldLabel("What's waiting for you: ", expectations.getValue()),
+                createBoldLabel("What we expect: ", requirements.getValue()),
+                createBoldLabel("Number of candidates: ", candidateCount.getValue())
                 // Add more information as needed
         );
+
+
+
+
+        // Add entered information as paragraphs to the respective columns
+        //leftColumn.add(
+        //       new Paragraph("Name of company: " + companyName.getValue()),
+        //       new Paragraph("Position name: " + address.getValue()),
+        //       new Paragraph("Type: " + fullOrPartTime.getValue()),
+        //       new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
+        //       new Paragraph("Text description: " + textDescription.getValue())
+        // Add more information as needed
+        //);
+        // Set the style for the right column to prevent text wrapping
+        //rightColumn.getStyle().set("white-space", "nowrap");
+
+        //rightColumn.add(
+        //         new Paragraph("Location: " + location.getValue()),
+        //      new Paragraph("Application Deadline: " + offerAge.getValue()),
+        //      new Paragraph("What's waiting for you: " + expectations.getValue()),
+        //      new Paragraph("What we expect: " + requirements.getValue()),
+        //      new Paragraph("Number of candidates: " + candidateCount.getValue())
+        //      // Add more information as needed
+        //);
+
 
         // Add the columns to the flexible layout
         enteredInfoLayout.add(leftColumn, rightColumn);
+
 
         // Add the entered information layout to the main view
         add(enteredInfoLayout);
