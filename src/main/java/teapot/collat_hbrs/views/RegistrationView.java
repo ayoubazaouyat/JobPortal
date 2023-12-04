@@ -534,7 +534,7 @@ public class RegistrationView extends VerticalLayout {
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
             //Test if fields are correct
-            if (binder.validate().isOk() & (step != 3 || validateAdresse())) {
+            if (binder.validate().isOk() & (step != 3 || accType != 0 || validateAdresse())) {
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
