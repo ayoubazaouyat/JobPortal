@@ -192,6 +192,8 @@ public class JobPostingView extends VerticalLayout {
                 new Paragraph("Text description: " + textDescription.getValue())
                 // Add more information as needed
         );
+        // Set the style for the right column to prevent text wrapping
+        rightColumn.getStyle().set("white-space", "nowrap");
 
         rightColumn.add(
                 new Paragraph("Location: " + location.getValue()),
