@@ -233,31 +233,6 @@ public class JobPostingView extends VerticalLayout {
                 // Add more information as needed
         );
 
-
-
-
-        // Add entered information as paragraphs to the respective columns
-        //leftColumn.add(
-        //       new Paragraph("Name of company: " + companyName.getValue()),
-        //       new Paragraph("Position name: " + address.getValue()),
-        //       new Paragraph("Type: " + fullOrPartTime.getValue()),
-        //       new Paragraph("Remote/Office: " + remoteOrInHouse.getValue()),
-        //       new Paragraph("Text description: " + textDescription.getValue())
-        // Add more information as needed
-        //);
-        // Set the style for the right column to prevent text wrapping
-        //rightColumn.getStyle().set("white-space", "nowrap");
-
-        //rightColumn.add(
-        //         new Paragraph("Location: " + location.getValue()),
-        //      new Paragraph("Application Deadline: " + offerAge.getValue()),
-        //      new Paragraph("What's waiting for you: " + expectations.getValue()),
-        //      new Paragraph("What we expect: " + requirements.getValue()),
-        //      new Paragraph("Number of candidates: " + candidateCount.getValue())
-        //      // Add more information as needed
-        //);
-
-
         // Add the columns to the flexible layout
         enteredInfoLayout.add(leftColumn, rightColumn);
 
