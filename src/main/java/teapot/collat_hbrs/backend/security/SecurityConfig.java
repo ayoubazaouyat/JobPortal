@@ -4,7 +4,6 @@ package teapot.collat_hbrs.backend.security;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.views.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
@@ -43,8 +42,9 @@ public class SecurityConfig extends VaadinWebSecurity {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //return new Pbkdf2PasswordEncoder("secret", 32, 100000, Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
-        return new Pbkdf2PasswordEncoder("secret", 32, 100000, 10);
+        Pbkdf2PasswordEncoder encoder = new Pbkdf2PasswordEncoder("secret", 32, 100000, 512);
+        encoder.setAlgorithm(Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA512);
+        return encoder;
     }
 
     @Bean
