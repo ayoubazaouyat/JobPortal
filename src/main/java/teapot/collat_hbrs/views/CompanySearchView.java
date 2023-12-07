@@ -14,7 +14,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.PermitAll;
+import javax.annotation.security.PermitAll;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.security.CompanyService;
 import teapot.collat_hbrs.views.components.CompanyResultWidget;

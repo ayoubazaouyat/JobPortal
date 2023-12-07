@@ -341,8 +341,8 @@ public class RegistrationView extends VerticalLayout {
         firstName.setRequired(true);
         lastName.setRequired(true);
         Studentstreet.setRequired(true);
-        StudenthouseNumber.setRequired(true);
-        Studentplz.setRequired(true);
+        binder.forField(StudenthouseNumber).asRequired().bind("StudenthouseNumber");
+        binder.forField(Studentplz).asRequired().bind("Studentplz");
         Studentcity.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
@@ -381,9 +381,9 @@ public class RegistrationView extends VerticalLayout {
         var street = new TextField("Street name");
         street.setRequired(true);
         var houseNumber = new NumberField("House number");
-        houseNumber.setRequired(true);
+        binder.forField(houseNumber).asRequired().bind("houseNumber");
         var plz = new NumberField("PLZ");
-        plz.setRequired(true);
+        binder.forField(plz).asRequired().bind("plz");
         var city = new TextField("City");
         city.setRequired(true);
         addressForm.add(

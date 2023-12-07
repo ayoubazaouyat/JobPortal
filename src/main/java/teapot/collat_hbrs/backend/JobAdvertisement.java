@@ -3,7 +3,7 @@ package teapot.collat_hbrs.backend;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.sql.Date;
 import java.sql.Time;
