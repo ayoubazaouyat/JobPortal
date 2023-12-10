@@ -30,7 +30,7 @@ public class JobResultWidget extends HorizontalLayout {
      * Builds the widget
      */
     private void buildWidget() {
-        Image logo = new Image("/themes/images/profile_placeholder.png", job.getCompany().getCompanyName() + " Logo");
+        Image logo = new Image("images/profile_placeholder.png", job.getCompany().getCompanyName() + " Logo");
         VerticalLayout jobInformation = buildInfo();
         Button openJobButton = new Button();
 

@@ -34,7 +34,7 @@ public class MainLayout extends AppLayout {
         DrawerToggle toggle = new DrawerToggle();
         //toggle.setAriaLabel("Menu toggle");
 
-        Image logo = new Image("/themes/images/logo.svg", "Logo");
+        Image logo = new Image("images/logo.svg", "Logo");
         Anchor logoLink = new Anchor("/", logo);
 
         addToNavbar(true, toggle, logoLink);

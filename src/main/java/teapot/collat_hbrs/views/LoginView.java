@@ -19,7 +19,7 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
     public LoginView() {
         setSizeFull();
 
-        Image img = new Image("themes/images/landin01.jpg", "Description of the image");
+        Image img = new Image("images/landin01.jpg", "Description of the image");
         img.setSizeFull();
 
         VerticalLayout loginLayout = new VerticalLayout();
