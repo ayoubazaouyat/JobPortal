@@ -1,18 +1,17 @@
 package teapot.collat_hbrs.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Footer;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-//import com.vaadin.flow.component.sidenav.SideNav;
-//import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.dom.Style;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.router.RouterLink;
 import teapot.collat_hbrs.backend.security.SecurityService;
 
 
@@ -25,19 +24,18 @@ public class MainLayout extends AppLayout {
 
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
-        setPrimarySection(Section.DRAWER);
-        addDrawerContent();
         addHeaderContent();
     }
 
     private void addHeaderContent() {
-        DrawerToggle toggle = new DrawerToggle();
-        //toggle.setAriaLabel("Menu toggle");
-
         Image logo = new Image("images/logo.svg", "Logo");
         Anchor logoLink = new Anchor("/", logo);
+        logoLink.getStyle().set("padding", "0 1rem");
 
-        addToNavbar(true, toggle, logoLink);
+        Tabs tabs = getTabs();
+        tabs.setWidthFull();
+
+        addToNavbar(true, logoLink, tabs);
 
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
@@ -56,27 +54,27 @@ public class MainLayout extends AppLayout {
         }
     }
 
-    private void addDrawerContent() {
-        H2 navTitle = new H2("Navigation");
-        //navTitle.getStyle().setTextAlign(Style.TextAlign.CENTER);
-        //navTitle.getStyle().setColor("var(--lumo-secondary-text-color)");
-        Header header = new Header(navTitle);
-
-        Scroller scroller = new Scroller(/*createNavigation()*/);
-
-        addToDrawer(header, scroller, createFooter());
+    private Tabs getTabs() {
+        Tabs tabs = new Tabs();
+        tabs.getStyle().set("margin", "auto");
+        tabs.add(
+                createTab("Home", LandingView.class),
+                createTab("Post a Job", JobPostingView.class),
+                createTab("Job Search", JobSearchView.class),
+                createTab("Company Search", CompanySearchView.class),
+                createTab("About Us", AboutUsView.class),
+                createTab("Contact", ContactView.class)
+        );
+        return tabs;
     }
 
-//    private SideNav createNavigation() {
-//        SideNav nav = new SideNav();
-//        nav.addItem(new SideNavItem("Post a Job", JobPostingView.class, new Icon(VaadinIcon.ACADEMY_CAP)));
-//        nav.addItem(new SideNavItem("Job Search", JobSearchView.class, new Icon(VaadinIcon.NOTEBOOK)));
-//        nav.addItem(new SideNavItem("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)));
-//        nav.addItem(new SideNavItem("About Us", AboutUsView.class, new Icon(VaadinIcon.INFO_CIRCLE)));
-//        nav.addItem(new SideNavItem("Contact", ContactView.class, new Icon(VaadinIcon.ENVELOPE)));
-//
-//        return nav;
-//    }
+    private Tab createTab(String viewName, Class<? extends Component> view) {
+        RouterLink link = new RouterLink(view);
+        link.add(viewName);
+        link.setTabIndex(-1);
+
+        return new Tab(link);
+    }
 
     private Footer createFooter() {
         return new Footer();
