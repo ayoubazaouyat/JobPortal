@@ -71,7 +71,7 @@ public class JobSearchView extends VerticalLayout {
         var typeSelector = new MultiSelectComboBox<String>("Type");
         hourlyWageField = new TextField("Hourly Wage"); // Neues Textfeld
         var searchButton = new Button("Search");
-        searchButton.addClickListener(event -> searchJobs( Double.parseDouble(hourlyWageField.getValue()))); // Hier wird der Stundenlohnwert übergeben
+        searchButton.addClickListener(event -> searchJobs( Double.parseDouble(hourlyWageField.getValue()) ,jobTitleField.getValue())); // Hier wird der Stundenlohnwert übergeben
 
         locationField.setItems(cities);
         locationField.setClearButtonVisible(true);
@@ -133,12 +133,19 @@ public class JobSearchView extends VerticalLayout {
     }
 
 
-    private void searchJobs(double minHourlyWage){
+    private void searchJobs(double minHourlyWage, String jobTitleField){
         double searchedHourlyWage = Double.parseDouble(hourlyWageField.getValue());
         results.removeAll();
         //Filter die Jobs nach dem Stundenlohn
         for (JobResultWidget jobWidget : jobs) {
-            if (jobWidget.getJob().getHourlywage() > searchedHourlyWage) {
+            JobAdvertisement job = jobWidget.getJob();
+            // Check if job title field is empty or matches the job title
+            boolean titleMatch = jobTitleField.isEmpty() || job.getTitle().toLowerCase().contains(jobTitleField.toLowerCase());
+
+            // Check if hourly wage is greater than the searched hourly wage
+            boolean wageMatch = job.getHourlywage() > searchedHourlyWage;
+
+            if (titleMatch && wageMatch)  {
                 results.add(jobWidget);
             }
         }
