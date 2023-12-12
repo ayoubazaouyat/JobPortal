@@ -32,14 +32,22 @@ public class JobResultWidget extends HorizontalLayout {
     private void buildWidget() {
         Image logo = new Image("images/profile_placeholder.png", job.getCompany().getCompanyName() + " Logo");
         VerticalLayout jobInformation = buildInfo();
+        Button applyButton = new Button();
         Button openJobButton = new Button();
 
         logo.getStyle().set("margin", "0.5rem");
         logo.getStyle().set("height", "90%");
         logo.getStyle().set("border-radius", "var(--lumo-border-radius-m)");
+        applyButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
+        applyButton.setText("Apply now");
+        applyButton.getStyle()
+                        .set("margin", "0.5rem")
+                        .set("width", "15rem");
         openJobButton.setIcon(new Icon(VaadinIcon.INFO_CIRCLE));
         openJobButton.setText("Learn more");
-        openJobButton.getStyle().set("margin", "0.5rem");
+        openJobButton.getStyle()
+                .set("margin", "0.5rem")
+                .set("width", "15rem");
 
         setHeight(8f, Unit.REM);
         getStyle().set("border-radius", "var(--lumo-border-radius-m)");
@@ -49,6 +57,7 @@ public class JobResultWidget extends HorizontalLayout {
         add(
                 logo,
                 jobInformation,
+                applyButton,
                 openJobButton
         );
     }
