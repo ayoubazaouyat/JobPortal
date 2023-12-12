@@ -1,5 +1,6 @@
 package teapot.collat_hbrs.views.components;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H3;
@@ -10,9 +11,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.views.JobSearchView;
 
 public class JobResultWidget extends HorizontalLayout {
 
+    private final JobSearchView view;
     private final JobAdvertisement job;
 
     /**
@@ -20,7 +23,8 @@ public class JobResultWidget extends HorizontalLayout {
      *
      * @param job Job Advertisement
      */
-    public JobResultWidget(JobAdvertisement job) {
+    public JobResultWidget(JobSearchView view, JobAdvertisement job) {
+        this.view = view;
         this.job = job;
         buildWidget();
         setWidthFull();
@@ -53,6 +57,9 @@ public class JobResultWidget extends HorizontalLayout {
         getStyle().set("border-radius", "var(--lumo-border-radius-m)");
         getStyle().set("background", "var(--lumo-contrast-10pct)");
         setAlignItems(Alignment.CENTER);
+
+        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply"));
+        openJobButton.addClickListener(buttonClickEvent -> view.showJobInformation(job));
 
         add(
                 logo,
