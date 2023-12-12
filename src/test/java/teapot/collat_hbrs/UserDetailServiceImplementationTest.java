@@ -25,7 +25,7 @@ public class UserDetailServiceImplementationTest {
     }
 
     @Test
-    public void loadUserByUsername() {
+    public void loadUserByUsernameExceptionThrown() {
         when(accountRepository.findByUsername(anyString())).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> userDetailService.loadUserByUsername("username"));
     }
