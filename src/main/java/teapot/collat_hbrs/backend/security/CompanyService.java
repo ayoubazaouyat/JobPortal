@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.CompanyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,13 +33,15 @@ public class CompanyService {
 
     public List<Company> getFilteredCompanies(String name, Set<String> location, Set<String> catogory) {
         List<Company> companies = getAllCompanies();
+        List<Company> filteredCompanies = new ArrayList<>();
 
         //remove entries that do not fit the search criteria if it is bot empty
         //TODO make filter match on similarity not equality
         if (!name.equals("")) {
             for (Company company : companies) {
                 if (company.getCompanyName().contains(name))
-                    companies.remove(company);
+                    //companies.remove(company);
+                    filteredCompanies.add(company);
             }
         }
 
@@ -54,7 +57,7 @@ public class CompanyService {
             }
         }
 
-        return companies;
+        return filteredCompanies;
     }
 
 
