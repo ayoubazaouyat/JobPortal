@@ -70,5 +70,6 @@ public class CompanyServiceTest {
         List<Company> filtered = companyService.getFilteredCompanies("COMP1", new HashSet<>(), new HashSet<>());
         assertEquals(1, filtered.size());
         assertEquals("COMP1", filtered.get(0).getCompanyName());
+        // TODO Add tests for location and category as soon as according filtering is implemented in  backend function
     }
 }
