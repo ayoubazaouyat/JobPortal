@@ -8,19 +8,22 @@ import com.vaadin.flow.component.combobox.MultiSelectComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import javax.annotation.security.PermitAll;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobResultWidget;
 
+import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,9 +33,10 @@ import java.util.Random;
 @PermitAll
 public class JobSearchView extends VerticalLayout {
     private TextField hourlyWageField;
-    private VerticalLayout results =new VerticalLayout();;
+    private VerticalLayout results = new VerticalLayout();
+    private HorizontalLayout resultsContainer;
     private List<JobResultWidget> jobs = new ArrayList<>();
-
+    private VerticalLayout jobInfo;
 
 
     // TODO Get locations from database
@@ -45,18 +49,16 @@ public class JobSearchView extends VerticalLayout {
         H1 heading = new H1("Job Search");
         FormLayout search = initSearch();
         Hr separator = new Hr();
-        Scroller results = resultsContainer();
-
-
+        resultsContainer();
+        //Scroller results = resultsContainer();
 
         add(
                 heading,
                 search,
                 separator,
-                results
+                resultsContainer
+                //results
         );
-
-        setHeightFull();
     }
 
     /**
@@ -71,7 +73,7 @@ public class JobSearchView extends VerticalLayout {
         var typeSelector = new MultiSelectComboBox<String>("Type");
         hourlyWageField = new TextField("Hourly Wage"); // Neues Textfeld
         var searchButton = new Button("Search");
-        searchButton.addClickListener(event -> searchJobs( Double.parseDouble(hourlyWageField.getValue()) ,jobTitleField.getValue())); // Hier wird der Stundenlohnwert übergeben
+        searchButton.addClickListener(event -> searchJobs(Double.parseDouble(hourlyWageField.getValue()), jobTitleField.getValue())); // Hier wird der Stundenlohnwert übergeben
 
         locationField.setItems(cities);
         locationField.setClearButtonVisible(true);
@@ -104,27 +106,29 @@ public class JobSearchView extends VerticalLayout {
         return searchLayout;
     }
 
+    private void resultsContainer() {
+        resultsContainer = new HorizontalLayout(generateResults());
+        resultsContainer.setWidthFull();
+    }
 
-
-    private Scroller resultsContainer() {
+    private Scroller generateResults() {
         Random random = new Random();
         for (int x = 0; x < 10; x++) {
-        // Demo job advertisements
-        JobAdvertisement ad = new JobAdvertisement();
-        ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-        ad.setLocation("Cologne");
-        ad.setTitle("Test Job");
+            // Demo job advertisements
+            JobAdvertisement ad = new JobAdvertisement();
+            ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
+            ad.setLocation("Cologne");
+            ad.setTitle("Test Job");
 
-            ad.setHourlywage(Math.round(random.nextDouble(30)*10.0)/10.0);
-            JobResultWidget jobWidget = new JobResultWidget(ad);
-            jobs.add( jobWidget);
+            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
+            JobResultWidget jobWidget = new JobResultWidget(this, ad);
+            jobs.add(jobWidget);
             results.add(jobWidget);
         }
         // ------------------------
 
         Scroller scroller = new Scroller(results);
         scroller.setWidthFull();
-        scroller.setHeightFull();
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
 
         results.add(); // TODO Add job ads from database (in the future: including filtering)
@@ -132,8 +136,34 @@ public class JobSearchView extends VerticalLayout {
         return scroller;
     }
 
+    public void showJobInformation(JobAdvertisement job) {
+        closeJobInformation();
 
-    private void searchJobs(double minHourlyWage, String jobTitleField){
+        HorizontalLayout topBar = new HorizontalLayout();
+        Button closeButton = new Button("Close");
+        closeButton.setIcon(new Icon(VaadinIcon.CLOSE));
+        closeButton.addClickListener(buttonClickEvent -> closeJobInformation());
+        topBar.add(closeButton, new H3("Information"));
+        topBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
+        topBar.setAlignItems(Alignment.BASELINE);
+        jobInfo = new VerticalLayout(topBar, new JobInformationWidget(job));
+        jobInfo.getStyle()
+                .set("background", "var(--lumo-contrast-10pct)")
+                .set("border-radius", "var(--lumo-border-radius-m)");
+
+        resultsContainer.add(jobInfo);
+    }
+
+    private void closeJobInformation() {
+        try {
+            resultsContainer.remove(jobInfo);
+        } catch (NullPointerException e) {
+            // Yes
+        }
+    }
+
+
+    private void searchJobs(double minHourlyWage, String jobTitleField) {
         double searchedHourlyWage = Double.parseDouble(hourlyWageField.getValue());
         results.removeAll();
         //Filter die Jobs nach dem Stundenlohn
@@ -145,7 +175,7 @@ public class JobSearchView extends VerticalLayout {
             // Check if hourly wage is greater than the searched hourly wage
             boolean wageMatch = job.getHourlywage() > searchedHourlyWage;
 
-            if (titleMatch && wageMatch)  {
+            if (titleMatch && wageMatch) {
                 results.add(jobWidget);
             }
         }
