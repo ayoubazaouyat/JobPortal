@@ -26,7 +26,7 @@ class JobAdvertisementServiceTest {
 
 
     @Test
-    void addJobAdvertisement_ValidJob() {
+    void addJobAdvertisementValidJob() {
         // Mock data
         JobAdvertisement job = new JobAdvertisement();
         job.setTitle("Test");
@@ -41,7 +41,7 @@ class JobAdvertisementServiceTest {
     }
 
     @Test
-    void addJobAdvertisement_InvalidJobTitle() {
+    void addJobAdvertisementInvalidJobTitle() {
         // Mock data
         JobAdvertisement job = new JobAdvertisement();
 
