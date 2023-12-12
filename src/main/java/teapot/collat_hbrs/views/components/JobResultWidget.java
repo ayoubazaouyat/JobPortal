@@ -81,4 +81,7 @@ public class JobResultWidget extends HorizontalLayout {
         return container;
     }
 
+    public JobAdvertisement getJob() {
+        return job;
+    }
 }
