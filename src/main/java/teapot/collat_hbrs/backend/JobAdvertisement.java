@@ -164,4 +164,5 @@ public class JobAdvertisement extends Account {
     public void setOfferAge(java.time.LocalDate offerAge) {
         this.offerAge = offerAge;
     }
+
 }
