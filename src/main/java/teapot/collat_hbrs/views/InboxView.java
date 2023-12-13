@@ -1,23 +1,32 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import teapot.collat_hbrs.backend.security.SecurityService;
-import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.dialog.Dialog;
+
+
+
 import javax.annotation.security.PermitAll;
-import javax.mail.Message;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @PermitAll
 @Route(value = "inbox", layout = MainLayout.class)
+@PageTitle("Inbox")
 public class InboxView extends VerticalLayout {
 
     private final SecurityService securityService;
+    private Grid<Message> messageGrid;
 
     public InboxView(SecurityService securityService) {
         this.securityService = securityService;
@@ -25,14 +34,12 @@ public class InboxView extends VerticalLayout {
     }
 
     private void setupUI() {
-        Grid<Message> messageGrid = new Grid<>(Message.class);
+        messageGrid = new Grid<>(Message.class);
         messageGrid.setColumns("sender", "subject", "timestamp");
 
-        // Populate the grid with sample data (replace with your actual data)
-        messageGrid.setItems(
-                new Message("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-12-01 10:00"),
-                new Message("Jane Smith", "Regarding Your Job Posting", "I have a question about the job posting...", "2023-12-02 09:30")
-        );
+        List<Message> messages = new ArrayList<>();
+        messages.add(new Message("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-12-01 10:00"));
+        messages.add(new Message("Jane Smith", "Regarding Your Job Posting", "I have a question about the job posting...", "2023-12-02 09:30"));
 
         messageGrid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
@@ -40,10 +47,44 @@ public class InboxView extends VerticalLayout {
             }
         });
 
-        add(messageGrid);
+        messageGrid.setItems(messages);
+
+        Button deleteButton = new Button("Delete", e -> {
+            Message selectedMessage = messageGrid.asSingleSelect().getValue();
+            if (selectedMessage != null) {
+                showDeleteConfirmation(selectedMessage);
+            }
+        });
+
+        add(messageGrid, deleteButton);
     }
 
-    // Inside the showMessageDialog method
+    private void deleteMessages(List<Message> messagesToDelete) {
+        ListDataProvider<Message> dataProvider = (ListDataProvider<Message>) messageGrid.getDataProvider();
+        List<Message> currentItems = new ArrayList<>(dataProvider.getItems());
+
+        currentItems.removeAll(messagesToDelete);
+
+        dataProvider.getItems().clear();
+        dataProvider.getItems().addAll(currentItems);
+
+        dataProvider.refreshAll();
+    }
+
+    private void showDeleteConfirmation(Message message) {
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.setHeader("Are you sure you want to delete the message?");
+        confirmDialog.setText("This action cannot be undone");
+
+        confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
+            deleteMessages(List.of(message));
+            confirmDialog.close();
+        });
+
+        confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
+
+        confirmDialog.open();
+    }
 
     private void showMessageDialog(Message message) {
         Dialog dialog = new Dialog();
@@ -57,27 +98,26 @@ public class InboxView extends VerticalLayout {
         Div contentDiv = new Div();
         contentDiv.setText("Message: " + message.getContent());
 
-        // Create a text area for composing replies
         TextArea replyTextArea = new TextArea("Compose Reply");
 
         dialog.add(new Div(senderDiv, timestampDiv, contentDiv, replyTextArea));
 
         Button replyButton = new Button("Reply", e -> {
             String replyContent = replyTextArea.getValue();
-            // Send the reply (You can implement this functionality)
             sendReply(message.getSender(), message.getSubject(), replyContent);
             dialog.close();
         });
 
+        Button deleteButton = new Button("Delete", e -> showDeleteConfirmation(message));
+
         Button close = new Button("Close", e -> dialog.close());
-        dialog.add(new Div(replyButton, close));
+
+        dialog.add(new Div(replyButton, deleteButton, close));
 
         dialog.open();
     }
 
-    // Method to simulate sending a reply (You can replace this with your actual sending logic)
     private void sendReply(String recipient, String subject, String content) {
-        // This is a placeholder for sending the reply
         System.out.println("Reply Sent to: " + recipient);
         System.out.println("Subject: " + subject);
         System.out.println("Content: " + content);
@@ -88,6 +128,10 @@ public class InboxView extends VerticalLayout {
         private String subject;
         private String content;
         private String timestamp;
+
+        public Message() {
+            // Default constructor required for Vaadin Grid
+        }
 
         public Message(String sender, String subject, String content, String timestamp) {
             this.sender = sender;
@@ -111,6 +155,5 @@ public class InboxView extends VerticalLayout {
         public String getTimestamp() {
             return timestamp;
         }
-
     }
 }
