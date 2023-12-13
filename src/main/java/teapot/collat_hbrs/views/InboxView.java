@@ -111,5 +111,6 @@ public class InboxView extends VerticalLayout {
         public String getTimestamp() {
             return timestamp;
         }
+
     }
 }
