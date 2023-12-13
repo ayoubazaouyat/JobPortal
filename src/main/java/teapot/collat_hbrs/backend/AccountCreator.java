@@ -6,6 +6,43 @@ public class AccountCreator {
     private String username;
     private String email;
     private String password;
+    private String street;
+    private String houseNr;
+    private String plz;
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getHouseNr() {
+        return houseNr;
+    }
+
+    public void setHouseNr(String houseNr) {
+        this.houseNr = houseNr;
+    }
+
+    public String getPlz() {
+        return plz;
+    }
+
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    private String city;
     private String address;
     private String phoneNumber;
 
@@ -21,10 +58,12 @@ public class AccountCreator {
 
 
     public Account buildCompany() {
+        address = street +" "+ houseNr +" "+ plz +" "+ city ;
         return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
     }
 
     public Account buildStudent() {
+        address = street +" "+ houseNr +" "+ plz +" "+ city ;
         return new Student(username, email, surname, forename, address, phoneNumber, studyProgram);
     }
 

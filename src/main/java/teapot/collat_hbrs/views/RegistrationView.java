@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -43,8 +44,8 @@ public class RegistrationView extends VerticalLayout {
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
     TextField Studentstreet = new TextField("Street name");
-    NumberField StudenthouseNumber = new NumberField("House number");
-    NumberField Studentplz = new NumberField("PLZ");
+    TextField StudenthouseNumber = new TextField("House number");
+    TextField Studentplz = new TextField("PLZ");
     TextField Studentcity = new TextField("City");
 
     private final UserService userService;
@@ -255,8 +256,8 @@ public class RegistrationView extends VerticalLayout {
         var firstName = new TextField("First Name");
         var lastName = new TextField("Last Name");
         Studentstreet = new TextField("Street name");
-        StudenthouseNumber = new NumberField("House number");
-        Studentplz = new NumberField("PLZ");
+        StudenthouseNumber = new TextField("House number");
+        Studentplz = new TextField("PLZ");
         Studentcity = new TextField("City");
         genForm.add(
                 title,
@@ -341,12 +342,21 @@ public class RegistrationView extends VerticalLayout {
         firstName.setRequired(true);
         lastName.setRequired(true);
         Studentstreet.setRequired(true);
-        binder.forField(StudenthouseNumber).asRequired().bind("StudenthouseNumber");
-        binder.forField(Studentplz).asRequired().bind("Studentplz");
         Studentcity.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
-
+        binder.forField(StudenthouseNumber)
+                .asRequired()
+                .bind(AccountCreator::getHouseNr,AccountCreator::setHouseNr);
+        binder.forField(Studentstreet)
+                .asRequired()
+                .bind(AccountCreator::getStreet,AccountCreator::setStreet);
+        binder.forField(Studentcity)
+                .asRequired()
+                .bind(AccountCreator::getCity,AccountCreator::setCity);
+        binder.forField(Studentplz)
+                .asRequired()
+                .bind(AccountCreator::getPlz, AccountCreator::setPlz);
         binder.forField(firstName)
                 .asRequired("Please enter your first name")
                 .bind(AccountCreator::getForename, AccountCreator::setForename);
@@ -380,11 +390,13 @@ public class RegistrationView extends VerticalLayout {
         companyName.setRequired(true);
         var street = new TextField("Street name");
         street.setRequired(true);
-        var houseNumber = new NumberField("House number");
-        binder.forField(houseNumber).asRequired().bind("houseNumber");
-        var plz = new NumberField("PLZ");
-        binder.forField(plz).asRequired().bind("plz");
+        var houseNumber = new TextField("House number");
+        binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
+        var plz = new TextField("PLZ");
+        binder.forField(plz).asRequired().bind(AccountCreator::getPlz,AccountCreator::setPlz);
+        binder.forField(street).asRequired().bind(AccountCreator::getStreet, AccountCreator::setStreet);
         var city = new TextField("City");
+        binder.forField(city).asRequired().bind(AccountCreator::getCity, AccountCreator::setCity);
         city.setRequired(true);
         addressForm.add(
                 addressTitle,
