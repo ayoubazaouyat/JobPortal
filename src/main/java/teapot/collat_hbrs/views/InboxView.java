@@ -8,7 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import teapot.collat_hbrs.backend.security.SecurityService;
-
+import com.vaadin.flow.component.textfield.TextArea;
 import javax.annotation.security.PermitAll;
 import javax.mail.Message;
 import java.awt.*;
@@ -43,26 +43,46 @@ public class InboxView extends VerticalLayout {
         add(messageGrid);
     }
 
+    // Inside the showMessageDialog method
+
     private void showMessageDialog(Message message) {
         Dialog dialog = new Dialog();
 
-        // Verwenden Sie Div-Elemente, um Texte hinzuzufügen
         Div senderDiv = new Div();
-        senderDiv.setText(message.getSender());
+        senderDiv.setText("From: " + message.getSender());
 
         Div timestampDiv = new Div();
-        timestampDiv.setText(message.getTimestamp());
+        timestampDiv.setText("Timestamp: " + message.getTimestamp());
 
         Div contentDiv = new Div();
-        contentDiv.setText(message.getContent());
+        contentDiv.setText("Message: " + message.getContent());
 
-        dialog.add(new Div(senderDiv, timestampDiv, contentDiv));
+        // Create a text area for composing replies
+        TextArea replyTextArea = new TextArea("Compose Reply");
+
+        dialog.add(new Div(senderDiv, timestampDiv, contentDiv, replyTextArea));
+
+        Button replyButton = new Button("Reply", e -> {
+            String replyContent = replyTextArea.getValue();
+            // Send the reply (You can implement this functionality)
+            sendReply(message.getSender(), message.getSubject(), replyContent);
+            dialog.close();
+        });
 
         Button close = new Button("Close", e -> dialog.close());
-        dialog.add(close);
+        dialog.add(new Div(replyButton, close));
 
         dialog.open();
     }
+
+    // Method to simulate sending a reply (You can replace this with your actual sending logic)
+    private void sendReply(String recipient, String subject, String content) {
+        // This is a placeholder for sending the reply
+        System.out.println("Reply Sent to: " + recipient);
+        System.out.println("Subject: " + subject);
+        System.out.println("Content: " + content);
+    }
+
     public static class Message {
         private String sender;
         private String subject;
