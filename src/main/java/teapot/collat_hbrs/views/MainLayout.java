@@ -40,6 +40,9 @@ public class MainLayout extends AppLayout {
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
             String username = securityService.getAuthenticatedUser().getUsername();
+            // Create a tab for the Inbox
+            Tab inboxTab = createTab("Inbox", InboxView.class);
+            tabs.add(inboxTab);
             Button logout = new Button("Log out " + username, e -> securityService.logout());
             logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LandingView.class));
             VerticalLayout verticalLayout = new VerticalLayout(logout);
@@ -79,5 +82,6 @@ public class MainLayout extends AppLayout {
     private Footer createFooter() {
         return new Footer();
     }
+
 
 }
