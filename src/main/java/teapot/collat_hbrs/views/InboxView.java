@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -27,10 +28,13 @@ public class InboxView extends VerticalLayout {
 
     private final SecurityService securityService;
     private Grid<Message> messageGrid;
+    private Button deleteButton;
+    private Label messageCountLabel;
 
     public InboxView(SecurityService securityService) {
         this.securityService = securityService;
         setupUI();
+        updateMessageCountLabel();
     }
 
     private void setupUI() {
@@ -49,7 +53,11 @@ public class InboxView extends VerticalLayout {
 
         messageGrid.setItems(messages);
 
-        Button deleteButton = new Button("Delete", e -> {
+        // Add a label to display the message count
+        messageCountLabel = new Label();
+        add(messageCountLabel);
+
+        deleteButton = new Button("Delete", e -> {
             Message selectedMessage = messageGrid.asSingleSelect().getValue();
             if (selectedMessage != null) {
                 showDeleteConfirmation(selectedMessage);
@@ -57,6 +65,14 @@ public class InboxView extends VerticalLayout {
         });
 
         add(messageGrid, deleteButton);
+    }
+    private void updateMessageCountLabel() {
+        int messageCount = getMessageCount();
+        messageCountLabel.setText("Messages: " + messageCount);
+    }
+    private int getMessageCount() {
+        ListDataProvider<Message> dataProvider = (ListDataProvider<Message>) messageGrid.getDataProvider();
+        return dataProvider.getItems().size();
     }
 
     private void deleteMessages(List<Message> messagesToDelete) {
@@ -69,6 +85,8 @@ public class InboxView extends VerticalLayout {
         dataProvider.getItems().addAll(currentItems);
 
         dataProvider.refreshAll();
+        updateMessageCountLabel(); // Update the message count after deletion
+
     }
 
     private void showDeleteConfirmation(Message message) {
