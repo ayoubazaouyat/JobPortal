@@ -18,6 +18,10 @@ public class AddDevUser implements InitializingBean {
         this.userService = userService;
     }
 
+    public void removeDevUser() {
+        userService.deleteAccount("admin");
+    }
+
     @Override
     public void afterPropertiesSet() {
         Student testuser = new Student("admin", "", "admin", "admin", "", "", "");
