@@ -1,5 +1,6 @@
 package teapot.collat_hbrs;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -47,7 +48,7 @@ class AccountCreatorTest {
         companyAccount = (Company) companyCreator.buildCompany();
     }
 
-    @BeforeEach
+    @AfterEach
     public void teardown() {
         studentAccount = null;
         companyAccount = null;
