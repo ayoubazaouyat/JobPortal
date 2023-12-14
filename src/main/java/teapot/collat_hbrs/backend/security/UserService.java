@@ -37,6 +37,18 @@ public class UserService {
         accountRepository.save(account);
     }
 
+    public void deleteAccount(String username) {
+        Optional<Account> account = accountRepository.findByUsername(username);
+        if(username.isEmpty()) {
+            throw new IllegalArgumentException("Empty username not allowed");
+        }
+        if(account.isPresent()) {
+            accountRepository.delete(account.get());
+        } else {
+            throw new UsernameNotFoundException("Username '" + username + "' not found.");
+        }
+    }
+
     public void changePassword(String username, String newPassword){
         Optional<Account> account = accountRepository.findByUsername(username);
         if(account.isPresent()){
