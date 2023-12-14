@@ -19,6 +19,7 @@ public class AddDevUserTest {
         // Arrange
         UserService userServiceMock = mock(UserService.class);
         AddDevUser addDevUser = new AddDevUser(userServiceMock);
+        addDevUser.removeDevUser();
 
         // Act
         addDevUser.afterPropertiesSet();
