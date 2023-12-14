@@ -58,12 +58,14 @@ public class AccountCreator {
 
 
     public Account buildCompany() {
-        address = street +" "+ houseNr +" "+ plz +" "+ city ;
+        if(address.isEmpty())
+            address = street +" "+ houseNr +" "+ plz +" "+ city ;
         return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
     }
 
     public Account buildStudent() {
-        address = street +" "+ houseNr +" "+ plz +" "+ city ;
+        if(address.isEmpty())
+            address = street +" "+ houseNr +" "+ plz +" "+ city ;
         return new Student(username, email, surname, forename, address, phoneNumber, studyProgram);
     }
 
