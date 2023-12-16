@@ -3,14 +3,13 @@ package teapot.collat_hbrs;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import teapot.collat_hbrs.backend.security.AddDevUser;
 import teapot.collat_hbrs.backend.security.UserService;
 
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@SpringJUnitConfig
+//@SpringJUnitConfig
 @ActiveProfiles("dev")
 public class AddDevUserTest {
 
