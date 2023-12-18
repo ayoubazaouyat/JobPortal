@@ -38,12 +38,13 @@ public class UserService {
     }
 
     public void deleteAccount(String username) {
-        Optional<Account> account = accountRepository.findByUsername(username);
         if(username.isEmpty()) {
             throw new IllegalArgumentException("Empty username not allowed");
         }
+        Optional<Account> account = accountRepository.findByUsername(username);
         if(account.isPresent()) {
             accountRepository.delete(account.get());
+            //account.get().setEnabled(false); // Disable instead of delete
         } else {
             throw new UsernameNotFoundException("Username '" + username + "' not found.");
         }
