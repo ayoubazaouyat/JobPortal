@@ -22,6 +22,7 @@ class UserServiceTest {
     Student s2;
     Student s3;
     Student s4;
+    Student s5;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -36,6 +37,7 @@ class UserServiceTest {
         s2 = new Student("EmptyPass", "", "Test", "Test", "", "", "");
         s3 = new Student("Duplicate", "", "Test", "Test", "", "", "");
         s4 = new Student("Change", "", "Test", "Test", "", "", "");
+        s5 = new Student("Deleted", "", "Test", "Test", "", "", "");
         MockitoAnnotations.initMocks(this);
     }
 
@@ -45,6 +47,7 @@ class UserServiceTest {
         s2 = null;
         s3 = null;
         s4 = null;
+        s5 = null;
     }
 
     @Test
@@ -75,6 +78,24 @@ class UserServiceTest {
         // Test thrown exception
         when(accountRepository.findByUsername("nonExistentName")).thenReturn(Optional.empty());
         assertThrows(UsernameNotFoundException.class, () -> userService.changePassword("nonExistentName", "newpassword"));
+    }
 
+    @Test
+    void deleteUserWhenUsernameIsEmpty() {
+        Exception e = assertThrows(IllegalArgumentException.class, () -> userService.deleteAccount(""));
+        assertEquals("Empty username not allowed", e.getMessage());
+    }
+
+    @Test
+    void deleteNonExistentUser() {
+        when(accountRepository.findByUsername("nonExistentName")).thenReturn(Optional.empty());
+        assertThrows(UsernameNotFoundException.class, () -> userService.deleteAccount("nonExistentName"));
+    }
+
+    @Test
+    void deleteUserCorrectly() {
+        when(accountRepository.findByUsername(s5.getUsername())).thenReturn(Optional.of(s5));
+        userService.deleteAccount(s5.getUsername());
+        verify(accountRepository).delete(s5);
     }
 }
