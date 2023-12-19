@@ -66,7 +66,9 @@ public class MainLayout extends AppLayout {
                 createTab("Job Search", JobSearchView.class),
                 createTab("Company Search", CompanySearchView.class),
                 createTab("About Us", AboutUsView.class),
-                createTab("Contact", ContactView.class)
+                createTab("Contact", ContactView.class),
+                createTab("Student Dashboard", DashboardStudentView.class),
+                createTab("Company Dashboard", DashboardCompanyView.class)
         );
         return tabs;
     }
