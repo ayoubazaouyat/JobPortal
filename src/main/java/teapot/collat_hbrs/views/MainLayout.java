@@ -12,7 +12,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import teapot.collat_hbrs.backend.security.SecurityService;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -58,6 +63,10 @@ public class MainLayout extends AppLayout {
     }
 
     private Tabs getTabs() {
+        Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
+        if (securityService.isAuthenticated()) {
+            authorities = securityService.getAuthenticatedUser().getAuthorities();
+        }
         Tabs tabs = new Tabs();
         tabs.getStyle().set("margin", "auto");
         tabs.add(
@@ -66,10 +75,17 @@ public class MainLayout extends AppLayout {
                 createTab("Job Search", JobSearchView.class),
                 createTab("Company Search", CompanySearchView.class),
                 createTab("About Us", AboutUsView.class),
-                createTab("Contact", ContactView.class),
-                createTab("Student Dashboard", DashboardStudentView.class),
-                createTab("Company Dashboard", DashboardCompanyView.class)
+                createTab("Contact", ContactView.class)
+
+
         );
+        if( authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))){
+            tabs.add(createTab("Company Dashboard", DashboardCompanyView.class));
+        }
+        if( authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))){
+            tabs.add(createTab("Student Dashboard", DashboardStudentView.class));
+        }
+
         return tabs;
     }
 

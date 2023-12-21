@@ -1,6 +1,10 @@
 package teapot.collat_hbrs.backend;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @DiscriminatorColumn(name = "ACCOUNT_TYPE")
@@ -14,6 +18,11 @@ public abstract class Account {
     private String passwordHash;
     private String email;
     private boolean enabled;
+    private String authorities;
+
+    //default constructor required for tests
+    protected Account() {
+    }
 
     public Long getId() {
         return id;
@@ -51,4 +60,12 @@ public abstract class Account {
     public boolean isEnabled() {  return enabled;}
 
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+    public String getAuthorities() {
+        return authorities;
+    }
+
+    protected void setAuthorities(String authorities){
+        this.authorities = authorities;
+    }
 }

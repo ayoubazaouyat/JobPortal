@@ -29,6 +29,7 @@ public class Student extends Account {
         this.phoneNumber = phoneNumber;
         this.studyProgram = studyProgram;
         this.skills = new ArrayList<>();
+        setAuthorities("STUDENT");
     }
 
     public String getSurname() {

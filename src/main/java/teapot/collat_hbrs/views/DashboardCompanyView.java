@@ -26,6 +26,7 @@ import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobListingWidget;
 
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,7 +34,7 @@ import java.util.Random;
 @PageTitle("Dashboard (Student)")
 @Route(value = "dash_com", layout = MainLayout.class)
 @Uses(Icon.class)
-@PermitAll
+@RolesAllowed("COMPANY")
 public class DashboardCompanyView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
     private final Random random = new Random();

@@ -18,7 +18,8 @@ public class Company extends Account{
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobAdvertisement> jobAdvertisements;
 
-    protected Company() {}
+    //default constructor required for tests
+    private Company() {}
 
     public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
         setUsername(username);
@@ -29,6 +30,8 @@ public class Company extends Account{
         this.companyDescription = companyDescription;
         this.phoneNumber = phoneNumber;
         this.jobAdvertisements = new ArrayList<>();
+        setAuthorities("COMPANY");
+
     }
 
     public String getCompanyName() {

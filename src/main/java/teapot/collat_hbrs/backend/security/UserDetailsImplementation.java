@@ -1,10 +1,13 @@
 package teapot.collat_hbrs.backend.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import teapot.collat_hbrs.backend.Account;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UserDetailsImplementation implements UserDetails {
 
@@ -15,7 +18,12 @@ public class UserDetailsImplementation implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorityList= new ArrayList<>();
+        for (String role: account.getAuthorities().split(";")) {
+            authorityList.add(new SimpleGrantedAuthority("ROLE_" + role));
+        }
+
+        return authorityList;
     }
 
     @Override
