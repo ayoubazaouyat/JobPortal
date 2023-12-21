@@ -18,8 +18,9 @@ public class Company extends Account{
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobAdvertisement> jobAdvertisements;
 
-    //default constructor required for tests
-    private Company() {}
+    protected Company() {
+        //default constructor required for jpa and tests
+    }
 
     public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
         setUsername(username);

@@ -17,6 +17,7 @@ public class Student extends Account {
     @ElementCollection
     private List<String> skills;
     protected Student() {
+        //default constructor required for tests
     }
 
     public Student(String username, String email, String surname, String forename, String address, String phoneNumber,
