@@ -43,10 +43,12 @@ public class RegistrationView extends VerticalLayout {
     private String studentAdresse;
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
-    TextField Studentstreet = new TextField("Street name");
-    TextField StudenthouseNumber = new TextField("House number");
-    TextField Studentplz = new TextField("PLZ");
-    TextField Studentcity = new TextField("City");
+    private TextField usernameField;
+    private TextField emailField ;
+    private TextField Studentstreet = new TextField("Street name");
+    private TextField StudenthouseNumber = new TextField("House number");
+    private TextField Studentplz = new TextField("PLZ");
+    private TextField Studentcity = new TextField("City");
 
     private final UserService userService;
     private static final double NUMEROFSTEPS = 4;
@@ -54,7 +56,14 @@ public class RegistrationView extends VerticalLayout {
     private final AccountCreator accountCreator = new AccountCreator();
     Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
 
-
+    private TextField companyName;
+    private TextField street;
+    private TextField houseNumber;
+    private TextField plz;
+    private TextField city;
+    private TextField industry;
+    private TextArea description;
+    private TextField phone;
     int accType;
     int step;
     ProgressBar progressBar;
@@ -199,8 +208,8 @@ public class RegistrationView extends VerticalLayout {
      */
     private FormLayout buildBasicForm() {
         var basicForm = new FormLayout();
-        var usernameField = new TextField("Username");
-        var emailField = new TextField("E-Mail");
+        usernameField = new TextField("Username");
+        emailField = new TextField("E-Mail");
         passwordField = new PasswordField("Password");
         confirmPasswordField = new PasswordField("Confirm Password");
 
@@ -386,16 +395,16 @@ public class RegistrationView extends VerticalLayout {
 
         var addressTitle = new H4("Address");
         var addressForm = new FormLayout();
-        var companyName = new TextField("Company name");
+        companyName = new TextField("Company name");
         companyName.setRequired(true);
-        var street = new TextField("Street name");
+        street = new TextField("Street name");
         street.setRequired(true);
-        var houseNumber = new TextField("House number");
+        houseNumber = new TextField("House number");
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
-        var plz = new TextField("PLZ");
+        plz = new TextField("PLZ");
         binder.forField(plz).asRequired().bind(AccountCreator::getPlz,AccountCreator::setPlz);
         binder.forField(street).asRequired().bind(AccountCreator::getStreet, AccountCreator::setStreet);
-        var city = new TextField("City");
+        city = new TextField("City");
         binder.forField(city).asRequired().bind(AccountCreator::getCity, AccountCreator::setCity);
         city.setRequired(true);
         addressForm.add(
@@ -418,9 +427,9 @@ public class RegistrationView extends VerticalLayout {
 
         var informationTitle = new H4("Information");
         var informationForm = new FormLayout();
-        var industry = new TextField("Industry");
+        industry = new TextField("Industry");
         industry.setRequired(true);
-        var description = new TextArea("Company description");
+        description = new TextArea("Company description");
         description.setPlaceholder("Beispiel: Unternehmen XY ist ein führender Anbieter von innovativen Lösungen für die digitale Transformation. Wir unterstützen unsere Kunden dabei, ihre Geschäftsprozesse zu optimieren, ihre Kundenbeziehungen zu stärken und ihre Wettbewerbsfähigkeit zu erhöhen. Unsere Dienstleistungen umfassen Beratung, Entwicklung, Implementierung und Betrieb von maßgeschneiderten Softwarelösungen, Cloud-Services, künstlicher Intelligenz und Internet der Dinge. Wir verfügen über langjährige Erfahrung und Expertise in verschiedenen Branchen, wie Finanzen, Gesundheit, Industrie und Handel. Unser Ziel ist es, unseren Kunden einen Mehrwert zu bieten und sie bei der Gestaltung ihrer digitalen Zukunft zu begleiten.");
         description.setRequired(true);
         informationForm.add(
@@ -431,7 +440,7 @@ public class RegistrationView extends VerticalLayout {
 
         var contactTitle = new H4("Contact");
         var contactForm = new FormLayout();
-        var phone = new TextField("Phone number");
+        phone = new TextField("Phone number");
         phone.setRequired(true);
         var fax = new TextField("Fax");
         contactForm.add(
@@ -529,24 +538,13 @@ public class RegistrationView extends VerticalLayout {
         nextButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         backButton.addClickListener(buttonClickEvent -> {
-            // TODO commented out, because User is not able to go back without finishing the form
-            /*
-            if(binder.isValid()){
-                binder.writeBeanIfValid(accountCreator);
-                step--;
-                buildUI();
-            }
-            else {
-                Notification.show("Please fill in the required fields");
-            }
-            */
             step--;
             buildUI();
         });
         backButton.addClickShortcut(Key.ESCAPE);
         nextButton.addClickListener(buttonClickEvent -> {
             //Test if fields are correct
-            if (binder.validate().isOk() & (step != 3 || accType != 0 || validateAdresse())) {
+            if (validateInput()) {
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
@@ -566,40 +564,158 @@ public class RegistrationView extends VerticalLayout {
         this.add(navigation);
     }
 
-    private boolean validateAdresse() {
+    private boolean validateInput() {
+        switch (step) {
+            case 1:
+                if (accType == 0 || accType == 1) {
+                    return true;
+                } else {
+                    Notification.show("Please choose an account type", 3000, Notification.Position.TOP_CENTER);
+                    return false;
+                }
+            case 2:
+                boolean isUsernameValid = binder.forField(usernameField)
+                        .asRequired("Username is required.")
+                        .bind(AccountCreator::getUsername, AccountCreator::setUsername)
+                        .validate().isError();
+                boolean isEmailValid = binder.forField(emailField)
+                        .asRequired("Email is required.")
+                        .withValidator(new EmailValidator("Not a valid Email"))
+                        .bind(AccountCreator::getEmail, AccountCreator::setEmail)
+                        .validate().isError();
+                boolean isPasswordValid = binder.forField(passwordField)
+                        .asRequired("Password is required")
+                        .withValidator(new PasswordValidator())
+                        .withValidator(password -> confirmPasswordField.getValue().equals(password), "Passwords must match.")
+                        .bind(AccountCreator::getPassword, AccountCreator::setPassword)
+                        .validate().isError();
+                boolean isConfirmPasswordValid = binder.forField(confirmPasswordField)
+                        .asRequired("Password is required")
+                        .withValidator(new PasswordValidator())
+                        .withValidator(password -> passwordField.getValue().equals(password), "Passwords must match.")
+                        .bind(AccountCreator::getPassword, AccountCreator::setPassword)
+                        .validate().isError();
+
+                if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
+                    Notification.show("Please fill in the required fields correctly", 3000, Notification.Position.TOP_CENTER);
+                    return false;
+                }
+                return true;
+
+            case 3:
+                if (accType == 0) {
+                    return validateStudentForm();
+                } else {
+                    return validateCompanyForm();
+                }
+            case 4:
+                // No validation required for the final step
+                return true;
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    private boolean validateStudentForm() {
         if (Studentstreet.isEmpty()
                 || StudenthouseNumber.isEmpty()
                 || Studentplz.isEmpty()
                 || Studentcity.isEmpty()) {
-            /*
-             * ADD a Number checker HERE
-             */
+            // Validation for required fields
             if (Studentstreet.isEmpty()) {
                 Studentstreet.setInvalid(true);
-                Studentstreet.setErrorMessage("this field is required");
+                Studentstreet.setErrorMessage("This field is required");
             }
             if (StudenthouseNumber.isEmpty()) {
                 StudenthouseNumber.setInvalid(true);
-                StudenthouseNumber.setErrorMessage("this field is required");
+                StudenthouseNumber.setErrorMessage("This field is required");
             }
             if (Studentplz.isEmpty()) {
                 Studentplz.setInvalid(true);
-                Studentplz.setErrorMessage("this field is required");
+                Studentplz.setErrorMessage("This field is required");
             }
             if (Studentcity.isEmpty()) {
                 Studentcity.setInvalid(true);
-                Studentcity.setErrorMessage("this field is required");
+                Studentcity.setErrorMessage("This field is required");
             }
             return false;
         }
+
+        // Clear validation errors if fields are filled
         Studentstreet.setInvalid(false);
         StudenthouseNumber.setInvalid(false);
         Studentplz.setInvalid(false);
         Studentcity.setInvalid(false);
 
+        // Additional validation logic can be added here
+
         return true;
     }
 
+    private boolean validateCompanyForm() {
+        String companyNameValue = companyName.getValue();
+        String streetValue = street.getValue();
+        String houseNumberValue = houseNumber.getValue();
+        String plzValue = plz.getValue();
+        String cityValue = city.getValue();
+        String industryValue = industry.getValue();
+        String descriptionValue = description.getValue();
+        String phoneValue = phone.getValue();
+
+        // Check if any required fields are empty
+        if (companyNameValue.isEmpty() || streetValue.isEmpty() || houseNumberValue.isEmpty()
+                || plzValue.isEmpty() || cityValue.isEmpty() || industryValue.isEmpty()
+                || descriptionValue.isEmpty() || phoneValue.isEmpty()) {
+            Notification.show("Please fill in all required fields", 3000, Notification.Position.TOP_CENTER);
+            if (companyNameValue.isEmpty()) {
+                companyName.setInvalid(true);
+                companyName.setErrorMessage("Company name is required");
+            }
+            if (streetValue.isEmpty()) {
+                street.setInvalid(true);
+                street.setErrorMessage("Street name is required");
+            }
+            if (houseNumberValue.isEmpty()) {
+                houseNumber.setInvalid(true);
+                houseNumber.setErrorMessage("House number is required");
+            }
+            if (plzValue.isEmpty()) {
+                plz.setInvalid(true);
+                plz.setErrorMessage("PLZ is required");
+            }
+            if (cityValue.isEmpty()) {
+                city.setInvalid(true);
+                city.setErrorMessage("City is required");
+            }
+            if (industryValue.isEmpty()) {
+                industry.setInvalid(true);
+                industry.setErrorMessage("Industry is required");
+            }
+            if (descriptionValue.isEmpty()) {
+                description.setInvalid(true);
+                description.setErrorMessage("Company description is required");
+            }
+            if (phoneValue.isEmpty()) {
+                phone.setInvalid(true);
+                phone.setErrorMessage("Phone number is required");
+            }
+            return false;
+        }
+
+        // Clear validation errors if fields are filled
+        companyName.setInvalid(false);
+        street.setInvalid(false);
+        houseNumber.setInvalid(false);
+        plz.setInvalid(false);
+        city.setInvalid(false);
+        industry.setInvalid(false);
+        description.setInvalid(false);
+        phone.setInvalid(false);
+
+        // Additional validation logic can be added here
+
+        return true;
+    }
 
     /**
      * Creates a button to navigate to the login page if the user already has an account
