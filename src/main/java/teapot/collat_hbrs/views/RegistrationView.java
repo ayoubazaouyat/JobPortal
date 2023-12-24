@@ -1,7 +1,6 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -34,28 +33,26 @@ import org.apache.commons.lang3.NotImplementedException;
 import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
 import teapot.collat_hbrs.frontend.PasswordValidator;
-
 @Route(value = "registration", layout = MainLayout.class)
 @PageTitle("Registration | Coll@HBRS")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    private String studentAdresse;
+    // User account fields
+    // User account fields
+    private TextField usernameField;
     private PasswordField passwordField;
     private PasswordField confirmPasswordField;
-    private TextField usernameField;
-    private TextField emailField ;
-    private TextField Studentstreet = new TextField("Street name");
-    private TextField StudenthouseNumber = new TextField("House number");
-    private TextField Studentplz = new TextField("PLZ");
-    private TextField Studentcity = new TextField("City");
+    private TextField emailField;
 
-    private final UserService userService;
-    private static final double NUMEROFSTEPS = 4;
-    private final H1 heading;
-    private final AccountCreator accountCreator = new AccountCreator();
-    Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
+    // Student-specific address fields
+    private String studentAdresse;
+    private TextField studentStreet = new TextField("Street name");
+    private TextField studentHouseNumber = new TextField("House number");
+    private TextField studentPlz = new TextField("PLZ");
+    private TextField studentCity = new TextField("City");
 
+    // Company-specific fields
     private TextField companyName;
     private TextField street;
     private TextField houseNumber;
@@ -64,82 +61,78 @@ public class RegistrationView extends VerticalLayout {
     private TextField industry;
     private TextArea description;
     private TextField phone;
-    int accType;
-    int step;
-    ProgressBar progressBar;
+
+    // Services and utilities
+    private final UserService userService;
+    private final H1 heading;
+    private final AccountCreator accountCreator = new AccountCreator();
+    private Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
+
+    // Constants and process control
+    private static final double NUMEROFSTEPS = 4;
+    private int accType;
+    private int step;
+    private ProgressBar progressBar;
+
+
 
     /**
-     * Constructor
+     * Constructor for RegistrationView.
      */
     public RegistrationView(UserService userService) {
-        // TODO Make it only accessible when the user is not logged in
         this.userService = userService;
         heading = new H1("Registration");
         step = 1;
         buildUI();
     }
 
-
     /**
-     * Creates the UI (from scratch)
+     * Builds the user interface for each step of the registration process.
      */
     private void buildUI() {
-        // first clean everything
+        // Clean up the view and set up layout settings
         this.removeAll();
-
-        // then rebuild the view
         this.add(heading);
-
-        // layout settings
         setAlignItems(Alignment.CENTER);
         setWidth("100%");
         setHeight("100vh");
 
+        // Build UI based on the current step
         switch (step) {
-            case 1:
-                add(
-                        new H2("Choose your account type:"),
-                        buildAccountTypeSelector(),
-                        loginButton()
-                );
+            case 1 -> {
+                // Account type selection
+                add(new H2("Choose your account type:"), buildAccountTypeSelector(), loginButton());
                 buildNavigation(false, false);
                 progressBar.setValue(1 / NUMEROFSTEPS);
-                break;
-            case 2:
-                add(
-                        new H2("Enter your information:"),
-                        buildBasicForm()
-                );
+            }
+            case 2 -> {
+                // Basic information form
+                add(new H2("Enter your information:"), buildBasicForm());
                 buildNavigation(true, true);
                 progressBar.setValue(2 / NUMEROFSTEPS);
-                break;
-            case 3:
+            }
+            case 3 -> {
+                // Detailed form based on account type
                 if (accType == 0) {
-                    add(
-                            new H2("Student"),
-                            buildStudentForm()
-                    );
+                    add(new H2("Student"), buildStudentForm());
                 } else {
-                    add(
-                            new H2("Information for your profile"),
-                            buildCompanyForm()
-                    );
+                    add(new H2("Company Information"), buildCompanyForm());
                 }
                 buildNavigation(true, true);
                 progressBar.setValue(3 / NUMEROFSTEPS);
-                break;
-            case 4:
+            }
+            case 4 -> {
+                // Registration completion
                 heading.setText("Registration successful!");
                 add(buildFinishedScreen());
                 buildNavigation(false, false);
                 progressBar.setValue(4 / NUMEROFSTEPS);
                 progressBar.addThemeVariants(ProgressBarVariant.LUMO_SUCCESS);
-                break;
-
-            default:
-                throw new NotImplementedException();
+            }
+            default -> throw new NotImplementedException();
         }
     }
+
 
     /**
      * Creates the selector where the user can choose between creating a stundend or company account
@@ -264,26 +257,26 @@ public class RegistrationView extends VerticalLayout {
         var genForm = new FormLayout();
         var firstName = new TextField("First Name");
         var lastName = new TextField("Last Name");
-        Studentstreet = new TextField("Street name");
-        StudenthouseNumber = new TextField("House number");
-        Studentplz = new TextField("PLZ");
-        Studentcity = new TextField("City");
+        studentStreet = new TextField("Street name");
+        studentHouseNumber = new TextField("House number");
+        studentPlz = new TextField("PLZ");
+        studentCity = new TextField("City");
         genForm.add(
                 title,
                 firstName,
                 lastName,
-                Studentstreet,
-                StudenthouseNumber,
-                Studentplz,
-                Studentcity
+                studentStreet,
+                studentHouseNumber,
+                studentPlz,
+                studentCity
         );
         genForm.setColspan(title, 4);
         genForm.setColspan(firstName, 2);
         genForm.setColspan(lastName, 2);
-        genForm.setColspan(Studentstreet, 3);
-        genForm.setColspan(StudenthouseNumber, 1);
-        genForm.setColspan(Studentplz, 2);
-        genForm.setColspan(Studentcity, 2);
+        genForm.setColspan(studentStreet, 3);
+        genForm.setColspan(studentHouseNumber, 1);
+        genForm.setColspan(studentPlz, 2);
+        genForm.setColspan(studentCity, 2);
         genForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 4)
@@ -350,20 +343,20 @@ public class RegistrationView extends VerticalLayout {
         );
         firstName.setRequired(true);
         lastName.setRequired(true);
-        Studentstreet.setRequired(true);
-        Studentcity.setRequired(true);
+        studentStreet.setRequired(true);
+        studentCity.setRequired(true);
         comboBox.setRequired(true);
         comboBoxStudgang.setRequired(true);
-        binder.forField(StudenthouseNumber)
+        binder.forField(studentHouseNumber)
                 .asRequired()
                 .bind(AccountCreator::getHouseNr,AccountCreator::setHouseNr);
-        binder.forField(Studentstreet)
+        binder.forField(studentStreet)
                 .asRequired()
                 .bind(AccountCreator::getStreet,AccountCreator::setStreet);
-        binder.forField(Studentcity)
+        binder.forField(studentCity)
                 .asRequired()
                 .bind(AccountCreator::getCity,AccountCreator::setCity);
-        binder.forField(Studentplz)
+        binder.forField(studentPlz)
                 .asRequired()
                 .bind(AccountCreator::getPlz, AccountCreator::setPlz);
         binder.forField(firstName)
@@ -380,10 +373,10 @@ public class RegistrationView extends VerticalLayout {
                 .bind(AccountCreator::getStudyProgram, AccountCreator::setStudyProgram);
 
         //TODO combine address for binder
-        Studentstreet.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
-        StudenthouseNumber.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
-        Studentplz.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
-        Studentcity.addValueChangeListener(event -> studentAdresse = Studentstreet.getValue() + " " + StudenthouseNumber.getValue() + "\n" + Studentplz.getValue() + " " + Studentcity.getValue());
+        studentStreet.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
+        studentHouseNumber.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
+        studentPlz.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
+        studentCity.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
 
         binder.readBean(accountCreator);
 
@@ -566,14 +559,15 @@ public class RegistrationView extends VerticalLayout {
 
     private boolean validateInput() {
         switch (step) {
-            case 1:
+            case 1 -> {
                 if (accType == 0 || accType == 1) {
                     return true;
                 } else {
                     Notification.show("Please choose an account type", 3000, Notification.Position.TOP_CENTER);
                     return false;
                 }
-            case 2:
+            }
+            case 2 -> {
                 boolean isUsernameValid = binder.forField(usernameField)
                         .asRequired("Username is required.")
                         .bind(AccountCreator::getUsername, AccountCreator::setUsername)
@@ -595,57 +589,57 @@ public class RegistrationView extends VerticalLayout {
                         .withValidator(password -> passwordField.getValue().equals(password), "Passwords must match.")
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
-
                 if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
                     Notification.show("Please fill in the required fields correctly", 3000, Notification.Position.TOP_CENTER);
                     return false;
                 }
                 return true;
-
-            case 3:
+            }
+            case 3 -> {
                 if (accType == 0) {
                     return validateStudentForm();
                 } else {
                     return validateCompanyForm();
                 }
-            case 4:
+            }
+            case 4 -> {
                 // No validation required for the final step
                 return true;
-            default:
-                throw new NotImplementedException();
+            }
+            default -> throw new NotImplementedException();
         }
     }
 
     private boolean validateStudentForm() {
-        if (Studentstreet.isEmpty()
-                || StudenthouseNumber.isEmpty()
-                || Studentplz.isEmpty()
-                || Studentcity.isEmpty()) {
+        if (studentStreet.isEmpty()
+                || studentHouseNumber.isEmpty()
+                || studentPlz.isEmpty()
+                || studentCity.isEmpty()) {
             // Validation for required fields
-            if (Studentstreet.isEmpty()) {
-                Studentstreet.setInvalid(true);
-                Studentstreet.setErrorMessage("This field is required");
+            if (studentStreet.isEmpty()) {
+                studentStreet.setInvalid(true);
+                studentStreet.setErrorMessage("This field is required");
             }
-            if (StudenthouseNumber.isEmpty()) {
-                StudenthouseNumber.setInvalid(true);
-                StudenthouseNumber.setErrorMessage("This field is required");
+            if (studentHouseNumber.isEmpty()) {
+                studentHouseNumber.setInvalid(true);
+                studentHouseNumber.setErrorMessage("This field is required");
             }
-            if (Studentplz.isEmpty()) {
-                Studentplz.setInvalid(true);
-                Studentplz.setErrorMessage("This field is required");
+            if (studentPlz.isEmpty()) {
+                studentPlz.setInvalid(true);
+                studentPlz.setErrorMessage("This field is required");
             }
-            if (Studentcity.isEmpty()) {
-                Studentcity.setInvalid(true);
-                Studentcity.setErrorMessage("This field is required");
+            if (studentCity.isEmpty()) {
+                studentCity.setInvalid(true);
+                studentCity.setErrorMessage("This field is required");
             }
             return false;
         }
 
         // Clear validation errors if fields are filled
-        Studentstreet.setInvalid(false);
-        StudenthouseNumber.setInvalid(false);
-        Studentplz.setInvalid(false);
-        Studentcity.setInvalid(false);
+        studentStreet.setInvalid(false);
+        studentHouseNumber.setInvalid(false);
+        studentPlz.setInvalid(false);
+        studentCity.setInvalid(false);
 
         // Additional validation logic can be added here
 
