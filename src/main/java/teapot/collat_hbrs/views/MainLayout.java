@@ -7,6 +7,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -27,8 +30,11 @@ public class MainLayout extends AppLayout {
 
     private final SecurityService securityService;
 
+    private final Span messageCount;
+
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
+        messageCount = createBadge();
         addHeaderContent();
     }
 
@@ -46,7 +52,7 @@ public class MainLayout extends AppLayout {
         if (securityService.isAuthenticated()) {
             String username = securityService.getAuthenticatedUser().getUsername();
             // Create a tab for the Inbox
-            Tab inboxTab = createTab("Inbox", InboxView.class);
+            Tab inboxTab = createInboxTab(new Icon(VaadinIcon.INBOX), messageCount);
             tabs.add(inboxTab);
             Button logout = new Button("Log out " + username, e -> securityService.logout());
             logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LandingView.class));
@@ -70,31 +76,53 @@ public class MainLayout extends AppLayout {
         Tabs tabs = new Tabs();
         tabs.getStyle().set("margin", "auto");
         tabs.add(
-                createTab("Home", LandingView.class),
-                createTab("Post a Job", JobPostingView.class),
-                createTab("Job Search", JobSearchView.class),
-                createTab("Company Search", CompanySearchView.class),
-                createTab("About Us", AboutUsView.class),
-                createTab("Contact", ContactView.class)
-
-
+                createTab("Home", LandingView.class, new Icon(VaadinIcon.HOME)),
+                createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)),
+                createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)),
+                createTab("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)),
+                createTab("About Us", AboutUsView.class, new Icon()),
+                createTab("Contact", ContactView.class, new Icon())
         );
-        if( authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))){
-            tabs.add(createTab("Company Dashboard", DashboardCompanyView.class));
+        if (authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
+            tabs.add(createTab("Company Dashboard", DashboardCompanyView.class, new Icon(VaadinIcon.DASHBOARD)));
         }
-        if( authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))){
-            tabs.add(createTab("Student Dashboard", DashboardStudentView.class));
+        if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
+            tabs.add(createTab("Student Dashboard", DashboardStudentView.class, new Icon(VaadinIcon.DASHBOARD)));
         }
+        tabs.addSelectedChangeListener(selectedChangeEvent -> updateMessageCount());
 
         return tabs;
     }
 
-    private Tab createTab(String viewName, Class<? extends Component> view) {
+    private Tab createTab(String viewName, Class<? extends Component> view, Icon icon) {
+        Tab tab = new Tab();
+
         RouterLink link = new RouterLink(view);
         link.add(viewName);
         link.setTabIndex(-1);
 
-        return new Tab(link);
+        tab.add(icon, link);
+
+        return tab;
+    }
+
+    private Tab createInboxTab(Icon icon, Span badge) {
+        Tab tab = createTab("Inbox", InboxView.class, icon);
+
+        tab.add(badge);
+
+        return tab;
+    }
+
+    private Span createBadge() {
+        Span badge = new Span("0");
+        badge.getElement().getThemeList().add("badge small contrast");
+        badge.getStyle().set("margin-inline-start", "var(--lumo-space-xs)");
+        return badge;
+    }
+
+    private void updateMessageCount() {
+        messageCount.setText("2"); // TODO update counter according to inbox message count
     }
 
     private Footer createFooter() {
