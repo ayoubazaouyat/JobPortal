@@ -5,7 +5,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
@@ -124,10 +123,5 @@ public class MainLayout extends AppLayout {
     private void updateMessageCount() {
         messageCount.setText("2"); // TODO update counter according to inbox message count
     }
-
-    private Footer createFooter() {
-        return new Footer();
-    }
-
 
 }
