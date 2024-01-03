@@ -66,6 +66,7 @@ public class JobSearchView extends VerticalLayout {
         var searchButton = new Button("Search");
         var resetButton = new Button("Reset");
 
+        hourlyWageField.setSuffixComponent(new Icon(VaadinIcon.EURO));
         searchButton.addThemeVariants(ButtonVariant.LUMO_ICON);
         searchButton.setIcon(new Icon(VaadinIcon.SEARCH));
         searchButton.addClickShortcut(Key.ENTER);
@@ -83,8 +84,8 @@ public class JobSearchView extends VerticalLayout {
 
         searchLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("500px", 3),
-                new FormLayout.ResponsiveStep("1000px", 6)
+                new FormLayout.ResponsiveStep("500px", 2),
+                new FormLayout.ResponsiveStep("1000px", 4)
         );
 
         return searchLayout;
