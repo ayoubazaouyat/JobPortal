@@ -3,6 +3,7 @@ package teapot.collat_hbrs.views.components;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
@@ -10,6 +11,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.views.JobSearchView;
 
@@ -45,8 +47,8 @@ public class JobResultWidget extends HorizontalLayout {
         applyButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         applyButton.setText("Apply now");
         applyButton.getStyle()
-                        .set("margin", "0.5rem")
-                        .set("width", "15rem");
+                .set("margin", "0.5rem")
+                .set("width", "15rem");
         openJobButton.setIcon(new Icon(VaadinIcon.INFO_CIRCLE));
         openJobButton.setText("Learn more");
         openJobButton.getStyle()
@@ -80,18 +82,42 @@ public class JobResultWidget extends HorizontalLayout {
         Icon clockIcon = new Icon(VaadinIcon.CLOCK);
         Icon euroIcon = new Icon(VaadinIcon.EURO);
         Icon locationIcon = new Icon(VaadinIcon.MAP_MARKER);
-        HorizontalLayout quickInfo = new HorizontalLayout(clockIcon, new Span("Full time"), euroIcon, new Span(job.getHourlywage() + "€/hour"));
+        //HorizontalLayout quickInfo = new HorizontalLayout(clockIcon, new Span("Full time"), euroIcon, new Span(job.getHourlywage() + "€/hour"));
+        HorizontalLayout quickInfo = new HorizontalLayout();
         HorizontalLayout location = new HorizontalLayout(locationIcon, new Span(job.getLocation()));
+
+        TextField typeField = new TextField();
+        typeField.setPrefixComponent(new Icon(VaadinIcon.CLOCK));
+        typeField.setReadOnly(true);
+        String type = job.getFullOrPartTime();
+        typeField.setValue(type != null ? type : "Not specified");
+
+        TextField wageField = new TextField();
+        wageField.setPrefixComponent(new Icon(VaadinIcon.EURO));
+        wageField.setReadOnly(true);
+        wageField.setValue(job.getHourlywage() + "€/hour");
+
+        TextField locationField = new TextField();
+        locationField.setPrefixComponent(new Icon(VaadinIcon.MAP_MARKER));
+        locationField.setReadOnly(true);
+        locationField.setValue(job.getLocation());
 
         container.setHeightFull();
         container.setJustifyContentMode(JustifyContentMode.CENTER);
         quickInfo.setAlignItems(Alignment.CENTER);
         location.setAlignItems(Alignment.CENTER);
 
-        container.add(
+        quickInfo.add(typeField, wageField, locationField);
+
+        /*container.add(
                 title,
                 quickInfo,
                 location
+        );*/
+
+        container.add(
+                title,
+                quickInfo
         );
 
         return container;
