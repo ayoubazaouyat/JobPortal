@@ -3,7 +3,6 @@ package teapot.collat_hbrs.views.components;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
@@ -60,7 +59,7 @@ public class JobResultWidget extends HorizontalLayout {
         getStyle().set("background", "var(--lumo-contrast-10pct)");
         setAlignItems(Alignment.CENTER);
 
-        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply"));
+        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getId() > 0 ? job.getId() : "null")));
         openJobButton.addClickListener(buttonClickEvent -> view.showJobInformation(job));
 
         add(
@@ -79,10 +78,7 @@ public class JobResultWidget extends HorizontalLayout {
     private VerticalLayout buildInfo() {
         VerticalLayout container = new VerticalLayout();
         H3 title = new H3(job.getTitle());
-        Icon clockIcon = new Icon(VaadinIcon.CLOCK);
-        Icon euroIcon = new Icon(VaadinIcon.EURO);
         Icon locationIcon = new Icon(VaadinIcon.MAP_MARKER);
-        //HorizontalLayout quickInfo = new HorizontalLayout(clockIcon, new Span("Full time"), euroIcon, new Span(job.getHourlywage() + "€/hour"));
         HorizontalLayout quickInfo = new HorizontalLayout();
         HorizontalLayout location = new HorizontalLayout(locationIcon, new Span(job.getLocation()));
 
@@ -108,12 +104,6 @@ public class JobResultWidget extends HorizontalLayout {
         location.setAlignItems(Alignment.CENTER);
 
         quickInfo.add(typeField, wageField, locationField);
-
-        /*container.add(
-                title,
-                quickInfo,
-                location
-        );*/
 
         container.add(
                 title,
