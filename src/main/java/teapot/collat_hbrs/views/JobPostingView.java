@@ -19,6 +19,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -38,6 +40,7 @@ import java.util.Collection;
 
 @Route(value = "PostJob", layout = MainLayout.class)
 @PageTitle("Job posten | Coll@HBRS")
+@RolesAllowed({"COMPANY"})
 @PermitAll
 
 
