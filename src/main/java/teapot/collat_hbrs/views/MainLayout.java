@@ -84,6 +84,7 @@ public class MainLayout extends AppLayout {
         );
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
             tabs.add(createTab("Company Dashboard", DashboardCompanyView.class, new Icon(VaadinIcon.DASHBOARD)));
+            tabs.remove(tabs.getComponentAt(2));
         }
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
             tabs.add(createTab("Student Dashboard", DashboardStudentView.class, new Icon(VaadinIcon.DASHBOARD)));

@@ -41,7 +41,6 @@ import java.util.Collection;
 @Route(value = "PostJob", layout = MainLayout.class)
 @PageTitle("Job posten | Coll@HBRS")
 @RolesAllowed({"COMPANY"})
-@PermitAll
 
 
 public class JobPostingView extends VerticalLayout {

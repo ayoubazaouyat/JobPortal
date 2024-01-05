@@ -29,7 +29,8 @@ import java.util.Random;
 
 @Route(value = "jobsearch", layout = MainLayout.class)
 @PageTitle("Job Search | Coll@HBRS")
-@PermitAll
+@RolesAllowed({"STUDENT"})
+
 public class JobSearchView extends VerticalLayout {
 
     private TextField jobTitleField;
