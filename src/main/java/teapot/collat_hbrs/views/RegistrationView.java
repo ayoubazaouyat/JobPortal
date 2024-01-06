@@ -283,6 +283,8 @@ public class RegistrationView extends VerticalLayout {
         );
         var studiesTitle = new H4("Studies : ");
         var studyForm = new FormLayout();
+
+        //
         ComboBox<String> comboBox = new ComboBox<>("Choose an option");
         comboBox.setItems("FB 01 - Wirtschaftswissenschaften",
                 "FB 02 - Informatik",
@@ -290,19 +292,54 @@ public class RegistrationView extends VerticalLayout {
                 "FB 05 - Angewandte Naturwissenschaften",
                 "FB 06 - Sozialpolitik und Soziale Sicherung");
         comboBox.setPlaceholder("Select one");
-        //comboBox.setRequired(true);
         comboBox.setLabel("choose your Fachbereich:");
-        // Handle the value change event
+
+        ComboBox<String> comboBoxStudgang = new ComboBox<>("Choose an option");
+        comboBoxStudgang.setPlaceholder("Select one");
+        comboBoxStudgang.setLabel("choose your Studiengang:");
+
+        // Handle the value change event for Fachbereich-Wahl
         comboBox.addValueChangeListener(event -> {
+            String selectedFachbereich = event.getValue();
+            comboBoxStudgang.clear();
+
+            if("FB 01 - Wirtschaftswissenschaften".equals(selectedFachbereich)) {
+                comboBoxStudgang.setItems("Betriebswirtschaft (B.Sc.)",
+                        "International Business (B.Sc.)",
+                        "Wirtschaftspsychologie (B.Sc.)",
+                        "Controlling und Management (M.Sc.)",
+                        "Innovations- und Informationsmanagement (M.Sc.)");
+            } else if("FB 02 - Informatik".equals(selectedFachbereich)) {
+                comboBoxStudgang.setItems("Cybersecurity & Privacy (B.Sc.)",
+                        "Informatik (B.Sc.)",
+                        "Wirtschaftsinformatik (B.Sc.)",
+                        "Informatik (M.Sc.)",
+                        "Autonomous Systems (M.Sc.)");
+            } else if("FB 03 - Ingenieurwissenschaften und Kommunikation".equals(selectedFachbereich)) {
+                comboBoxStudgang.setItems("Elektrotechnik (B.Eng.)",
+                        "Maschinenbau (B.Eng.)",
+                        "Technikjournalismus (B.Sc.)",
+                        "Elektrotechnik (M.Eng.)",
+                        "Maschinenbau (M.Eng.)");
+            } else if("FB 05 - Angewandte Naturwissenschaften".equals(selectedFachbereich)) {
+                comboBoxStudgang.setItems("Applied Biology (B.Sc.)",
+                        "Chemie mit Materialwissenschaften (B.Sc.)",
+                        "Nachhaltige Chemie und Materialien (B.Sc.)",
+                        "Analytische Chemie und Qualitätssicherung (M.Sc.)",
+                        "Biomedical Sciences (M.Sc.)");
+            } else if("FB 06 - Sozialpolitik und Soziale Sicherung".equals(selectedFachbereich)) {
+                comboBoxStudgang.setItems("Nachhaltige Sozialpolitik (B.A.)",
+                        "Sozialversicherung, Schwerpunkt Unfallversicherung (B.A.)",
+                        "Social Protection (M.Sc.)");
+            }
+        });
+
+        // Handle the value change event for Studiengang-Wahl
+        comboBoxStudgang.addValueChangeListener(event -> {
             // event.getValue() gives you the selected value
             Notification.show("Selected: " + event.getValue());
         });
-        ComboBox<String> comboBoxStudgang = new ComboBox<>("Choose an option");
-        comboBoxStudgang.setItems("To be Filled from Datenbank",
-                "To be Filled from Datenbank");
-        comboBoxStudgang.setPlaceholder("Select one");
-        //comboBox.setRequired(true);
-        comboBoxStudgang.setLabel("choose your Studiengang:");
+
         var semesterNum = new NumberField("Current Semester");
         TextField skillsField = new TextField("Skills");
         skillsField.setPlaceholder("Enter Skills separated by commas");
