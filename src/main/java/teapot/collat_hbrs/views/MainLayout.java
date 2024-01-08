@@ -78,7 +78,6 @@ public class MainLayout extends AppLayout {
                 createTab("Home", LandingView.class, new Icon(VaadinIcon.HOME)),
                 createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)),
                 createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)),
-                createTab("Company Search", CompanySearchView.class, new Icon(VaadinIcon.BUILDING)),
                 createTab("About Us", AboutUsView.class, new Icon()),
                 createTab("Contact", ContactView.class, new Icon())
         );
