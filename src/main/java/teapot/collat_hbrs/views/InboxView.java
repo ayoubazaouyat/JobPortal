@@ -29,9 +29,9 @@ public class InboxView extends VerticalLayout {
     private Grid<Message> spamGrid;
     private Button deleteButton;
     private Button markAsSpamButton;
+    private Button markAsInnocentButton;
     private Button showSpamGridButton;
     private Button backButton;
-    private Button deleteSpamButton;
     private Label messageCountLabel;
 
     private List<Message> inboxMessages = new ArrayList<>();
@@ -79,20 +79,21 @@ public class InboxView extends VerticalLayout {
             }
         });
 
+        markAsInnocentButton = new Button("Mark as Innocent", e -> {
+            Message selectedMessage = spamGrid.asSingleSelect().getValue();
+            if (selectedMessage != null) {
+                showMarkAsInnocentConfirmation(selectedMessage);
+            }
+        });
+        markAsInnocentButton.setVisible(false); // Initially hidden
+        add(markAsInnocentButton);
+
         showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
 
         backButton = new Button("Back to Inbox", e -> showInboxGrid());
         backButton.setVisible(false);
 
-        deleteSpamButton = new Button("Delete Spam", e -> {
-            Message selectedSpamMessage = spamGrid.asSingleSelect().getValue();
-            if (selectedSpamMessage != null) {
-                showDeleteSpamConfirmation(selectedSpamMessage);
-            }
-        });
-        deleteSpamButton.setVisible(false); // Initially hidden
-
-        add(messageGrid, deleteButton, markAsSpamButton, showSpamGridButton, backButton, deleteSpamButton);
+        add(messageGrid, deleteButton, markAsSpamButton, markAsInnocentButton, showSpamGridButton, backButton);
 
         spamGrid = new Grid<>();
         spamGrid.addColumn(Message::getSender).setHeader("Sender");
@@ -119,40 +120,8 @@ public class InboxView extends VerticalLayout {
     private void showSpamGrid() {
         messageGrid.setVisible(false);
         spamGrid.setVisible(true);
+        markAsInnocentButton.setVisible(true); // Show the "Mark as Innocent" button
         backButton.setVisible(true);
-        deleteButton.setVisible(false);
-        markAsSpamButton.setVisible(false);
-        deleteSpamButton.setVisible(true);
-    }
-
-    private void showInboxGrid() {
-        messageGrid.setVisible(true);
-        spamGrid.setVisible(false);
-        backButton.setVisible(false);
-        deleteButton.setVisible(true);
-        markAsSpamButton.setVisible(true);
-        deleteSpamButton.setVisible(false);
-    }
-
-    private void showDeleteSpamConfirmation(Message spamMessage) {
-        ConfirmDialog confirmDialog = new ConfirmDialog();
-        confirmDialog.setHeader("Are you sure you want to delete the spam message?");
-        confirmDialog.setText("This action cannot be undone");
-
-        confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
-            deleteSpamMessages(List.of(spamMessage));
-            confirmDialog.close();
-        });
-
-        confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
-
-        confirmDialog.open();
-    }
-
-    private void deleteSpamMessages(List<Message> spamMessagesToDelete) {
-        spamMessages.removeAll(spamMessagesToDelete);
-        spamDataProvider.refreshAll();
-        updateMessageCount();
     }
 
     private void markAsSpam(Message message) {
@@ -162,7 +131,7 @@ public class InboxView extends VerticalLayout {
     private void showMarkAsSpamConfirmation(Message message) {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.setHeader("Are you sure you want to mark the message as spam?");
-        confirmDialog.setText("This action cannot be undone");
+
 
         confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
             markMessageAsSpam(message);
@@ -193,6 +162,49 @@ public class InboxView extends VerticalLayout {
         // Update the message count label
         updateMessageCount();
     }
+    private void showMarkAsInnocentConfirmation(Message message) {
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.setHeader("Are you sure you want to mark the message as innocent?");
+        confirmDialog.setText("This will move this message back to your inbox");
+
+        confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
+            markMessageAsInnocent(message);
+            confirmDialog.close();
+        });
+
+        confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
+
+        confirmDialog.open();
+    }
+    private void markMessageAsInnocent(Message message) {
+        // Set the message as not spam
+        message.setSpam(false);
+
+        // Add the message to the inbox
+        inboxMessages.add(message);
+
+        // Remove the message from the spam list
+        spamMessages.remove(message);
+
+        // Refresh the inbox grid
+        inboxDataProvider.refreshAll();
+
+        // Refresh the spam grid
+        spamDataProvider.refreshAll();
+
+        // Update the message count label
+        updateMessageCount();
+    }
+
+
+
+    private void deleteMessages(List<Message> messagesToDelete) {
+        inboxMessages.removeAll(messagesToDelete);
+        spamMessages.removeAll(messagesToDelete);
+        inboxDataProvider.refreshAll();
+        spamDataProvider.refreshAll();
+        updateMessageCount();
+    }
 
     private void showDeleteConfirmation(Message message) {
         ConfirmDialog confirmDialog = new ConfirmDialog();
@@ -207,12 +219,6 @@ public class InboxView extends VerticalLayout {
         confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
 
         confirmDialog.open();
-    }
-
-    private void deleteMessages(List<Message> messagesToDelete) {
-        inboxMessages.removeAll(messagesToDelete);
-        inboxDataProvider.refreshAll();
-        updateMessageCount();
     }
 
     private void showMessageDialog(Message message) {
@@ -293,5 +299,12 @@ public class InboxView extends VerticalLayout {
         public String getTimestamp() {
             return timestamp;
         }
+    }
+
+    private void showInboxGrid() {
+        messageGrid.setVisible(true);
+        spamGrid.setVisible(false);
+        markAsInnocentButton.setVisible(false); // Hide the "Mark as Innocent" button
+        backButton.setVisible(false);
     }
 }
