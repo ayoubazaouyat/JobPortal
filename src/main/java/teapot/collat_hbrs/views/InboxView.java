@@ -59,6 +59,11 @@ public class InboxView extends VerticalLayout {
         messageGrid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 showMessageDialog(event.getValue());
+                // Disable "Mark as Spam" button if the selected message is already marked as spam
+                markAsSpamButton.setEnabled(!event.getValue().isSpam());
+            } else {
+                // If no message is selected, enable the "Mark as Spam" button
+                markAsSpamButton.setEnabled(true);
             }
         });
 
@@ -72,7 +77,9 @@ public class InboxView extends VerticalLayout {
             }
         });
 
-        markAsSpamButton = new Button("Mark as Spam", e -> {
+        markAsSpamButton = new Button("Mark as Spam");
+        markAsSpamButton.setEnabled(false); // Initially disable the button
+        markAsSpamButton.addClickListener(e -> {
             Message selectedMessage = messageGrid.asSingleSelect().getValue();
             if (selectedMessage != null) {
                 markAsSpam(selectedMessage);
@@ -122,6 +129,9 @@ public class InboxView extends VerticalLayout {
         spamGrid.setVisible(true);
         markAsInnocentButton.setVisible(true); // Show the "Mark as Innocent" button
         backButton.setVisible(true);
+
+        // Disable "Mark as Spam" button when switching to spam view
+        markAsSpamButton.setEnabled(false);
     }
 
     private void markAsSpam(Message message) {
@@ -131,7 +141,6 @@ public class InboxView extends VerticalLayout {
     private void showMarkAsSpamConfirmation(Message message) {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.setHeader("Are you sure you want to mark the message as spam?");
-
 
         confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
             markMessageAsSpam(message);
@@ -162,6 +171,7 @@ public class InboxView extends VerticalLayout {
         // Update the message count label
         updateMessageCount();
     }
+
     private void showMarkAsInnocentConfirmation(Message message) {
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.setHeader("Are you sure you want to mark the message as innocent?");
@@ -176,6 +186,7 @@ public class InboxView extends VerticalLayout {
 
         confirmDialog.open();
     }
+
     private void markMessageAsInnocent(Message message) {
         // Set the message as not spam
         message.setSpam(false);
@@ -195,8 +206,6 @@ public class InboxView extends VerticalLayout {
         // Update the message count label
         updateMessageCount();
     }
-
-
 
     private void deleteMessages(List<Message> messagesToDelete) {
         inboxMessages.removeAll(messagesToDelete);
@@ -306,5 +315,8 @@ public class InboxView extends VerticalLayout {
         spamGrid.setVisible(false);
         markAsInnocentButton.setVisible(false); // Hide the "Mark as Innocent" button
         backButton.setVisible(false);
+
+        // Enable "Mark as Spam" button when switching back to inbox view
+        markAsSpamButton.setEnabled(true);
     }
 }
