@@ -9,7 +9,7 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("login")
-@PageTitle("Login")
+@PageTitle("Login | Coll@HBRS")
 @AnonymousAllowed
 public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
