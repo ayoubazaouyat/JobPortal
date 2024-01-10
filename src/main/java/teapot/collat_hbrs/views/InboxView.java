@@ -2,23 +2,21 @@ package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import teapot.collat_hbrs.backend.security.SecurityService;
-import com.vaadin.flow.component.dialog.Dialog;
-
-
 
 import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @PermitAll
@@ -28,22 +26,35 @@ public class InboxView extends VerticalLayout {
 
     private final SecurityService securityService;
     private Grid<Message> messageGrid;
+    private Grid<Message> spamGrid;
     private Button deleteButton;
+    private Button markAsSpamButton;
+    private Button showSpamGridButton;
+    private Button backButton;
+    private Button deleteSpamButton;
     private Label messageCountLabel;
+
+    private List<Message> inboxMessages = new ArrayList<>();
+    private List<Message> spamMessages = new ArrayList<>();
+
+    private ListDataProvider<Message> inboxDataProvider;
+    private ListDataProvider<Message> spamDataProvider;
 
     public InboxView(SecurityService securityService) {
         this.securityService = securityService;
         setupUI();
-        updateMessageCountLabel();
+        updateMessageCount();
     }
 
     private void setupUI() {
-        messageGrid = new Grid<>(Message.class);
-        messageGrid.setColumns("sender", "subject", "timestamp");
+        messageGrid = new Grid<>();
+        messageGrid.addColumn(Message::getSender).setHeader("Sender");
+        messageGrid.addColumn(Message::getSubject).setHeader("Subject");
+        messageGrid.addColumn(Message::getTimestamp).setHeader("Timestamp");
 
-        List<Message> messages = new ArrayList<>();
-        messages.add(new Message("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-12-01 10:00"));
-        messages.add(new Message("Jane Smith", "Regarding Your Job Posting", "I have a question about the job posting...", "2023-12-02 09:30"));
+        // Create ListDataProvider for inbox messages
+        inboxDataProvider = DataProvider.ofCollection(inboxMessages);
+        messageGrid.setDataProvider(inboxDataProvider);
 
         messageGrid.asSingleSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
@@ -51,9 +62,6 @@ public class InboxView extends VerticalLayout {
             }
         });
 
-        messageGrid.setItems(messages);
-
-        // Add a label to display the message count
         messageCountLabel = new Label();
         add(messageCountLabel);
 
@@ -64,29 +72,126 @@ public class InboxView extends VerticalLayout {
             }
         });
 
-        add(messageGrid, deleteButton);
+        markAsSpamButton = new Button("Mark as Spam", e -> {
+            Message selectedMessage = messageGrid.asSingleSelect().getValue();
+            if (selectedMessage != null) {
+                markAsSpam(selectedMessage);
+            }
+        });
+
+        showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
+
+        backButton = new Button("Back to Inbox", e -> showInboxGrid());
+        backButton.setVisible(false);
+
+        deleteSpamButton = new Button("Delete Spam", e -> {
+            Message selectedSpamMessage = spamGrid.asSingleSelect().getValue();
+            if (selectedSpamMessage != null) {
+                showDeleteSpamConfirmation(selectedSpamMessage);
+            }
+        });
+        deleteSpamButton.setVisible(false); // Initially hidden
+
+        add(messageGrid, deleteButton, markAsSpamButton, showSpamGridButton, backButton, deleteSpamButton);
+
+        spamGrid = new Grid<>();
+        spamGrid.addColumn(Message::getSender).setHeader("Sender");
+        spamGrid.addColumn(Message::getSubject).setHeader("Subject");
+        spamGrid.addColumn(Message::getTimestamp).setHeader("Timestamp");
+        spamGrid.setVisible(false);
+        add(spamGrid);
+
+        // Create ListDataProvider for spam messages
+        spamDataProvider = DataProvider.ofCollection(spamMessages);
+        spamGrid.setDataProvider(spamDataProvider);
+
+        // Add some sample messages to the inbox
+        inboxMessages.add(new Message("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-01-01 10:00"));
+        inboxMessages.add(new Message("Jane Smith", "Regarding Your Job Posting", "I have a question about the job posting...", "2023-01-02 12:30"));
     }
-    private void updateMessageCountLabel() {
-        int messageCount = getMessageCount();
-        messageCountLabel.setText("Messages: " + messageCount);
-    }
-    private int getMessageCount() {
-        ListDataProvider<Message> dataProvider = (ListDataProvider<Message>) messageGrid.getDataProvider();
-        return dataProvider.getItems().size();
+
+    private void updateMessageCount() {
+        int inboxMessageCount = inboxMessages.size();
+        int spamMessageCount = spamMessages.size();
+        messageCountLabel.setText("Inbox Messages: " + inboxMessageCount + " | Spam Messages: " + spamMessageCount);
     }
 
-    private void deleteMessages(List<Message> messagesToDelete) {
-        ListDataProvider<Message> dataProvider = (ListDataProvider<Message>) messageGrid.getDataProvider();
-        List<Message> currentItems = new ArrayList<>(dataProvider.getItems());
+    private void showSpamGrid() {
+        messageGrid.setVisible(false);
+        spamGrid.setVisible(true);
+        backButton.setVisible(true);
+        deleteButton.setVisible(false);
+        markAsSpamButton.setVisible(false);
+        deleteSpamButton.setVisible(true);
+    }
 
-        currentItems.removeAll(messagesToDelete);
+    private void showInboxGrid() {
+        messageGrid.setVisible(true);
+        spamGrid.setVisible(false);
+        backButton.setVisible(false);
+        deleteButton.setVisible(true);
+        markAsSpamButton.setVisible(true);
+        deleteSpamButton.setVisible(false);
+    }
 
-        dataProvider.getItems().clear();
-        dataProvider.getItems().addAll(currentItems);
+    private void showDeleteSpamConfirmation(Message spamMessage) {
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.setHeader("Are you sure you want to delete the spam message?");
+        confirmDialog.setText("This action cannot be undone");
 
-        dataProvider.refreshAll();
-        updateMessageCountLabel(); // Update the message count after deletion
+        confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
+            deleteSpamMessages(List.of(spamMessage));
+            confirmDialog.close();
+        });
 
+        confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
+
+        confirmDialog.open();
+    }
+
+    private void deleteSpamMessages(List<Message> spamMessagesToDelete) {
+        spamMessages.removeAll(spamMessagesToDelete);
+        spamDataProvider.refreshAll();
+        updateMessageCount();
+    }
+
+    private void markAsSpam(Message message) {
+        showMarkAsSpamConfirmation(message);
+    }
+
+    private void showMarkAsSpamConfirmation(Message message) {
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.setHeader("Are you sure you want to mark the message as spam?");
+        confirmDialog.setText("This action cannot be undone");
+
+        confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
+            markMessageAsSpam(message);
+            confirmDialog.close();
+        });
+
+        confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
+
+        confirmDialog.open();
+    }
+
+    private void markMessageAsSpam(Message message) {
+        // Set the message as spam
+        message.setSpam(true);
+
+        // Add the message to the spam list
+        spamMessages.add(message);
+
+        // Remove the message from the inbox
+        inboxMessages.remove(message);
+
+        // Refresh the inbox grid
+        inboxDataProvider.refreshAll();
+
+        // Refresh the spam grid
+        spamDataProvider.refreshAll();
+
+        // Update the message count label
+        updateMessageCount();
     }
 
     private void showDeleteConfirmation(Message message) {
@@ -102,6 +207,12 @@ public class InboxView extends VerticalLayout {
         confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
 
         confirmDialog.open();
+    }
+
+    private void deleteMessages(List<Message> messagesToDelete) {
+        inboxMessages.removeAll(messagesToDelete);
+        inboxDataProvider.refreshAll();
+        updateMessageCount();
     }
 
     private void showMessageDialog(Message message) {
@@ -146,6 +257,7 @@ public class InboxView extends VerticalLayout {
         private String subject;
         private String content;
         private String timestamp;
+        private boolean isSpam;
 
         public Message() {
             // Default constructor required for Vaadin Grid
@@ -156,6 +268,14 @@ public class InboxView extends VerticalLayout {
             this.subject = subject;
             this.content = content;
             this.timestamp = timestamp;
+        }
+
+        public boolean isSpam() {
+            return isSpam;
+        }
+
+        public void setSpam(boolean spam) {
+            isSpam = spam;
         }
 
         public String getSender() {
