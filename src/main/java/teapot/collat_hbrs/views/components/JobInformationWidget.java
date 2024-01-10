@@ -2,6 +2,7 @@ package teapot.collat_hbrs.views.components;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -26,6 +27,7 @@ public class JobInformationWidget extends VerticalLayout {
         generateDescription();
         generateDetails();
         generateApplyButton();
+        generateCompanyInformationButton();
     }
 
     private void generateHeader() {
@@ -115,8 +117,18 @@ public class JobInformationWidget extends VerticalLayout {
         applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply"));
         applyButton.getStyle().set("align-self", "center");
         applyButton.setWidthFull();
+        applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         add(applyButton);
+    }
+
+    private void generateCompanyInformationButton() {
+        Button companyInfoButton = new Button("Company Information", new Icon(VaadinIcon.BUILDING));
+        companyInfoButton.addClickListener(buttonClickEvent -> new CompanyInformationDialog(job.getCompany()).open());
+        companyInfoButton.getStyle().set("align-self", "center");
+        companyInfoButton.setWidthFull();
+
+        add(companyInfoButton);
     }
 
 }
