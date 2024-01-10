@@ -1,7 +1,6 @@
 package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -34,7 +33,9 @@ public class LoginView extends HorizontalLayout implements BeforeEnterObserver {
 
         RouterLink registerLink = new RouterLink("No account? Register here", RegistrationView.class);
 
-        loginLayout.add(new H1("ERROR 418"), loginForm, registerLink);
+        Image logo = new Image("images/logo.svg", "Logo");
+
+        loginLayout.add(logo, loginForm, registerLink);
 
         add(img, loginLayout);
         expand(img);
