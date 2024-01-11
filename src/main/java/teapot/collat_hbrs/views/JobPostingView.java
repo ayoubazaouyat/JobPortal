@@ -6,11 +6,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -260,39 +258,24 @@ public class JobPostingView extends VerticalLayout {
         add(editButton, confirmButton, backButton);
     }
     private void askForAnotherJob() {
-        // Create a Notification to ask the user if they want to post another job
-        Notification confirmationNotification = new Notification(
-                "Job posted successfully. What would you like to do next?",
-                0, // Duration 0 means it stays open until the user closes it
-                Notification.Position.MIDDLE);
+        Dialog addMoreDialog = new Dialog();
+        addMoreDialog.setHeaderTitle("Additional Job Post");
+        Paragraph text = new Paragraph("Do you want to post another Job Advertisement?");
+        addMoreDialog.add(text);
 
-        // Create buttons for post another job and cancel
-        Button postAnotherJobButton = new Button("Post Another Job", clickEvent -> {
-            // Close the notification
-            confirmationNotification.close();
-
-            // Optionally, you can perform any additional actions for "Post Another Job" here
-
-            // For now, let's just reload the page
-            UI.getCurrent().getPage().executeJs("window.location.reload();");
+        Button yesButton = new Button("Yes");
+        yesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        yesButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().executeJs("window.location.reload();"));
+        Button noButton = new Button("No");
+        noButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        noButton.addClickListener(buttonClickEvent -> {
+            addMoreDialog.close();
+            UI.getCurrent().navigate("/");
         });
 
-        Button cancelButton = new Button("Cancel", clickEvent -> {
-            // Close the notification
-            confirmationNotification.close();
-            confirmButton.setEnabled(true);
-            editButton.setEnabled(false);
+        addMoreDialog.getFooter().add(yesButton, noButton);
 
-
-            // Optionally, you can perform any additional actions for "Cancel" here
-        });
-
-
-        // Add buttons to the notification
-        confirmationNotification.add(postAnotherJobButton, cancelButton);
-
-        // Open the notification
-        confirmationNotification.open();
+        addMoreDialog.open();
     }
 
 
