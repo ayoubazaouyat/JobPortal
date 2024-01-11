@@ -39,7 +39,11 @@ import teapot.collat_hbrs.frontend.PasswordValidator;
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    // User account fields
+    private static final String STREETLABEL = "Street name";
+    private static final String HOUSELABEL = "House number";
+    private static final String PASSWORDLABEL = "Password is Required";
+    private static final String PASSWORDMATCHLABEL = "Passwords must match.";
+    private static final String LAYOUTSIZE = "500px";
     // User account fields
     private TextField usernameField;
     private PasswordField passwordField;
@@ -48,8 +52,8 @@ public class RegistrationView extends VerticalLayout {
 
     // Student-specific address fields
     private String studentAdresse;
-    private TextField studentStreet = new TextField("Street name");
-    private TextField studentHouseNumber = new TextField("House number");
+    private TextField studentStreet;
+    private TextField studentHouseNumber = new TextField(HOUSELABEL);
     private TextField studentPlz = new TextField("PLZ");
     private TextField studentCity = new TextField("City");
 
@@ -74,6 +78,7 @@ public class RegistrationView extends VerticalLayout {
     private int accType;
     private int step;
     private ProgressBar progressBar;
+
 
 
 
@@ -217,14 +222,14 @@ public class RegistrationView extends VerticalLayout {
                 .withValidator(new EmailValidator("Not a valid Email"))
                 .bind(AccountCreator::getEmail, AccountCreator::setEmail);
 
-        binder.forField(passwordField).asRequired("Password is required")
+        binder.forField(passwordField).asRequired(PASSWORDLABEL)
                 .withValidator(new PasswordValidator())
-                .withValidator(password -> confirmPasswordField.getValue().equals(password), "Passwords must match.")
+                .withValidator(password -> confirmPasswordField.getValue().equals(password), PASSWORDMATCHLABEL)
                 .bind(AccountCreator::getPassword, AccountCreator::setPassword);
 
-        binder.forField(confirmPasswordField).asRequired("Password is required")
+        binder.forField(confirmPasswordField).asRequired(PASSWORDLABEL)
                 .withValidator(new PasswordValidator())
-                .withValidator(password -> passwordField.getValue().equals(password), "Passwords must match.")
+                .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                 .bind(AccountCreator::getPassword, AccountCreator::setPassword);
 
 
@@ -233,7 +238,7 @@ public class RegistrationView extends VerticalLayout {
 
         basicForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("500px", 2)
+                new FormLayout.ResponsiveStep(LAYOUTSIZE, 2)
         );
         basicForm.setColspan(usernameField, 2);
         basicForm.setColspan(emailField, 2);
@@ -258,8 +263,8 @@ public class RegistrationView extends VerticalLayout {
         var genForm = new FormLayout();
         var firstName = new TextField("First Name");
         var lastName = new TextField("Last Name");
-        studentStreet = new TextField("Street name");
-        studentHouseNumber = new TextField("House number");
+        studentStreet = new TextField(STREETLABEL);
+        studentHouseNumber = new TextField(HOUSELABEL);
         studentPlz = new TextField("PLZ");
         studentCity = new TextField("City");
         genForm.add(
@@ -280,7 +285,7 @@ public class RegistrationView extends VerticalLayout {
         genForm.setColspan(studentCity, 2);
         genForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("500px", 4)
+                new FormLayout.ResponsiveStep(LAYOUTSIZE, 4)
         );
         var studiesTitle = new H4("Studies : ");
         var studyForm = new FormLayout();
@@ -336,10 +341,9 @@ public class RegistrationView extends VerticalLayout {
         });
 
         // Handle the value change event for Studiengang-Wahl
-        comboBoxStudgang.addValueChangeListener(event -> {
-            // event.getValue() gives you the selected value
-            Notification.show("Selected: " + event.getValue());
-        });
+        comboBoxStudgang.addValueChangeListener(event ->
+            Notification.show("Selected: " + event.getValue())
+        );
 
         var semesterNum = new NumberField("Current Semester");
         TextField skillsField = new TextField("Skills");
@@ -410,7 +414,7 @@ public class RegistrationView extends VerticalLayout {
                 .asRequired("Please choose your field of study")
                 .bind(AccountCreator::getStudyProgram, AccountCreator::setStudyProgram);
 
-        //TODO combine address for binder
+
         studentStreet.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
         studentHouseNumber.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
         studentPlz.addValueChangeListener(event -> studentAdresse = studentStreet.getValue() + " " + studentHouseNumber.getValue() + "\n" + studentPlz.getValue() + " " + studentCity.getValue());
@@ -428,9 +432,9 @@ public class RegistrationView extends VerticalLayout {
         var addressForm = new FormLayout();
         companyName = new TextField("Company name");
         companyName.setRequired(true);
-        street = new TextField("Street name");
+        street = new TextField(STREETLABEL);
         street.setRequired(true);
-        houseNumber = new TextField("House number");
+        houseNumber = new TextField(HOUSELABEL);
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         plz = new TextField("PLZ");
         binder.forField(plz).asRequired().bind(AccountCreator::getPlz,AccountCreator::setPlz);
@@ -453,7 +457,7 @@ public class RegistrationView extends VerticalLayout {
         addressForm.setColspan(city, 2);
         addressForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("500px", 4)
+                new FormLayout.ResponsiveStep(LAYOUTSIZE, 4)
         );
 
         var informationTitle = new H4("Information");
@@ -489,7 +493,7 @@ public class RegistrationView extends VerticalLayout {
         binder.bind(description, AccountCreator::getCompanyDescription, AccountCreator::setCompanyDescription);
         binder.bind(industry, AccountCreator::getCompanyIndustry, AccountCreator::setCompanyIndustry);
         binder.bind(phone, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
-        //TODO combine address for binder
+
 
 
         binder.readBean(accountCreator);
@@ -616,15 +620,15 @@ public class RegistrationView extends VerticalLayout {
                         .bind(AccountCreator::getEmail, AccountCreator::setEmail)
                         .validate().isError();
                 boolean isPasswordValid = binder.forField(passwordField)
-                        .asRequired("Password is required")
+                        .asRequired(PASSWORDLABEL)
                         .withValidator(new PasswordValidator())
-                        .withValidator(password -> confirmPasswordField.getValue().equals(password), "Passwords must match.")
+                        .withValidator(password -> confirmPasswordField.getValue().equals(password), PASSWORDMATCHLABEL)
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
                 boolean isConfirmPasswordValid = binder.forField(confirmPasswordField)
-                        .asRequired("Password is required")
+                        .asRequired(PASSWORDLABEL)
                         .withValidator(new PasswordValidator())
-                        .withValidator(password -> passwordField.getValue().equals(password), "Passwords must match.")
+                        .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
                 if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
