@@ -32,6 +32,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
 import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
+import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.frontend.PasswordValidator;
 @Route(value = "registration", layout = MainLayout.class)
 @PageTitle("Registration | Coll@HBRS")
@@ -145,7 +146,7 @@ public class RegistrationView extends VerticalLayout {
         var companyContainer = new VerticalLayout();
 
         // layout settings
-        selContainer.setHeight("max-content");
+        selContainer.setHeight(Format.MAX_CONTENT);
         selContainer.setAlignItems(FlexComponent.Alignment.CENTER);
         selContainer.setJustifyContentMode(JustifyContentMode.CENTER);
         selContainer.setWidth("100%");
