@@ -39,11 +39,11 @@ import teapot.collat_hbrs.frontend.PasswordValidator;
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
 
-    private final String streetLabel = "Street name";
-    private final String houseLabel = "House number";
-    private final String passwordLabel = "Password is Required";
-    private final String passwordMatchLabel = "Passwords must match.";
-    private final String layoutSize = "500px";
+    private final static String streetLabel = "Street name";
+    private final static String houseLabel = "House number";
+    private final static String passwordLabel = "Password is Required";
+    private final static String passwordMatchLabel = "Passwords must match.";
+    private final static String layoutSize = "500px";
     // User account fields
     private TextField usernameField;
     private PasswordField passwordField;
