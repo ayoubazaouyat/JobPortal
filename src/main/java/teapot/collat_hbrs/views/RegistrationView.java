@@ -521,7 +521,7 @@ public class RegistrationView extends VerticalLayout {
         var successMessage = new H2("You are ready to go!");
         var homeButton = new Button();
         if (accType == 0) {
-            String message = "Hey " + accountCreator.getSurname() + ", we are happy to have you!";
+            String message = "Hey " + accountCreator.getForename() + ", we are happy to have you!";
 
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
 
