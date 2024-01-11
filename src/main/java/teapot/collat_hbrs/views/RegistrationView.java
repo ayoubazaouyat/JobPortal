@@ -649,6 +649,7 @@ public class RegistrationView extends VerticalLayout {
     }
 
     private boolean validateStudentForm() {
+        final String requiredMessage = "This field is required";
         if (studentStreet.isEmpty()
                 || studentHouseNumber.isEmpty()
                 || studentPlz.isEmpty()
@@ -656,19 +657,19 @@ public class RegistrationView extends VerticalLayout {
             // Validation for required fields
             if (studentStreet.isEmpty()) {
                 studentStreet.setInvalid(true);
-                studentStreet.setErrorMessage("This field is required");
+                studentStreet.setErrorMessage(requiredMessage);
             }
             if (studentHouseNumber.isEmpty()) {
                 studentHouseNumber.setInvalid(true);
-                studentHouseNumber.setErrorMessage("This field is required");
+                studentHouseNumber.setErrorMessage(requiredMessage);
             }
             if (studentPlz.isEmpty()) {
                 studentPlz.setInvalid(true);
-                studentPlz.setErrorMessage("This field is required");
+                studentPlz.setErrorMessage(requiredMessage);
             }
             if (studentCity.isEmpty()) {
                 studentCity.setInvalid(true);
-                studentCity.setErrorMessage("This field is required");
+                studentCity.setErrorMessage(requiredMessage);
             }
             return false;
         }
