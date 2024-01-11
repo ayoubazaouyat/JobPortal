@@ -9,18 +9,25 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import teapot.collat_hbrs.backend.security.SecurityService;
+
+import java.util.Collection;
 
 @PageTitle("Coll@HBRS")
 @Route(value = "", layout = MainLayout.class)
 @AnonymousAllowed
 @Uses(Icon.class)
-public class LandingView extends VerticalLayout {
+public class LandingView extends VerticalLayout implements BeforeEnterObserver {
 
-    public LandingView() {
+    @Autowired
+    private SecurityService securityService;
+    public LandingView()  {
+
         VerticalLayout container = new VerticalLayout();
 
         H1 welcomeTitle = new H1("Welcome to Coll@HBRS");
@@ -71,5 +78,17 @@ public class LandingView extends VerticalLayout {
                 .set("background-position", "center")
                 .set("height", "100%")
                 .set("width", "100%");
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+
+        if(securityService.isAuthenticated()){
+            Collection<? extends GrantedAuthority> roles = securityService.getAuthenticatedUser().getAuthorities();
+            if(roles.contains(new SimpleGrantedAuthority("ROLE_STUDENT")))
+                beforeEnterEvent.forwardTo(DashboardStudentView.class);
+            else
+                beforeEnterEvent.forwardTo(DashboardCompanyView.class);
+        }
     }
 }

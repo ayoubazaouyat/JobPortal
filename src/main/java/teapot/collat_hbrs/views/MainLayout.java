@@ -75,20 +75,17 @@ public class MainLayout extends AppLayout {
         Tabs tabs = new Tabs();
         tabs.getStyle().set("margin", "auto");
         tabs.add(
-                createTab("Home", LandingView.class, new Icon(VaadinIcon.HOME)),
-                createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)),
-                createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)),
-                createTab("About Us", AboutUsView.class, new Icon()),
-                createTab("Contact", ContactView.class, new Icon())
+                createTab("Home", LandingView.class, new Icon(VaadinIcon.HOME))
         );
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
-            tabs.add(createTab("Company Dashboard", DashboardCompanyView.class, new Icon(VaadinIcon.DASHBOARD)));
-            tabs.remove(tabs.getComponentAt(2));
+            tabs.add(createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)));
         }
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
-            tabs.add(createTab("Student Dashboard", DashboardStudentView.class, new Icon(VaadinIcon.DASHBOARD)));
-            tabs.remove(tabs.getComponentAt(1));
+            tabs.add(createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)));
         }
+
+        tabs.add(createTab("About Us", AboutUsView.class, new Icon()),
+                createTab("Contact", ContactView.class, new Icon()));
         tabs.addSelectedChangeListener(selectedChangeEvent -> updateMessageCount());
 
         return tabs;
