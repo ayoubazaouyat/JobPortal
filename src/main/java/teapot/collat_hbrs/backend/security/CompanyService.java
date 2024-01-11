@@ -37,7 +37,7 @@ public class CompanyService {
 
         //remove entries that do not fit the search criteria if it is bot empty
         //TODO make filter match on similarity not equality
-        if (!name.equals("")) {
+        if (!name.isEmpty()) {
             for (Company company : companies) {
                 if (company.getCompanyName().contains(name))
                     //companies.remove(company);

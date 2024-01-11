@@ -2,7 +2,6 @@ package teapot.collat_hbrs.views;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
@@ -16,7 +15,6 @@ import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
@@ -28,12 +26,9 @@ import java.util.Random;
 
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
-import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.AppliedJobWidget;
-import teapot.collat_hbrs.views.components.JobResultWidget;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Dashboard (Student)")
@@ -43,12 +38,12 @@ import javax.annotation.security.RolesAllowed;
 public class DashboardStudentView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
     private final Random random = new Random();
-    private List<AppliedJobWidget> jobs = new ArrayList<>();
-    private VerticalLayout results = new VerticalLayout();
+    private final List<AppliedJobWidget> jobs = new ArrayList<>();
+    private final VerticalLayout results = new VerticalLayout();
 
     private HorizontalLayout applJobsContainer;
     public DashboardStudentView() {
-        FunctionApplJobsContainer();
+        functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
         H5 h5 = new H5();
@@ -105,7 +100,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }
-    private void FunctionApplJobsContainer() {
+    private void functionApplJobsContainer() {
         applJobsContainer = new HorizontalLayout(generateResults());
         applJobsContainer.setWidthFull();
     }

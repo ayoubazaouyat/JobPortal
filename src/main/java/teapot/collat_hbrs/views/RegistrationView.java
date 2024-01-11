@@ -66,7 +66,7 @@ public class RegistrationView extends VerticalLayout {
     private final UserService userService;
     private final H1 heading;
     private final AccountCreator accountCreator = new AccountCreator();
-    private Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
+    private final Binder<AccountCreator> binder = new Binder<>(AccountCreator.class);
 
     // Constants and process control
     private static final double NUMEROFSTEPS = 4;

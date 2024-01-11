@@ -7,36 +7,25 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Hr;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.html.Div;
 
-
-
-
-
-//import java.awt.*;//
+import javax.annotation.security.RolesAllowed;
 import java.time.LocalDate;
-import java.util.Collection;
 
 @Route(value = "PostJob", layout = MainLayout.class)
 @PageTitle("Job posten | Coll@HBRS")
@@ -45,11 +34,11 @@ import java.util.Collection;
 
 public class JobPostingView extends VerticalLayout {
 
-    private JobAdvertisementService jobAdvertisementService;
+    private final JobAdvertisementService jobAdvertisementService;
 
     private String previousCompanyName;
     private String previousAddress;
-    private String TimeType;
+    private String timeType;
     private String previousRemoteHouse;
     private String previousDescription;
     private String previousLocation;
@@ -73,11 +62,9 @@ public class JobPostingView extends VerticalLayout {
     private TextField candidateCount;
     private TextArea employeeBenefits ;
     private TextArea hrContact ;
-    private Button postButton;
     private Button confirmButton;
 
 
-    private TextField titleField = new TextField("Title");
     private Button editButton;
 
 
@@ -103,7 +90,7 @@ public class JobPostingView extends VerticalLayout {
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems("Full-time", "Part-time","Working Student","internship");
         fullOrPartTime.setRequired(true);
-        remoteOrInHouse = new ComboBox<String>("Remote/Office");
+        remoteOrInHouse = new ComboBox<>("Remote/Office");
         remoteOrInHouse.setClearButtonVisible(true);
         remoteOrInHouse.setItems("Remote", "Office");
 
@@ -120,8 +107,7 @@ public class JobPostingView extends VerticalLayout {
         hrContact = new TextArea("Contact of HR Manager (Optional)");
 
 
-
-        postButton = new Button("Post Job");
+        Button postButton = new Button("Post Job");
         postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         postButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         genForm.add(
@@ -168,7 +154,7 @@ public class JobPostingView extends VerticalLayout {
     private void storeEnteredData() {
         previousCompanyName = companyName.getValue();
         previousAddress = address.getValue();
-        TimeType= fullOrPartTime.getValue();
+        timeType = fullOrPartTime.getValue();
         previousRemoteHouse= remoteOrInHouse.getValue();
         previousDescription= textDescription.getValue();
         previousLocation= location.getValue();
@@ -261,7 +247,7 @@ public class JobPostingView extends VerticalLayout {
             Notification.show("Job posted successfully");
 
             // Ask if the user wants to post another job
-            getUI().ifPresent(ui -> ui.access(() -> askForAnotherJob()));
+            getUI().ifPresent(ui -> ui.access(this::askForAnotherJob));
             confirmButton.setEnabled(false);
             editButton.setEnabled(false);
 
@@ -269,9 +255,7 @@ public class JobPostingView extends VerticalLayout {
         });
 
         Button backButton = new Button("Back to Landing Page");
-        backButton.addClickListener(e -> {
-            UI.getCurrent().navigate("");
-        });
+        backButton.addClickListener(e -> UI.getCurrent().navigate(""));
 
         add(editButton, confirmButton, backButton);
     }
@@ -318,7 +302,7 @@ public class JobPostingView extends VerticalLayout {
         // Set previously entered data in the form fields
         companyName.setValue(previousCompanyName);
         address.setValue(previousAddress);
-        fullOrPartTime.setValue(TimeType);
+        fullOrPartTime.setValue(timeType);
         remoteOrInHouse.setValue(previousRemoteHouse);
         textDescription.setValue(previousDescription);
         location.setValue(previousLocation);

@@ -21,7 +21,6 @@ import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobResultWidget;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +34,9 @@ public class JobSearchView extends VerticalLayout {
 
     private TextField jobTitleField;
     private NumberField hourlyWageField;
-    private VerticalLayout results = new VerticalLayout();
+    private final VerticalLayout results = new VerticalLayout();
     private HorizontalLayout resultsContainer;
-    private List<JobResultWidget> jobs = new ArrayList<>();
+    private final List<JobResultWidget> jobs = new ArrayList<>();
     private VerticalLayout jobInfo;
     private final Random random = new Random();
 

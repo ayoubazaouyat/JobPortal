@@ -21,11 +21,9 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
-import teapot.collat_hbrs.views.components.AppliedJobWidget;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobListingWidget;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +36,12 @@ import java.util.Random;
 public class DashboardCompanyView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
     private final Random random = new Random();
-    private List<JobListingWidget> jobs = new ArrayList<JobListingWidget>();
-    private VerticalLayout results = new VerticalLayout();
+    private final List<JobListingWidget> jobs = new ArrayList<>();
+    private final VerticalLayout results = new VerticalLayout();
 
     private HorizontalLayout applJobsContainer;
     public DashboardCompanyView() {
-        FunctionApplJobsContainer();
+        functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
         H5 h5 = new H5();
@@ -94,7 +92,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }
-    private void FunctionApplJobsContainer() {
+    private void functionApplJobsContainer() {
         applJobsContainer = new HorizontalLayout(generateResults());
         applJobsContainer.setWidthFull();
     }

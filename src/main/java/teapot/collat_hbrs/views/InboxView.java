@@ -6,7 +6,6 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -24,24 +23,20 @@ import java.util.List;
 @PageTitle("Inbox")
 public class InboxView extends VerticalLayout {
 
-    private final SecurityService securityService;
     private Grid<Message> messageGrid;
     private Grid<Message> spamGrid;
-    private Button deleteButton;
     private Button markAsSpamButton;
     private Button markAsInnocentButton;
-    private Button showSpamGridButton;
     private Button backButton;
     private Label messageCountLabel;
 
-    private List<Message> inboxMessages = new ArrayList<>();
-    private List<Message> spamMessages = new ArrayList<>();
+    private final List<Message> inboxMessages = new ArrayList<>();
+    private final List<Message> spamMessages = new ArrayList<>();
 
     private ListDataProvider<Message> inboxDataProvider;
     private ListDataProvider<Message> spamDataProvider;
 
     public InboxView(SecurityService securityService) {
-        this.securityService = securityService;
         setupUI();
         updateMessageCount();
     }
@@ -70,7 +65,7 @@ public class InboxView extends VerticalLayout {
         messageCountLabel = new Label();
         add(messageCountLabel);
 
-        deleteButton = new Button("Delete", e -> {
+        Button deleteButton = new Button("Delete", e -> {
             Message selectedMessage = messageGrid.asSingleSelect().getValue();
             if (selectedMessage != null) {
                 showDeleteConfirmation(selectedMessage);
@@ -95,7 +90,7 @@ public class InboxView extends VerticalLayout {
         markAsInnocentButton.setVisible(false); // Initially hidden
         add(markAsInnocentButton);
 
-        showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
+        Button showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
 
         backButton = new Button("Back to Inbox", e -> showInboxGrid());
         backButton.setVisible(false);

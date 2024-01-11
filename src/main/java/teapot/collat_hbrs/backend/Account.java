@@ -24,11 +24,6 @@ public abstract class Account {
         return id;
     }
 
-    // Make this setter protected so other classes do not interfere with JPA
-    /*private void setId(Long id) {
-        this.id = id;
-    }*/
-
     public String getUsername() {
         return username;
     }

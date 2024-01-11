@@ -9,9 +9,6 @@ import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.JobAdvertisementRepository;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)

@@ -21,7 +21,7 @@ public abstract class ResultsWidget extends HorizontalLayout {
      * @param picture Picture on the left
      * @param buttons Buttons to perform actions
      */
-    public ResultsWidget(@Nullable Image picture, @Nullable Button... buttons) {
+    protected ResultsWidget(@Nullable Image picture, @Nullable Button... buttons) {
         this.picture = picture != null ? picture : new Image("images/profile_placeholder.png", "");
         this.info = new VerticalLayout(new Text("N/A"));
         this.buttons = buttons;

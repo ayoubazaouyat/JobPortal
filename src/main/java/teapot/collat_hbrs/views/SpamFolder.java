@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpamFolder {
-    private List<InboxView.Message> spamMessages;
+    private final List<InboxView.Message> spamMessages;
 
     public SpamFolder() {
         this.spamMessages = new ArrayList<>();

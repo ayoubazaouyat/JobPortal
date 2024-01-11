@@ -1,12 +1,9 @@
 package teapot.collat_hbrs.backend;
 
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import javax.persistence.*;
 
 import java.sql.Date;
-import java.sql.Time;
 
 @Entity
 //@Embeddable
