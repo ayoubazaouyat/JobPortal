@@ -50,12 +50,12 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
         Hr hr2 = new Hr();
-        H5 h52 = new H5();
+        H5 h5_2 = new H5();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
         MultiSelectListBox avatarItems = new MultiSelectListBox();
         getContent().setWidth("100%");
         getContent().getStyle().set(Format.FLEX_GROW, "1");
-        h2.setText("Welcome, [User]!");
+        h2.setText("Welcome!");
         h2.setWidth(Format.MAX_CONTENT);
         h5.setText("Options");
         h5.setWidth(Format.MAX_CONTENT);
@@ -73,8 +73,8 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        h52.setText("Currently applied for:");
-        h52.setWidth(Format.MAX_CONTENT);
+        h5_2.setText("Current job offers:");
+        h5_2.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow2);
         layoutRow2.addClassName(Gap.MEDIUM);
@@ -89,7 +89,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         layoutRow.add(buttonPrimary);
         layoutRow.add(buttonPrimary2);
         getContent().add(hr2);
-        getContent().add(h52);
+        getContent().add(h5_2);
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }

@@ -58,7 +58,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         MultiSelectListBox avatarItems = new MultiSelectListBox();
         getContent().setWidth("100%");
         getContent().getStyle().set(Format.FLEX_GROW, "1");
-        h2.setText("Welcome, [User]!");
+        h2.setText("Welcome!");
         h2.setWidth(Format.MAX_CONTENT);
         h5.setText("Options");
         h5.setWidth(Format.MAX_CONTENT);
