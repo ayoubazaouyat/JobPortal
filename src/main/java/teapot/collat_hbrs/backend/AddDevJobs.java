@@ -25,13 +25,13 @@ public class AddDevJobs implements InitializingBean {
     public void afterPropertiesSet() {
         Random random = new Random();
 
-        Company test_company = new Company("microsoft", "", "Microsoft", "Cologne", "", "", "");
-        companyRepository.save(test_company);
+        Company testCompany = new Company("microsoft", "", "Microsoft", "Cologne", "", "", "");
+        companyRepository.save(testCompany);
 
         for (int x = 0; x < 10; x++) {
             // Demo job advertisements
             JobAdvertisement ad = new JobAdvertisement();
-            ad.setCompany(test_company);
+            ad.setCompany(testCompany);
             ad.setLocation("Cologne");
             ad.setTitle("Test Job");
             ad.setFullOrPartTime("Part Time");
