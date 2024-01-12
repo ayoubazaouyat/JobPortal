@@ -22,7 +22,7 @@ public class AddDevJobs implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         Random random = new Random();
 
         Company test_company = new Company("microsoft", "", "Microsoft", "Cologne", "", "", "");
