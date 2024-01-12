@@ -30,10 +30,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import teapot.collat_hbrs.backend.AccountCreator;
 import teapot.collat_hbrs.backend.security.UserService;
+import teapot.collat_hbrs.backend.AccountRepository;
 import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.frontend.PasswordValidator;
+
+
 @Route(value = "registration", layout = MainLayout.class)
 @PageTitle("Registration | Coll@HBRS")
 @AnonymousAllowed
@@ -78,6 +82,7 @@ public class RegistrationView extends VerticalLayout {
     private int accType;
     private int step;
     private ProgressBar progressBar;
+    private AccountRepository accountRepository;
 
 
 
@@ -90,6 +95,11 @@ public class RegistrationView extends VerticalLayout {
         heading = new H1("Registration");
         step = 1;
         buildUI();
+    }
+
+    @Autowired
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     /**
@@ -521,7 +531,7 @@ public class RegistrationView extends VerticalLayout {
         var successMessage = new H2("You are ready to go!");
         var homeButton = new Button();
         if (accType == 0) {
-            String message = "Hey " + accountCreator.getSurname() + ", we are happy to have you!";
+            String message = "Hey " + accountCreator.getForename() + ", we are happy to have you!";
 
             Notification.show(message, 5000, Notification.Position.TOP_CENTER);
 
@@ -583,9 +593,6 @@ public class RegistrationView extends VerticalLayout {
                 binder.writeBeanIfValid(accountCreator);
                 step++;
                 buildUI();
-            } else {
-                //show validation error to user
-                Notification.show("Please check your input.", 3000, Notification.Position.TOP_CENTER);
             }
         });
         nextButton.addClickShortcut(Key.ENTER);
@@ -631,6 +638,10 @@ public class RegistrationView extends VerticalLayout {
                         .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
+                if(!userUnique(usernameField.getValue())) {
+                    Notification.show("Username already exists, please choose an other one",3000,Notification.Position.TOP_CENTER);
+                    return false;
+                }
                 if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
                     Notification.show("Please fill in the required fields correctly", 3000, Notification.Position.TOP_CENTER);
                     return false;
@@ -764,6 +775,9 @@ public class RegistrationView extends VerticalLayout {
         login.setTooltipText("Click here to go to the login page");
         login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
+    }
+    private boolean userUnique(String username) {
+        return accountRepository.findByUsername(username).isEmpty();
     }
 
 }
