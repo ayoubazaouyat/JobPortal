@@ -20,12 +20,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.AppliedJobWidget;
@@ -39,11 +38,12 @@ import javax.annotation.security.RolesAllowed;
 public class DashboardStudentView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
     private final Random random = new Random();
-    private final List<AppliedJobWidget> jobs = new ArrayList<>();
     private final VerticalLayout results = new VerticalLayout();
+    private final JobAdvertisementService jobAdvertisementService;
 
     private HorizontalLayout applJobsContainer;
-    public DashboardStudentView() {
+    public DashboardStudentView(JobAdvertisementService jobAdvertisementService) {
+        this.jobAdvertisementService = jobAdvertisementService;
         functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
@@ -107,18 +107,19 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
     }
 
     private Scroller generateResults() {
-        for (int x = 0; x < 3; x++) {
-            // Demo job advertisements
-            JobAdvertisement ad = new JobAdvertisement();
-            ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-            ad.setLocation("Cologne");
-            ad.setTitle("Test Job");
 
-            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-            AppliedJobWidget jobWidget = new AppliedJobWidget(this, ad);
-            jobs.add(jobWidget);
+        //get three random jobs
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getAllJobAdvertisements();
+        for (int i = 0; i < 3; i++) {
+            if (jobAdvertisements.isEmpty()) break;
+            int pos = random.nextInt(jobAdvertisements.size());
+            AppliedJobWidget jobWidget = new AppliedJobWidget(this, jobAdvertisements.get(pos));
+            jobAdvertisements.remove(pos);
+
             results.add(jobWidget);
         }
+
+
         // ------------------------
 
         Scroller scroller = new Scroller(results);
