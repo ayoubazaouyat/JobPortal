@@ -15,30 +15,17 @@ public class JobAdvertisement extends Account {
     private Company company;
     private Long jobAdvertisementId;
     private String title;
-
     private String textDescription;
-
     private String  fullOrPartTime;
-
-
     private String remoteOrInHouse;
-
     private String requirements;
-
     private double hourlywage;
-
     private boolean homeoffice;
-
     private java.time.LocalDate offerAge;
-
     private String expectations;
-
     private Date starttime;
-
     private String candidateCount;
-
     private String employeeBenefits;
-
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
 
 

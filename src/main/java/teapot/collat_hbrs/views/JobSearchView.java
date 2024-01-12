@@ -16,15 +16,14 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobResultWidget;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Route(value = "jobsearch", layout = MainLayout.class)
 @PageTitle("Job Search | Coll@HBRS")
@@ -38,12 +37,13 @@ public class JobSearchView extends VerticalLayout {
     private HorizontalLayout resultsContainer;
     private final List<JobResultWidget> jobs = new ArrayList<>();
     private VerticalLayout jobInfo;
-    private final Random random = new Random();
 
+    JobAdvertisementService jobAdvertisementService;
     /**
      * Constructor
      */
-    public JobSearchView() {
+    public JobSearchView(JobAdvertisementService jobAdvertisementService) {
+        this.jobAdvertisementService = jobAdvertisementService;
         H1 heading = new H1("Job Search");
         FormLayout search = initSearch();
         Hr separator = new Hr();
@@ -98,37 +98,23 @@ public class JobSearchView extends VerticalLayout {
     }
 
     private Scroller generateResults() {
-        for (int x = 0; x < 10; x++) {
-            // Demo job advertisements
-            JobAdvertisement ad = new JobAdvertisement();
-            ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-            ad.setLocation("Cologne");
-            ad.setTitle("Test Job");
 
-            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-            JobResultWidget jobWidget = new JobResultWidget(this, ad);
-            jobs.add(jobWidget);
-            results.add(jobWidget);
+
+        //Add job ads from database
+        List<JobAdvertisement> jobAdds = jobAdvertisementService.getAllJobAdvertisements();
+
+        for (JobAdvertisement jobAdd : jobAdds) {
+            JobResultWidget jobResultWidget = new JobResultWidget(this, jobAdd);
+            jobs.add(jobResultWidget);
+            results.add(jobResultWidget);
         }
 
-        JobAdvertisement ad = new JobAdvertisement();
-        ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-        ad.setLocation("Cologne");
-        ad.setTitle("Test Job");
-        ad.setFullOrPartTime("Part Time");
-
-        ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-        JobResultWidget jobWidget = new JobResultWidget(this, ad);
-        jobs.add(jobWidget);
-        results.add(jobWidget);
 
         // ------------------------
 
         Scroller scroller = new Scroller(results);
         scroller.setWidthFull();
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
-
-        results.add(); // TODO Add job ads from database (in the future: including filtering)
 
         return scroller;
     }
