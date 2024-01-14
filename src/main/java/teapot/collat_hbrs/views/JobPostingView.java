@@ -309,10 +309,12 @@ public class JobPostingView extends VerticalLayout {
 
     private void saveJobAdvertisement() {
         JobAdvertisement jobAdvertisement = new JobAdvertisement();
-        jobAdvertisement.getCompany().setCompanyName(companyName.getValue());
-        jobAdvertisement.getCompany().setAddress(address.getValue());
+
+        jobAdvertisement.setCompanyName(companyName.getValue());
+        jobAdvertisement.setTitle(address.getValue()); //address ist hier irrefuehrend, lag eventuell an "position"
         jobAdvertisement.setFullOrPartTime(fullOrPartTime.getValue());
         jobAdvertisement.setRemoteOrInHouse(remoteOrInHouse.getValue());
+        jobAdvertisement.setHourlywage(Double.parseDouble(StundenLohn.getValue()));
         jobAdvertisement.setTextDescription(textDescription.getValue());
         jobAdvertisement.setLocation(location.getValue());
         jobAdvertisement.setOfferAge(offerAge.getValue());
