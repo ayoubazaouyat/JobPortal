@@ -64,7 +64,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         layoutRow.addClassName(Gap.MEDIUM);
         layoutRow.setWidth("100%");
         layoutRow.getStyle().set(Format.FLEX_GROW, "1");
-        buttonPrimary.setText("Post a new Job offer");
+        buttonPrimary.setText("Post a new job advertisement");
         buttonPrimary.setWidth(Format.MIN_CONTENT);
         buttonPrimary.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/PostJob"));

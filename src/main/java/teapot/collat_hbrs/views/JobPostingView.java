@@ -253,7 +253,7 @@ public class JobPostingView extends VerticalLayout {
             saveJobAdvertisement();
         });
 
-        Button backButton = new Button("Back to Landing Page");
+        Button backButton = new Button("Cancel and Return to Landing");
         backButton.addClickListener(e -> UI.getCurrent().navigate(""));
 
         add(editButton, confirmButton, backButton);
