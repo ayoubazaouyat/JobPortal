@@ -19,8 +19,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobListingWidget;
@@ -28,7 +28,6 @@ import teapot.collat_hbrs.views.components.JobListingWidget;
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @PageTitle("Dashboard (Student)")
 @Route(value = "dash_com", layout = MainLayout.class)
@@ -36,12 +35,13 @@ import java.util.Random;
 @RolesAllowed("COMPANY")
 public class DashboardCompanyView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
-    private final Random random = new Random();
     private final List<JobListingWidget> jobs = new ArrayList<>();
     private final VerticalLayout results = new VerticalLayout();
+    private final JobAdvertisementService jobAdvertisementService;
 
     private HorizontalLayout applJobsContainer;
-    public DashboardCompanyView() {
+    public DashboardCompanyView(JobAdvertisementService jobAdvertisementService) {
+        this.jobAdvertisementService = jobAdvertisementService;
         functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
@@ -99,18 +99,14 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
     }
 
     private Scroller generateResults() {
-        for (int x = 0; x < 3; x++) {
-            // Demo job advertisements
-            JobAdvertisement ad = new JobAdvertisement();
-            ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-            ad.setLocation("Cologne");
-            ad.setTitle("Test Job");
 
-            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-            JobListingWidget jobWidget = new JobListingWidget(this, ad);
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForCompany("Microsoft");
+        for (JobAdvertisement jobAdd: jobAdvertisements) {
+            JobListingWidget jobWidget = new JobListingWidget(this, jobAdd);
             jobs.add(jobWidget);
             results.add(jobWidget);
         }
+
         // ------------------------
 
         Scroller scroller = new Scroller(results);
