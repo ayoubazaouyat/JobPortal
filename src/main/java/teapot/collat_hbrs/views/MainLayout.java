@@ -79,6 +79,7 @@ public class MainLayout extends AppLayout {
         );
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
             tabs.add(createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)));
+            tabs.add(createTab("Jobs List", MyJobListView.class, new Icon(VaadinIcon.EDIT))); // Add Job Edit tab
         }
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
             tabs.add(createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)));
