@@ -31,12 +31,12 @@ public class JobInformationWidget extends VerticalLayout {
     }
 
     private void generateHeader() {
-        Image logo = new Image("images/profile_placeholder.png", job.getCompany().getCompanyName() + " Logo");
+        Image logo = new Image("images/profile_placeholder.png", job.getCompanyName() + " Logo");
         logo.setHeight("80%");
         logo.getStyle().set("border-radius", "var(--lumo-border-radius-m)");
 
         H3 jobTitle = new H3(job.getTitle() + " (#" + job.getJobAdvertisementId() + ")");
-        Span subTitle = new Span("by " + job.getCompany().getCompanyName() + " in " + job.getLocation());
+        Span subTitle = new Span("by " + job.getCompanyName() + " in " + job.getLocation());
         Span candidates = new Span(job.getCandidateCount() + " students already applied for this job");
 
         VerticalLayout shortInfo = new VerticalLayout();
