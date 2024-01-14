@@ -6,6 +6,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -23,20 +24,32 @@ import java.util.List;
 @PageTitle("Inbox")
 public class InboxView extends VerticalLayout {
 
+    private final SecurityService securityService;
     private Grid<Message> messageGrid;
     private Grid<Message> spamGrid;
+    private Button deleteButton;
     private Button markAsSpamButton;
     private Button markAsInnocentButton;
+    private Button showSpamGridButton;
     private Button backButton;
+    // Add a delete button for sent messages
+    private Button deleteSentButton;
     private Label messageCountLabel;
 
-    private final List<Message> inboxMessages = new ArrayList<>();
-    private final List<Message> spamMessages = new ArrayList<>();
+    private List<Message> inboxMessages = new ArrayList<>();
+    private List<Message> spamMessages = new ArrayList<>();
+
+    private Grid<Message> sentGrid;
+    private List<Message> sentMessages = new ArrayList<>();
+    private ListDataProvider<Message> sentDataProvider;
+    private Button showSentGridButton;
+
 
     private ListDataProvider<Message> inboxDataProvider;
     private ListDataProvider<Message> spamDataProvider;
 
     public InboxView(SecurityService securityService) {
+        this.securityService = securityService;
         setupUI();
         updateMessageCount();
     }
@@ -65,8 +78,15 @@ public class InboxView extends VerticalLayout {
         messageCountLabel = new Label();
         add(messageCountLabel);
 
-        Button deleteButton = new Button("Delete", e -> {
+        deleteButton = new Button ("Delete", e -> {
             Message selectedMessage = messageGrid.asSingleSelect().getValue();
+            if (selectedMessage != null) {
+                showDeleteConfirmation(selectedMessage);
+            }
+        });
+
+        deleteSentButton = new Button("Delete", e -> {
+            Message selectedMessage = sentGrid.asSingleSelect().getValue();
             if (selectedMessage != null) {
                 showDeleteConfirmation(selectedMessage);
             }
@@ -90,7 +110,7 @@ public class InboxView extends VerticalLayout {
         markAsInnocentButton.setVisible(false); // Initially hidden
         add(markAsInnocentButton);
 
-        Button showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
+        showSpamGridButton = new Button("Spam Messages", e -> showSpamGrid());
 
         backButton = new Button("Back to Inbox", e -> showInboxGrid());
         backButton.setVisible(false);
@@ -107,6 +127,30 @@ public class InboxView extends VerticalLayout {
         // Create ListDataProvider for spam messages
         spamDataProvider = DataProvider.ofCollection(spamMessages);
         spamGrid.setDataProvider(spamDataProvider);
+
+        showSentGridButton = new Button("Sent Messages", e -> showSentGrid());
+        add(showSentGridButton);
+
+        sentGrid = new Grid<>();
+        sentGrid.addColumn(Message::getSender).setHeader("Recipient");
+        sentGrid.addColumn(Message::getSubject).setHeader("Subject");
+        sentGrid.addColumn(Message::getTimestamp).setHeader("Timestamp");
+        sentGrid.setVisible(false);
+        add(sentGrid, deleteSentButton);
+
+
+
+        // Create ListDataProvider for sent messages
+        sentDataProvider = DataProvider.ofCollection(sentMessages);
+        sentGrid.setDataProvider(sentDataProvider);
+
+        // Add a value change listener to the sent messages grid
+        sentGrid.asSingleSelect().addValueChangeListener(event -> {
+            if (event.getValue() != null) {
+                showMessageDialog(event.getValue());
+            }
+        });
+
 
         // Add some sample messages to the inbox
         inboxMessages.add(new Message("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-01-01 10:00"));
@@ -205,8 +249,10 @@ public class InboxView extends VerticalLayout {
     private void deleteMessages(List<Message> messagesToDelete) {
         inboxMessages.removeAll(messagesToDelete);
         spamMessages.removeAll(messagesToDelete);
+        sentMessages.removeAll(messagesToDelete);
         inboxDataProvider.refreshAll();
         spamDataProvider.refreshAll();
+        sentDataProvider.refreshAll();
         updateMessageCount();
     }
 
@@ -243,7 +289,7 @@ public class InboxView extends VerticalLayout {
 
         Button replyButton = new Button("Reply", e -> {
             String replyContent = replyTextArea.getValue();
-            sendReply(message.getSender(), message.getSubject(), replyContent);
+            sendReply(message, message.getSubject(), replyContent);
             dialog.close();
         });
 
@@ -256,33 +302,65 @@ public class InboxView extends VerticalLayout {
         dialog.open();
     }
 
-    private void sendReply(String recipient, String subject, String content) {
-        System.out.println("Reply Sent to: " + recipient);
+    private void sendReply(Message originalMessage, String subject, String content) {
+        System.out.println("Reply Sent to: " + originalMessage.getSender());
         System.out.println("Subject: " + subject);
         System.out.println("Content: " + content);
+
+        // Create a new Message for the sent reply with the initial sender as the recipient
+        Message sentMessage = new Message(originalMessage.getSender(), "Re: " + subject, content, "2024-01-14 15:30");
+
+        // Add the sent reply message to the list of sent messages
+        sentMessages.add(sentMessage);
+
+        // Refresh the data provider for the sent messages grid
+        sentDataProvider.refreshAll();
+
+        // Show a notification on the left side that the message has been sent
+        Notification.show("Message sent to: " + originalMessage.getSender(), 3000, Notification.Position.BOTTOM_START);
     }
 
-    public void handleIncomingMessage(String sender, String subject, String content, String timestamp) {
+
+
+
+    public void handleIncomingMessage(String sender, String subject,String recipient, String content, String timestamp) {
         // Create a new message and add it to the inbox
-        Message newMessage = new Message(sender, subject, content, timestamp);
+        Message newMessage = new Message(sender, subject, recipient, content, timestamp);
         inboxMessages.add(newMessage);
         inboxDataProvider.refreshAll();
         updateMessageCount();
     }
 
     public static class Message {
+        private String recipient;
         private String sender;
         private String subject;
         private String content;
         private String timestamp;
         private boolean isSpam;
+        private boolean isSent;  // Add a flag to indicate whether the message is sent or received
+
 
         public Message() {
             // Default constructor required for Vaadin Grid
         }
 
+
+
+        // Constructor for sent messages
         public Message(String sender, String subject, String content, String timestamp) {
             this.sender = sender;
+            this.recipient = sender; // Set recipient initially to sender for sent messages
+            this.subject = subject;
+            this.content = content;
+            this.timestamp = timestamp;
+            this.isSent = true;  // Set the flag for sent messages
+        }
+
+        // Add another constructor for received messages
+        public Message(String sender, String recipient, String subject, String content, String timestamp) {
+            this.sender = sender;
+            this.recipient = recipient;
             this.subject = subject;
             this.content = content;
             this.timestamp = timestamp;
@@ -300,6 +378,10 @@ public class InboxView extends VerticalLayout {
             return sender;
         }
 
+        public String getRecipient() {
+            return recipient;
+        }
+
         public String getSubject() {
             return subject;
         }
@@ -312,14 +394,26 @@ public class InboxView extends VerticalLayout {
             return timestamp;
         }
     }
+    private void showSentGrid() {
+        messageGrid.setVisible(false);
+        spamGrid.setVisible(false);
+        sentGrid.setVisible(true);
+        backButton.setVisible(true);
+        deleteButton.setVisible(false); // Hide delete button for inbox messages
+        deleteSentButton.setVisible(true); // Show delete button for sent messages
+    }
 
     private void showInboxGrid() {
         messageGrid.setVisible(true);
         spamGrid.setVisible(false);
-        markAsInnocentButton.setVisible(false); // Hide the "Mark as Innocent" button
+        sentGrid.setVisible(false);
+        markAsInnocentButton.setVisible(false);
         backButton.setVisible(false);
-
-        // Enable "Mark as Spam" button when switching back to inbox view
         markAsSpamButton.setEnabled(true);
+        deleteButton.setVisible(true); // Show delete button for inbox messages
+        deleteSentButton.setVisible(false); // Hide delete button for sent messages
     }
+
+
+
 }

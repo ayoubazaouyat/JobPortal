@@ -105,7 +105,7 @@ public class CompanyInformationDialog extends Dialog {
             String message = messageTextArea.getValue();
 
             if (!subject.isEmpty() && !message.isEmpty()) {
-                notifyContactListeners(subject, message);
+
                 Notification.show("Message sent!");
                 contactDialog.close();
             } else {
@@ -127,16 +127,8 @@ public class CompanyInformationDialog extends Dialog {
 
 
 
-    private void notifyContactListeners(String subject, String message) {
-        for (ContactListener listener : contactListeners) {
-            listener.contact(subject + ": " + message);
-        }
-        // Pass the message to the InboxView
-        if (getParent().isPresent() && getParent().get() instanceof InboxView) {
-            InboxView inboxView = (InboxView) getParent().get();
-            inboxView.handleIncomingMessage("You", "Message to " + company.getCompanyName(), message, "Now");
-        }
-    }
+
+
 
     private Div generateStars() {
         Div stars = new Div();
