@@ -28,7 +28,10 @@ public class JobAdvertisementService {
 
     public void deleteJobAdvertisement(JobAdvertisement jobAdvertisement) {
         //if(jobAdvertisementRepository.exists(jobAdvertisement) {, funktioniert nicht
-
         jobAdvertisementRepository.delete(jobAdvertisement);
+    }
+
+    public JobAdvertisement getJobAdvertisementsForCompany(String companyName) {
+        return (JobAdvertisement) jobAdvertisementRepository.findByCompanyCompanyName(companyName);
     }
 }

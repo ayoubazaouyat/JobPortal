@@ -248,11 +248,12 @@ public class JobPostingView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.access(this::askForAnotherJob));
             confirmButton.setEnabled(false);
             editButton.setEnabled(false);
+            UI.getCurrent().navigate(MyJobListView.class);
 
             saveJobAdvertisement();
         });
 
-        Button backButton = new Button("Back to Landing Page");
+        Button backButton = new Button("Cancel and Return to Landing");
         backButton.addClickListener(e -> UI.getCurrent().navigate(""));
 
         add(editButton, confirmButton, backButton);
@@ -280,7 +281,7 @@ public class JobPostingView extends VerticalLayout {
 
 
 
-    private void displayFormWithPreviousData() {
+    void displayFormWithPreviousData() {
         initJobPostingForm();
         // Set previously entered data in the form fields
         companyName.setValue(previousCompanyName);
