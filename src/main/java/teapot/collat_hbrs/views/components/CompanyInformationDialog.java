@@ -11,21 +11,31 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.notification.Notification;
 import teapot.collat_hbrs.backend.Company;
+import teapot.collat_hbrs.views.InboxView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompanyInformationDialog extends Dialog {
 
     private final Company company;
+    private List<ContactListener> contactListeners = new ArrayList<>();
 
     public CompanyInformationDialog(Company company) {
         this.company = company;
-
         buildDialog();
     }
 
-    /**
-     * Builds the information dialog
-     */
+    public interface ContactListener {
+        void contact(String message);
+    }
+
+    public void addContactListener(ContactListener listener) {
+        contactListeners.add(listener);
+    }
+
     private void buildDialog() {
         setHeaderTitle(company.getCompanyName());
 
@@ -33,7 +43,7 @@ public class CompanyInformationDialog extends Dialog {
 
         Span industry = new Span("Industry: " + company.getIndustry());
 
-        Div rating = new Div(new Span("Rating: " + 5.0 + " "), generateStars()); // TODO add company rating
+        Div rating = new Div(new Span("Rating: " + 5.0 + " "), generateStars());
 
         TextArea descriptionField = new TextArea();
         descriptionField.setLabel("Description");
@@ -65,9 +75,10 @@ public class CompanyInformationDialog extends Dialog {
         reportButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         reportButton.getStyle().set("color", "red");
 
-        Button rateButton = new Button("Rate", new Icon(VaadinIcon.STAR)); // TODO implement rating company
+        Button rateButton = new Button("Rate", new Icon(VaadinIcon.STAR));
 
-        Button contactButton = new Button("Contact", new Icon(VaadinIcon.ENVELOPE)); // TODO implement contacting company
+        Button contactButton = new Button("Contact", new Icon(VaadinIcon.ENVELOPE));
+        contactButton.addClickListener(e -> showContactDialog());
 
         Button closeButton = new Button("Close");
         closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -77,22 +88,65 @@ public class CompanyInformationDialog extends Dialog {
         setWidth("30%");
     }
 
-    /**
-     * Generates the stars based on the rating
-     *
-     * @return Stars as icons
-     */
+    private void showContactDialog() {
+        Dialog contactDialog = new Dialog();
+
+        // Create subject and message text areas
+        TextArea subjectTextArea = new TextArea("Subject");
+        subjectTextArea.setWidth("100%");
+
+        TextArea messageTextArea = new TextArea("Message");
+        messageTextArea.setWidth("100%");
+        messageTextArea.setHeight("200px"); // Set the desired height
+
+        // Create buttons for sending and canceling
+        Button sendButton = new Button("Send", event -> {
+            String subject = subjectTextArea.getValue();
+            String message = messageTextArea.getValue();
+
+            if (!subject.isEmpty() && !message.isEmpty()) {
+                notifyContactListeners(subject, message);
+                Notification.show("Message sent!");
+                contactDialog.close();
+            } else {
+                Notification.show("Please enter a subject and message");
+            }
+        });
+
+        Button cancelButton = new Button("Cancel", event -> contactDialog.close());
+
+        // Add components to the dialog
+        contactDialog.add(subjectTextArea, messageTextArea, new Div(sendButton, cancelButton));
+
+        // Set the dialog size
+        contactDialog.setWidth("400px"); // Set the desired width
+
+        // Open the dialog
+        contactDialog.open();
+    }
+
+
+
+    private void notifyContactListeners(String subject, String message) {
+        for (ContactListener listener : contactListeners) {
+            listener.contact(subject + ": " + message);
+        }
+        // Pass the message to the InboxView
+        if (getParent().isPresent() && getParent().get() instanceof InboxView) {
+            InboxView inboxView = (InboxView) getParent().get();
+            inboxView.handleIncomingMessage("You", "Message to " + company.getCompanyName(), message, "Now");
+        }
+    }
+
     private Div generateStars() {
         Div stars = new Div();
-        float rating = 5.0f;  // TODO add company rating
+        float rating = 5.0f;
         for (int i = 0; i < rating; i++) {
             stars.add(new Icon(VaadinIcon.STAR));
         }
         for (int i = 0; i < 5 - Float.floatToIntBits(rating); i++) {
             stars.add(new Icon(VaadinIcon.STAR_O));
         }
-
         return stars;
     }
-
 }
