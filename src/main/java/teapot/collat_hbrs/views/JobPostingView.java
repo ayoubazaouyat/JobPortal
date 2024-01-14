@@ -41,6 +41,7 @@ public class JobPostingView extends VerticalLayout {
     private String previousDescription;
     private String previousLocation;
     private String previousAge;
+    private String previousStundenLohn;
     private String previousExpect;
     private String previousRequ;
     private String previouscandidateCount;
@@ -60,6 +61,7 @@ public class JobPostingView extends VerticalLayout {
     private TextField candidateCount;
     private TextArea employeeBenefits ;
     private TextArea hrContact ;
+    private TextField StundenLohn;
     private Button confirmButton;
 
 
@@ -84,6 +86,8 @@ public class JobPostingView extends VerticalLayout {
         companyName.setRequired(true);
         address = new TextField("Position name");
         address.setRequired(true);
+        StundenLohn = new TextField("Stundenlohnn");
+        StundenLohn.setRequired(true);
         fullOrPartTime = new ComboBox<>("Type");
         fullOrPartTime.setClearButtonVisible(true);
         fullOrPartTime.setItems("Full-time", "Part-time","Working Student","internship");
@@ -109,7 +113,7 @@ public class JobPostingView extends VerticalLayout {
         postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         postButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         genForm.add(
-                companyName, address, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
+                companyName, address, StundenLohn, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
                 expectations, requirements, candidateCount, employeeBenefits, hrContact, postButton
         );
 
@@ -131,6 +135,7 @@ public class JobPostingView extends VerticalLayout {
 
         genForm.setColspan(companyName, 4);
         genForm.setColspan(address, 4);
+        genForm.setColspan(StundenLohn,2);
         genForm.setColspan(fullOrPartTime, 2);
         genForm.setColspan(remoteOrInHouse, 2);
         genForm.setColspan(textDescription, 4);
@@ -152,6 +157,7 @@ public class JobPostingView extends VerticalLayout {
     private void storeEnteredData() {
         previousCompanyName = companyName.getValue();
         previousAddress = address.getValue();
+        previousStundenLohn= StundenLohn.getValue();
         timeType = fullOrPartTime.getValue();
         previousRemoteHouse= remoteOrInHouse.getValue();
         previousDescription= textDescription.getValue();
