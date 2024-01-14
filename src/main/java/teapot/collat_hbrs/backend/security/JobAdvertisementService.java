@@ -31,7 +31,7 @@ public class JobAdvertisementService {
         jobAdvertisementRepository.delete(jobAdvertisement);
     }
 
-    public JobAdvertisement getJobAdvertisementsForCompany(String companyName) {
-        return (JobAdvertisement) jobAdvertisementRepository.findByCompanyCompanyName(companyName);
+    public List<JobAdvertisement> getJobAdvertisementsForCompany(String companyName) {
+        return jobAdvertisementRepository.findByCompanyCompanyName(companyName);
     }
 }
