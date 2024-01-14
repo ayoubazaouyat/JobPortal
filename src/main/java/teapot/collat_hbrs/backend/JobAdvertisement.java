@@ -27,8 +27,11 @@ public class JobAdvertisement extends Account {
     private String candidateCount;
     private String employeeBenefits;
     private String location; // ggf. in numerisch umgewandelt, um Distanzen messen zu können
+    private String name;
 
 
+    public String getCompanyName() { return name; }
+    public void setCompanyName(String name) { this.name = name;}
     public String getFullOrPartTime() {
         return fullOrPartTime;
     }
