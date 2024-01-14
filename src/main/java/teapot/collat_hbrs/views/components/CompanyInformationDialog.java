@@ -127,6 +127,7 @@ public class CompanyInformationDialog extends Dialog {
 
 
 
+
     private void notifyContactListeners(String subject, String message) {
         for (ContactListener listener : contactListeners) {
             listener.contact(subject + ": " + message);
