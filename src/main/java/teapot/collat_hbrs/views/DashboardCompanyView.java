@@ -113,8 +113,6 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         scroller.setWidthFull();
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
 
-        results.add(); // TODO Add job applications from database
-
         return scroller;
     }
 
