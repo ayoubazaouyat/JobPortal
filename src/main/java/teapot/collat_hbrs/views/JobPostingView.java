@@ -113,7 +113,7 @@ public class JobPostingView extends VerticalLayout {
         postButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         postButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
         genForm.add(
-                companyName, address, StundenLohn, fullOrPartTime, remoteOrInHouse, textDescription, location, offerAge,
+                companyName, address, fullOrPartTime, remoteOrInHouse,  StundenLohn,offerAge, textDescription, location,
                 expectations, requirements, candidateCount, employeeBenefits, hrContact, postButton
         );
 
@@ -133,13 +133,13 @@ public class JobPostingView extends VerticalLayout {
             }
         });
 
-        genForm.setColspan(companyName, 4);
-        genForm.setColspan(address, 4);
+        genForm.setColspan(companyName, 2);
+        genForm.setColspan(address, 2);
         genForm.setColspan(StundenLohn,2);
         genForm.setColspan(fullOrPartTime, 2);
         genForm.setColspan(remoteOrInHouse, 2);
         genForm.setColspan(textDescription, 4);
-        genForm.setColspan(location, 2);
+        genForm.setColspan(location, 4);
         genForm.setColspan(offerAge, 2);
         genForm.setColspan(expectations, 4);
         genForm.setColspan(requirements, 4);
