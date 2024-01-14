@@ -162,7 +162,6 @@ public class JobPostingView extends VerticalLayout {
         previousRemoteHouse= remoteOrInHouse.getValue();
         previousDescription= textDescription.getValue();
         previousLocation= location.getValue();
-       // previousAge= offerAge.getValue();
         previousExpect= expectations.getValue();
         previousRequ=requirements.getValue();
         previouscandidateCount=candidateCount.getValue();
@@ -208,7 +207,8 @@ public class JobPostingView extends VerticalLayout {
                 createBoldLabel("Position name: ", address.getValue()),
                 createBoldLabel("Full/Part-time: ", fullOrPartTime.getValue()),
                 createBoldLabel("Remote/Office: ", remoteOrInHouse.getValue()),
-                createBoldLabel("Text description: ", textDescription.getValue())
+                createBoldLabel("Text description: ", textDescription.getValue()),
+                createBoldLabel("Stundenlohn: ", StundenLohn.getValue() + " €")
                 // Add more information as needed
         );
 
