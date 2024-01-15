@@ -68,7 +68,9 @@ public class ContactView extends Composite<VerticalLayout> {
         h23.setWidth(Format.MAX_CONTENT);
         h42.setText("coll@hbrs");
         h42.setWidth(Format.MAX_CONTENT);
-        textMedium.setText("Musterstraße 1 12345 Musterstadt Phone: 01234 / 567890 E-Mail: max@mustermann.de");
+
+        textMedium.getStyle().set("white-space", "pre-line");
+        textMedium.setText("Musterstraße 1 \n 12345 Musterstadt \n Phone: 01234 / 567890 \n E-Mail: max@mustermann.de");
         textMedium.setWidth("100%");
         textMedium.setHeight("100px");
         textMedium.getStyle().set("font-size", "var(--lumo-font-size-m)");
