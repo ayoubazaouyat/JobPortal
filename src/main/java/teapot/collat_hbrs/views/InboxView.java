@@ -323,14 +323,26 @@ public class InboxView extends VerticalLayout {
 
 
 
-    public void handleIncomingMessage(String sender, String subject,String recipient, String content) {
-        // Create a new message and add it to the inbox
-        String timestamp = null;
-        Message newMessage = new Message(sender, subject, recipient, content, timestamp);
-        inboxMessages.add(newMessage);
-        inboxDataProvider.refreshAll();
+    public void handleIncomingMessage(String sender, String subject, String recipient, String content, String timestamp, boolean isSent) {
+        if (isSent) {
+            // This is a sent message, add it to the sent messages
+            Message sentMessage = new Message(sender, recipient, subject, content, timestamp);
+            sentMessages.add(sentMessage);
+            sentDataProvider.refreshAll();
+        } else {
+            // This is an incoming message, add it to the inbox
+            Message newMessage = new Message(sender, recipient, subject, content, timestamp);
+            inboxMessages.add(newMessage);
+            inboxDataProvider.refreshAll();
+        }
+
         updateMessageCount();
     }
+
+
+
+
+
 
     public static class Message {
         private String recipient;

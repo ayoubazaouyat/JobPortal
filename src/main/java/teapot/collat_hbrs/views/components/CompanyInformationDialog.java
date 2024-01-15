@@ -23,6 +23,7 @@ public class CompanyInformationDialog extends Dialog {
     private final Company company;
     private List<ContactListener> contactListeners = new ArrayList<>();
 
+
     public CompanyInformationDialog(Company company) {
         this.company = company;
         buildDialog();
@@ -113,6 +114,7 @@ public class CompanyInformationDialog extends Dialog {
             }
         });
 
+
         Button cancelButton = new Button("Cancel", event -> contactDialog.close());
 
         // Add components to the dialog
@@ -131,12 +133,16 @@ public class CompanyInformationDialog extends Dialog {
         for (ContactListener listener : contactListeners) {
             listener.contact(subject + ": " + message);
         }
-        // Pass the message to the InboxView
+
+        // Pass the message to the InboxView for sent messages
         if (getParent().isPresent() && getParent().get() instanceof InboxView) {
             InboxView inboxView = (InboxView) getParent().get();
-            inboxView.handleIncomingMessage("You", "Message to " + company.getCompanyName(), message, "Now");
+            String timestamp = "Now";  // Set the timestamp for sent messages
+            inboxView.handleIncomingMessage("You", "Message to " + company.getCompanyName(), company.getCompanyName(), message, timestamp, true);
         }
     }
+
+
 
     private Div generateStars() {
         Div stars = new Div();
