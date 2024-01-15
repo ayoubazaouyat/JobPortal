@@ -29,7 +29,7 @@ import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
-@PageTitle("Dashboard (Student)")
+@PageTitle("Dashboard (Company)")
 @Route(value = "dash_com", layout = MainLayout.class)
 @Uses(Icon.class)
 @RolesAllowed("COMPANY")
