@@ -38,14 +38,7 @@ public class ChatMessageService {
         chatRepository.delete(chatMessage);
     }
 
-    public List<ChatMessage> getChatMessageForCompany(String companyName) {
-        return chatRepository.findByCompanyName(companyName);
+    public List<ChatMessage> getChatMessageForSender(String sender) {
+        return chatRepository.findBySender(sender);
     }
-
-    public List<ChatMessage> getChatMessageForStudent(String surname) {
-        return chatRepository.findByStudentName(surname);
-    }
-
-
-
 }
