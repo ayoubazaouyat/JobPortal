@@ -21,40 +21,32 @@ public class MyJobListView extends VerticalLayout {
 
     private final JobAdvertisementService jobAdvertisementService;
 
-    private Grid<JobAdvertisement> jobGrid = new Grid<>(JobAdvertisement.class);
-
     public MyJobListView(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
+        initJobList();
+    }
 
+    private void initJobList() {
+        Grid<JobAdvertisement> jobGrid = new Grid<>(JobAdvertisement.class);
+        jobGrid.setItems(jobAdvertisementService.getAllJobAdvertisements());
 
-        add(new Button("Back to Landing Page", VaadinIcon.ARROW_LEFT.create(), e -> navigateToMain()));
-
+        // Definieren Sie die anzuzeigenden Spalten (Sie können dies je nach Ihren Anforderungen anpassen)
         jobGrid.setColumns("company.companyName", "textDescription", "offerAge");
         jobGrid.getColumnByKey("company.companyName").setHeader("Company Name");
         jobGrid.getColumnByKey("textDescription").setHeader("Description");
         jobGrid.getColumnByKey("offerAge").setHeader("Application Deadline");
 
-        populateJobGrid();
-
-        jobGrid.asSingleSelect().addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                navigateToJobEditView(event.getValue().getId());
-            }
-        });
+        // Hinzufügen von Editierfunktionen zu jeder Zeile
+        jobGrid.addComponentColumn(job -> {
+            Button editButton = new Button("Edit");
+            editButton.addClickListener(event -> {
+                // Hier können Sie die Logik für die Bearbeitung implementieren
+                UI.getCurrent().navigate(JobPostingView.class);
+                //Notification.show("Edit button clicked for Job ID: " + job.getId());
+            });
+            return editButton;
+        }).setHeader("Edit");
 
         add(jobGrid);
-    }
-
-    private void navigateToMain() {
-        UI.getCurrent().navigate("");
-    }
-
-    private void navigateToJobEditView(Long jobId) {
-        //jobPostingView.displayFormWithPreviousData();  // Hier die gewünschte Logik zur Anzeige des ausgewählten Jobs in JobPostingView
-        //UI.getCurrent().navigate(JobEditView.class, jobId.toString());
-    }
-
-    private void populateJobGrid() {
-        jobGrid.setItems(jobAdvertisementService.getJobAdvertisementsForCompany("YOUR_COMPANY_NAME"));
     }
 }

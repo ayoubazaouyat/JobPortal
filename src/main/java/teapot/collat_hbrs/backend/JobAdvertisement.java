@@ -3,12 +3,13 @@ package teapot.collat_hbrs.backend;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 //@Embeddable
 @DiscriminatorValue("J")
-public class JobAdvertisement extends Account {
+public class JobAdvertisement extends Account implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "companyName")
