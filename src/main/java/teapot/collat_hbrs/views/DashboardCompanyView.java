@@ -73,7 +73,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        h5_2.setText("Current job advertisement:");
+        h5_2.setText("Current job advertisements:");
         h5_2.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow2);

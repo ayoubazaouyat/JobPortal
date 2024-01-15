@@ -75,7 +75,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        h52.setText("Currently applied for:");
+        h52.setText("Recently applied for:");
         h52.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow2);
