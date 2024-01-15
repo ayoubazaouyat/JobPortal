@@ -52,6 +52,14 @@ public class InboxView extends VerticalLayout {
         this.securityService = securityService;
         setupUI();
         updateMessageCount();
+
+        // Add a listener to update the "Delete" button based on the spam folder status
+        spamDataProvider.addDataProviderListener(event -> updateDeleteButtonStatus());
+    }
+
+    private void updateDeleteButtonStatus() {
+        // Disable "Delete" button if the spam folder is empty
+        deleteButton.setEnabled(!spamMessages.isEmpty());
     }
 
     private void setupUI() {
@@ -166,8 +174,12 @@ public class InboxView extends VerticalLayout {
     private void showSpamGrid() {
         messageGrid.setVisible(false);
         spamGrid.setVisible(true);
-        markAsInnocentButton.setVisible(true); // Show the "Mark as Innocent" button
+        markAsInnocentButton.setVisible(true);
         backButton.setVisible(true);
+        markAsSpamButton.setEnabled(false);
+
+        // Disable "Delete" button if the spam folder is empty
+        updateDeleteButtonStatus();
 
         // Disable "Mark as Spam" button when switching to spam view
         markAsSpamButton.setEnabled(false);
@@ -189,6 +201,8 @@ public class InboxView extends VerticalLayout {
         confirmDialog.setCancelButton("Cancel", buttonClickEvent -> confirmDialog.close());
 
         confirmDialog.open();
+        // Update the delete button status after marking as spam
+        updateDeleteButtonStatus();
     }
 
     private void markMessageAsSpam(Message message) {
