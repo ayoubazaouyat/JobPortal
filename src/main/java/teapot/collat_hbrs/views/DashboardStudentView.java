@@ -51,7 +51,6 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         HorizontalLayout layoutRow = new HorizontalLayout();
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
-        Button buttonPrimary3 = new Button();
         Hr hr2 = new Hr();
         H5 h52 = new H5();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
@@ -76,10 +75,6 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        buttonPrimary3.setText("Search for a Company");
-        buttonPrimary3.setWidth(Format.MIN_CONTENT);
-        buttonPrimary3.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonPrimary3.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/companysearch"));
         h52.setText("Currently applied for:");
         h52.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
@@ -94,7 +89,6 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         getContent().add(h5);
         getContent().add(layoutRow);
         layoutRow.add(buttonPrimary);
-        layoutRow.add(buttonPrimary3);
         layoutRow.add(buttonPrimary2);
         getContent().add(hr2);
         getContent().add(h52);
