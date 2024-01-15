@@ -1,13 +1,18 @@
 package teapot.collat_hbrs.backend;
 
+import teapot.collat_hbrs.views.components.JobListingWidget;
+
 import javax.persistence.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("S")
 public class Student extends Account {
+
+    // Student eigenen Unique Identifier geben?
     private String surname;
     private String forename;
     private String address; // consisting of streetName, houseNumber, postalCode, city

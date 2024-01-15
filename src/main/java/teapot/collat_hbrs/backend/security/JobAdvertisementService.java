@@ -23,6 +23,9 @@ public class JobAdvertisementService {
             throw new IllegalArgumentException("Please assign the job title");
         }
 
+        // Idee: Job-Listing beim Hinzufügen in Data base auch auf jeweiliges Datenfeld in Company?
+        //jobAdvertisement.getCompany().pushJobAdvertisement(jobAdvertisement);
+
         return jobAdvertisementRepository.save(jobAdvertisement);
     }
 

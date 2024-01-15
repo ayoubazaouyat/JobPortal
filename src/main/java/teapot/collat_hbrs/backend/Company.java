@@ -9,6 +9,7 @@ import java.util.List;
 @DiscriminatorValue("C")
 public class Company extends Account{
 
+    // Company eigenen Unique Identifier geben?
     private String companyName;
     private String address; // consisting of streetName, houseNumber, postalCode, city
     private String industry; // Branche
@@ -94,7 +95,7 @@ public class Company extends Account{
 
     // um wichtige Stellenanzeigen hervorzuheben
     public void pushJobAdvertisement(JobAdvertisement x) {
-        deleteJobAdvertisement(x);
+        deleteJobAdvertisement(x); // auskommentieren fürs Pushen auf Liste?
         jobAdvertisements.add(0, x);
     }
 
