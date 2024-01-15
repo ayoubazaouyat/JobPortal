@@ -19,6 +19,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
@@ -77,7 +78,17 @@ public class JobPostingView extends VerticalLayout {
         add(new Hr());
 
     }
+    private void saveenteredinformation(String companyName,String address, String textDescription,String location,String StundenLohn) {
+        JobAdvertisement newJobAdvertisement = new JobAdvertisement();
 
+        JobAdvertisement ad = new JobAdvertisement();
+        ad.setCompany(new Company(companyName, "", companyName, location, "", "", ""));
+        ad.setTitle(textDescription ); // Include a unique identifier for each job
+        ad.setHourlywage(Integer.parseInt(StundenLohn));
+
+        jobAdvertisementService.addallJobAdvertisement(ad);
+
+    }
 
     private void initJobPostingForm() {
         FormLayout genForm = new FormLayout();
@@ -127,11 +138,16 @@ public class JobPostingView extends VerticalLayout {
                 storeEnteredData();
                 displayEnteredInformation();
                 addEditAndConfirmButtons();
+                saveenteredinformation( companyName.getValue(), address.getValue(),  textDescription.getValue(), location.getValue(),StundenLohn.getValue());
+
                 // For demonstration, using a Notification to signify successful posting.
                 // Notification.show("Job posted successfully");
 
             }
-        });
+
+
+        })
+        ;
 
         genForm.setColspan(companyName, 2);
         genForm.setColspan(address, 2);
@@ -152,6 +168,7 @@ public class JobPostingView extends VerticalLayout {
                 new FormLayout.ResponsiveStep("500px", 4));
 
         add(genForm);
+        UI.getCurrent().navigate("jobsearch");
     }
 
     private void storeEnteredData() {
