@@ -87,7 +87,7 @@ public class MainLayout extends AppLayout {
 
         tabs.add(createTab("About Us", AboutUsView.class, new Icon()),
                 createTab("Contact", ContactView.class, new Icon()));
-        tabs.addSelectedChangeListener(selectedChangeEvent -> updateMessageCount());
+
 
         return tabs;
     }
@@ -113,14 +113,12 @@ public class MainLayout extends AppLayout {
     }
 
     private Span createBadge() {
-        Span badge = new Span("0");
+        Span badge = new Span("");
         badge.getElement().getThemeList().add("badge small contrast");
         badge.getStyle().set("margin-inline-start", "var(--lumo-space-xs)");
         return badge;
     }
 
-    private void updateMessageCount() {
-        messageCount.setText("2"); // TODO update counter according to inbox message count
-    }
+
 
 }

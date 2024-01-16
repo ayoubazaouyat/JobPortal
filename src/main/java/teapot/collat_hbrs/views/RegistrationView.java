@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -85,8 +86,6 @@ public class RegistrationView extends VerticalLayout {
     private AccountRepository accountRepository;
 
 
-
-
     /**
      * Constructor for RegistrationView.
      */
@@ -112,6 +111,9 @@ public class RegistrationView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setWidth("100%");
         setHeight("100vh");
+
+        Button viewTermsButton = new Button("View the terms of service", event -> showTermsDialog());
+        add(viewTermsButton);
 
         // Build UI based on the current step
         switch (step) {
@@ -319,31 +321,31 @@ public class RegistrationView extends VerticalLayout {
             String selectedFachbereich = event.getValue();
             comboBoxStudgang.clear();
 
-            if("FB 01 - Wirtschaftswissenschaften".equals(selectedFachbereich)) {
+            if ("FB 01 - Wirtschaftswissenschaften".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Betriebswirtschaft (B.Sc.)",
                         "International Business (B.Sc.)",
                         "Wirtschaftspsychologie (B.Sc.)",
                         "Controlling und Management (M.Sc.)",
                         "Innovations- und Informationsmanagement (M.Sc.)");
-            } else if("FB 02 - Informatik".equals(selectedFachbereich)) {
+            } else if ("FB 02 - Informatik".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Cybersecurity & Privacy (B.Sc.)",
                         "Informatik (B.Sc.)",
                         "Wirtschaftsinformatik (B.Sc.)",
                         "Informatik (M.Sc.)",
                         "Autonomous Systems (M.Sc.)");
-            } else if("FB 03 - Ingenieurwissenschaften und Kommunikation".equals(selectedFachbereich)) {
+            } else if ("FB 03 - Ingenieurwissenschaften und Kommunikation".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Elektrotechnik (B.Eng.)",
                         "Maschinenbau (B.Eng.)",
                         "Technikjournalismus (B.Sc.)",
                         "Elektrotechnik (M.Eng.)",
                         "Maschinenbau (M.Eng.)");
-            } else if("FB 05 - Angewandte Naturwissenschaften".equals(selectedFachbereich)) {
+            } else if ("FB 05 - Angewandte Naturwissenschaften".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Applied Biology (B.Sc.)",
                         "Chemie mit Materialwissenschaften (B.Sc.)",
                         "Nachhaltige Chemie und Materialien (B.Sc.)",
                         "Analytische Chemie und Qualitätssicherung (M.Sc.)",
                         "Biomedical Sciences (M.Sc.)");
-            } else if("FB 06 - Sozialpolitik und Soziale Sicherung".equals(selectedFachbereich)) {
+            } else if ("FB 06 - Sozialpolitik und Soziale Sicherung".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Nachhaltige Sozialpolitik (B.A.)",
                         "Sozialversicherung, Schwerpunkt Unfallversicherung (B.A.)",
                         "Social Protection (M.Sc.)");
@@ -352,7 +354,7 @@ public class RegistrationView extends VerticalLayout {
 
         // Handle the value change event for Studiengang-Wahl
         comboBoxStudgang.addValueChangeListener(event ->
-            Notification.show("Selected: " + event.getValue())
+                Notification.show("Selected: " + event.getValue())
         );
 
         var semesterNum = new NumberField("Current Semester");
@@ -401,13 +403,13 @@ public class RegistrationView extends VerticalLayout {
         comboBoxStudgang.setRequired(true);
         binder.forField(studentHouseNumber)
                 .asRequired()
-                .bind(AccountCreator::getHouseNr,AccountCreator::setHouseNr);
+                .bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         binder.forField(studentStreet)
                 .asRequired()
-                .bind(AccountCreator::getStreet,AccountCreator::setStreet);
+                .bind(AccountCreator::getStreet, AccountCreator::setStreet);
         binder.forField(studentCity)
                 .asRequired()
-                .bind(AccountCreator::getCity,AccountCreator::setCity);
+                .bind(AccountCreator::getCity, AccountCreator::setCity);
         binder.forField(studentPlz)
                 .asRequired()
                 .bind(AccountCreator::getPlz, AccountCreator::setPlz);
@@ -447,7 +449,7 @@ public class RegistrationView extends VerticalLayout {
         houseNumber = new TextField(HOUSELABEL);
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         plz = new TextField("PLZ");
-        binder.forField(plz).asRequired().bind(AccountCreator::getPlz,AccountCreator::setPlz);
+        binder.forField(plz).asRequired().bind(AccountCreator::getPlz, AccountCreator::setPlz);
         binder.forField(street).asRequired().bind(AccountCreator::getStreet, AccountCreator::setStreet);
         city = new TextField("City");
         binder.forField(city).asRequired().bind(AccountCreator::getCity, AccountCreator::setCity);
@@ -475,7 +477,7 @@ public class RegistrationView extends VerticalLayout {
         industry = new TextField("Industry");
         industry.setRequired(true);
         description = new TextArea("Company description");
-        description.setPlaceholder("Beispiel: Unternehmen XY ist ein führender Anbieter von innovativen Lösungen für die digitale Transformation. Wir unterstützen unsere Kunden dabei, ihre Geschäftsprozesse zu optimieren, ihre Kundenbeziehungen zu stärken und ihre Wettbewerbsfähigkeit zu erhöhen. Unsere Dienstleistungen umfassen Beratung, Entwicklung, Implementierung und Betrieb von maßgeschneiderten Softwarelösungen, Cloud-Services, künstlicher Intelligenz und Internet der Dinge. Wir verfügen über langjährige Erfahrung und Expertise in verschiedenen Branchen, wie Finanzen, Gesundheit, Industrie und Handel. Unser Ziel ist es, unseren Kunden einen Mehrwert zu bieten und sie bei der Gestaltung ihrer digitalen Zukunft zu begleiten.");
+        description.setPlaceholder("Example: Company XY is a leading provider of innovative solutions for digital transformation. We assist our clients in optimizing their business processes, strengthening customer relationships, and enhancing their competitiveness. Our services encompass consulting, development, implementation, and operation of customized software solutions, cloud services, artificial intelligence, and the Internet of Things. With years of experience and expertise in various industries such as finance, healthcare, industry, and commerce, our goal is to provide value to our customers and guide them in shaping their digital future.");
         description.setRequired(true);
         informationForm.add(
                 industry,
@@ -495,7 +497,12 @@ public class RegistrationView extends VerticalLayout {
         contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
 
         var separator = new Hr();
+
         var terms = new CheckboxGroup<>("Do you agree to the Terms of Service?");
+        var termsButton = new Button("View the terms of service", event -> showTermsDialog());
+        terms.add(
+                termsButton
+        );
         terms.setItems("Yes, I agree");
         terms.setRequired(true);
 
@@ -503,7 +510,6 @@ public class RegistrationView extends VerticalLayout {
         binder.bind(description, AccountCreator::getCompanyDescription, AccountCreator::setCompanyDescription);
         binder.bind(industry, AccountCreator::getCompanyIndustry, AccountCreator::setCompanyIndustry);
         binder.bind(phone, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
-
 
 
         binder.readBean(accountCreator);
@@ -638,8 +644,8 @@ public class RegistrationView extends VerticalLayout {
                         .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
-                if(!userUnique(usernameField.getValue())) {
-                    Notification.show("Username already exists, please choose an other one",3000,Notification.Position.TOP_CENTER);
+                if (!userUnique(usernameField.getValue())) {
+                    Notification.show("Username already exists, please choose an other one", 3000, Notification.Position.TOP_CENTER);
                     return false;
                 }
                 if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
@@ -661,8 +667,53 @@ public class RegistrationView extends VerticalLayout {
             }
             default -> throw new NotImplementedException();
         }
-    }
 
+    }
+    private void showTermsDialog() {
+        Dialog termsDialog = new Dialog();
+        VerticalLayout dialogLayout = new VerticalLayout();
+
+        // Create a TextArea with the terms of service text
+        TextArea termsTextArea = new TextArea();
+        termsTextArea.setValue("Effective Date: 16.01.2024\n\n" +
+                "Welcome to coll@hbrs! Before using our platform, please carefully read and understand the following Terms of Use. By accessing or using our platform, you agree to comply with and be bound by these terms. If you do not agree with any part of these terms, please do not use our platform.\n\n" +
+                "1. Acceptance of Terms\n\n" +
+                "By using coll@hbrs, you agree to be bound by these Terms of Use. If you do not agree to these terms, please refrain from using our platform.\n\n" +
+                "2. User Eligibility\n\n" +
+                "You must be 18 years or older to use this platform. By using coll@hbrs, you represent and warrant that you have the right, authority, and capacity to enter into these Terms of Use.\n\n" +
+                "3. Account Registration\n\n" +
+                "a. To access certain features of the platform, you may need to create an account. You agree to provide accurate, current, and complete information during the registration process.\n\n" +
+                "b. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account. You agree to accept responsibility for all activities that occur under your account.\n\n" +
+                "4. Job Postings\n\n" +
+                "a. Companies may post job offers on coll@hbrs. By posting a job, companies agree to provide accurate and current information about the job position, requirements, and application process.\n\n" +
+                "b. Companies are responsible for the content of their job postings, ensuring they comply with applicable laws and regulations. coll@hbrs reserves the right to remove any job posting that violates these terms.\n\n" +
+                "5. Student Applications\n\n" +
+                "a. Students may apply for job positions posted on coll@hbrs. By applying, students agree to provide accurate and current information in their applications.\n\n" +
+                "b. Students are responsible for the accuracy of the information in their applications. coll@hbrs is not responsible for any inaccuracies in student applications.\n\n" +
+                "6. Communication\n\n" +
+                "a. coll@hbrs may use the provided contact information to communicate with users regarding their accounts, job applications, or platform-related updates.\n\n" +
+                "b. Users may opt out of non-essential communication but understand that certain communications are necessary for the proper functioning of the platform.\n\n" +
+                "7. Privacy Policy\n\n" +
+                "The use of coll@hbrs is also governed by our Privacy Policy. By using our platform, you agree to the terms outlined in the Privacy Policy.\n\n" +
+                "8. Termination of Accounts\n\n" +
+                "coll@hbrs reserves the right to terminate or suspend user accounts, remove job postings, or take other appropriate actions if users violate these Terms of Use.\n\n" +
+                "9. Changes to Terms\n\n" +
+                "coll@hbrs may update these Terms of Use from time to time. Users will be notified of any significant changes. Continued use of the platform after such modifications constitutes acceptance of the revised terms.\n\n" +
+                "10. Governing Law\n\n" +
+                "These Terms of Use shall be governed by and construed in accordance with the laws of coll@hbrs. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts of coll@hbrs.\n\n" +
+                "By using coll@hbrs, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you have any questions, please contact us at support@collhbrs.de.\n\n" +
+                "Thank you for using coll@hbrs!");
+        termsTextArea.setWidth("600px"); // Set desired width
+        termsTextArea.setHeight("400px"); // Set desired height
+
+        // Close button
+        Button closeButton = new Button("Close", event -> termsDialog.close());
+
+        dialogLayout.add(termsTextArea, closeButton);
+        termsDialog.add(dialogLayout);
+
+        termsDialog.open();
+    }
     private boolean validateStudentForm() {
         final String requiredMessage = "This field is required";
         if (studentStreet.isEmpty()
@@ -776,6 +827,7 @@ public class RegistrationView extends VerticalLayout {
         login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
     }
+
     private boolean userUnique(String username) {
         return accountRepository.findByUsername(username).isEmpty();
     }
