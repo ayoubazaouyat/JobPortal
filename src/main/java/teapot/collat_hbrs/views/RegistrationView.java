@@ -7,6 +7,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -112,6 +113,9 @@ public class RegistrationView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setWidth("100%");
         setHeight("100vh");
+
+        Button viewTermsButton = new Button("View the terms of service", event -> showTermsDialog());
+        add(viewTermsButton);
 
         // Build UI based on the current step
         switch (step) {
@@ -495,7 +499,12 @@ public class RegistrationView extends VerticalLayout {
         contactForm.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));
 
         var separator = new Hr();
+
         var terms = new CheckboxGroup<>("Do you agree to the Terms of Service?");
+        var termsButton = new Button("View the terms of service", event -> showTermsDialog());
+        terms.add(
+                termsButton
+        );
         terms.setItems("Yes, I agree");
         terms.setRequired(true);
 
@@ -661,8 +670,53 @@ public class RegistrationView extends VerticalLayout {
             }
             default -> throw new NotImplementedException();
         }
-    }
 
+    }
+    private void showTermsDialog() {
+        Dialog termsDialog = new Dialog();
+        VerticalLayout dialogLayout = new VerticalLayout();
+
+        // Create a TextArea with the terms of service text
+        TextArea termsTextArea = new TextArea();
+        termsTextArea.setValue("Effective Date: 16.01.2024\n\n" +
+                "Welcome to coll@hbrs! Before using our platform, please carefully read and understand the following Terms of Use. By accessing or using our platform, you agree to comply with and be bound by these terms. If you do not agree with any part of these terms, please do not use our platform.\n\n" +
+                "1. Acceptance of Terms\n\n" +
+                "By using coll@hbrs, you agree to be bound by these Terms of Use. If you do not agree to these terms, please refrain from using our platform.\n\n" +
+                "2. User Eligibility\n\n" +
+                "You must be 18 years or older to use this platform. By using coll@hbrs, you represent and warrant that you have the right, authority, and capacity to enter into these Terms of Use.\n\n" +
+                "3. Account Registration\n\n" +
+                "a. To access certain features of the platform, you may need to create an account. You agree to provide accurate, current, and complete information during the registration process.\n\n" +
+                "b. You are responsible for maintaining the confidentiality of your account and password and for restricting access to your account. You agree to accept responsibility for all activities that occur under your account.\n\n" +
+                "4. Job Postings\n\n" +
+                "a. Companies may post job offers on coll@hbrs. By posting a job, companies agree to provide accurate and current information about the job position, requirements, and application process.\n\n" +
+                "b. Companies are responsible for the content of their job postings, ensuring they comply with applicable laws and regulations. coll@hbrs reserves the right to remove any job posting that violates these terms.\n\n" +
+                "5. Student Applications\n\n" +
+                "a. Students may apply for job positions posted on coll@hbrs. By applying, students agree to provide accurate and current information in their applications.\n\n" +
+                "b. Students are responsible for the accuracy of the information in their applications. coll@hbrs is not responsible for any inaccuracies in student applications.\n\n" +
+                "6. Communication\n\n" +
+                "a. coll@hbrs may use the provided contact information to communicate with users regarding their accounts, job applications, or platform-related updates.\n\n" +
+                "b. Users may opt out of non-essential communication but understand that certain communications are necessary for the proper functioning of the platform.\n\n" +
+                "7. Privacy Policy\n\n" +
+                "The use of coll@hbrs is also governed by our Privacy Policy. By using our platform, you agree to the terms outlined in the Privacy Policy.\n\n" +
+                "8. Termination of Accounts\n\n" +
+                "coll@hbrs reserves the right to terminate or suspend user accounts, remove job postings, or take other appropriate actions if users violate these Terms of Use.\n\n" +
+                "9. Changes to Terms\n\n" +
+                "coll@hbrs may update these Terms of Use from time to time. Users will be notified of any significant changes. Continued use of the platform after such modifications constitutes acceptance of the revised terms.\n\n" +
+                "10. Governing Law\n\n" +
+                "These Terms of Use shall be governed by and construed in accordance with the laws of coll@hbrs. Any disputes arising out of or in connection with these terms shall be subject to the exclusive jurisdiction of the courts of coll@hbrs.\n\n" +
+                "By using coll@hbrs, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use. If you have any questions, please contact us at support@collhbrs.de.\n\n" +
+                "Thank you for using coll@hbrs!");
+        termsTextArea.setWidth("600px"); // Set desired width
+        termsTextArea.setHeight("400px"); // Set desired height
+
+        // Close button
+        Button closeButton = new Button("Close", event -> termsDialog.close());
+
+        dialogLayout.add(termsTextArea, closeButton);
+        termsDialog.add(dialogLayout);
+
+        termsDialog.open();
+    }
     private boolean validateStudentForm() {
         final String requiredMessage = "This field is required";
         if (studentStreet.isEmpty()
