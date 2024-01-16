@@ -86,8 +86,6 @@ public class RegistrationView extends VerticalLayout {
     private AccountRepository accountRepository;
 
 
-
-
     /**
      * Constructor for RegistrationView.
      */
@@ -323,31 +321,31 @@ public class RegistrationView extends VerticalLayout {
             String selectedFachbereich = event.getValue();
             comboBoxStudgang.clear();
 
-            if("FB 01 - Wirtschaftswissenschaften".equals(selectedFachbereich)) {
+            if ("FB 01 - Wirtschaftswissenschaften".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Betriebswirtschaft (B.Sc.)",
                         "International Business (B.Sc.)",
                         "Wirtschaftspsychologie (B.Sc.)",
                         "Controlling und Management (M.Sc.)",
                         "Innovations- und Informationsmanagement (M.Sc.)");
-            } else if("FB 02 - Informatik".equals(selectedFachbereich)) {
+            } else if ("FB 02 - Informatik".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Cybersecurity & Privacy (B.Sc.)",
                         "Informatik (B.Sc.)",
                         "Wirtschaftsinformatik (B.Sc.)",
                         "Informatik (M.Sc.)",
                         "Autonomous Systems (M.Sc.)");
-            } else if("FB 03 - Ingenieurwissenschaften und Kommunikation".equals(selectedFachbereich)) {
+            } else if ("FB 03 - Ingenieurwissenschaften und Kommunikation".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Elektrotechnik (B.Eng.)",
                         "Maschinenbau (B.Eng.)",
                         "Technikjournalismus (B.Sc.)",
                         "Elektrotechnik (M.Eng.)",
                         "Maschinenbau (M.Eng.)");
-            } else if("FB 05 - Angewandte Naturwissenschaften".equals(selectedFachbereich)) {
+            } else if ("FB 05 - Angewandte Naturwissenschaften".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Applied Biology (B.Sc.)",
                         "Chemie mit Materialwissenschaften (B.Sc.)",
                         "Nachhaltige Chemie und Materialien (B.Sc.)",
                         "Analytische Chemie und Qualitätssicherung (M.Sc.)",
                         "Biomedical Sciences (M.Sc.)");
-            } else if("FB 06 - Sozialpolitik und Soziale Sicherung".equals(selectedFachbereich)) {
+            } else if ("FB 06 - Sozialpolitik und Soziale Sicherung".equals(selectedFachbereich)) {
                 comboBoxStudgang.setItems("Nachhaltige Sozialpolitik (B.A.)",
                         "Sozialversicherung, Schwerpunkt Unfallversicherung (B.A.)",
                         "Social Protection (M.Sc.)");
@@ -356,7 +354,7 @@ public class RegistrationView extends VerticalLayout {
 
         // Handle the value change event for Studiengang-Wahl
         comboBoxStudgang.addValueChangeListener(event ->
-            Notification.show("Selected: " + event.getValue())
+                Notification.show("Selected: " + event.getValue())
         );
 
         var semesterNum = new NumberField("Current Semester");
@@ -405,13 +403,13 @@ public class RegistrationView extends VerticalLayout {
         comboBoxStudgang.setRequired(true);
         binder.forField(studentHouseNumber)
                 .asRequired()
-                .bind(AccountCreator::getHouseNr,AccountCreator::setHouseNr);
+                .bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         binder.forField(studentStreet)
                 .asRequired()
-                .bind(AccountCreator::getStreet,AccountCreator::setStreet);
+                .bind(AccountCreator::getStreet, AccountCreator::setStreet);
         binder.forField(studentCity)
                 .asRequired()
-                .bind(AccountCreator::getCity,AccountCreator::setCity);
+                .bind(AccountCreator::getCity, AccountCreator::setCity);
         binder.forField(studentPlz)
                 .asRequired()
                 .bind(AccountCreator::getPlz, AccountCreator::setPlz);
@@ -451,7 +449,7 @@ public class RegistrationView extends VerticalLayout {
         houseNumber = new TextField(HOUSELABEL);
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         plz = new TextField("PLZ");
-        binder.forField(plz).asRequired().bind(AccountCreator::getPlz,AccountCreator::setPlz);
+        binder.forField(plz).asRequired().bind(AccountCreator::getPlz, AccountCreator::setPlz);
         binder.forField(street).asRequired().bind(AccountCreator::getStreet, AccountCreator::setStreet);
         city = new TextField("City");
         binder.forField(city).asRequired().bind(AccountCreator::getCity, AccountCreator::setCity);
@@ -479,7 +477,7 @@ public class RegistrationView extends VerticalLayout {
         industry = new TextField("Industry");
         industry.setRequired(true);
         description = new TextArea("Company description");
-        description.setPlaceholder("Beispiel: Unternehmen XY ist ein führender Anbieter von innovativen Lösungen für die digitale Transformation. Wir unterstützen unsere Kunden dabei, ihre Geschäftsprozesse zu optimieren, ihre Kundenbeziehungen zu stärken und ihre Wettbewerbsfähigkeit zu erhöhen. Unsere Dienstleistungen umfassen Beratung, Entwicklung, Implementierung und Betrieb von maßgeschneiderten Softwarelösungen, Cloud-Services, künstlicher Intelligenz und Internet der Dinge. Wir verfügen über langjährige Erfahrung und Expertise in verschiedenen Branchen, wie Finanzen, Gesundheit, Industrie und Handel. Unser Ziel ist es, unseren Kunden einen Mehrwert zu bieten und sie bei der Gestaltung ihrer digitalen Zukunft zu begleiten.");
+        description.setPlaceholder("Example: Company XY is a leading provider of innovative solutions for digital transformation. We assist our clients in optimizing their business processes, strengthening customer relationships, and enhancing their competitiveness. Our services encompass consulting, development, implementation, and operation of customized software solutions, cloud services, artificial intelligence, and the Internet of Things. With years of experience and expertise in various industries such as finance, healthcare, industry, and commerce, our goal is to provide value to our customers and guide them in shaping their digital future.");
         description.setRequired(true);
         informationForm.add(
                 industry,
@@ -512,7 +510,6 @@ public class RegistrationView extends VerticalLayout {
         binder.bind(description, AccountCreator::getCompanyDescription, AccountCreator::setCompanyDescription);
         binder.bind(industry, AccountCreator::getCompanyIndustry, AccountCreator::setCompanyIndustry);
         binder.bind(phone, AccountCreator::getPhoneNumber, AccountCreator::setPhoneNumber);
-
 
 
         binder.readBean(accountCreator);
@@ -647,8 +644,8 @@ public class RegistrationView extends VerticalLayout {
                         .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                         .bind(AccountCreator::getPassword, AccountCreator::setPassword)
                         .validate().isError();
-                if(!userUnique(usernameField.getValue())) {
-                    Notification.show("Username already exists, please choose an other one",3000,Notification.Position.TOP_CENTER);
+                if (!userUnique(usernameField.getValue())) {
+                    Notification.show("Username already exists, please choose an other one", 3000, Notification.Position.TOP_CENTER);
                     return false;
                 }
                 if (isUsernameValid || isEmailValid || isPasswordValid || isConfirmPasswordValid) {
@@ -830,6 +827,7 @@ public class RegistrationView extends VerticalLayout {
         login.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("login"));
         return login;
     }
+
     private boolean userUnique(String username) {
         return accountRepository.findByUsername(username).isEmpty();
     }
