@@ -25,8 +25,8 @@ public class ChatMessageService {
     }
 
     public ChatMessage addChatMessage(ChatMessage chatMessage) {
-        if (chatMessage.getRecipient() == null || chatMessage.getRecipient().trim().isEmpty()) {
-            throw new IllegalArgumentException("Please assign a recipient");
+        if (chatMessage.getContent() == null || chatMessage.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Please add content to your message");
         } else if (chatMessage.getSubject() == null || chatMessage.getSubject().trim().isEmpty()) {
             throw new IllegalArgumentException("Please assign a subject");
         } else {
