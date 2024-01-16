@@ -16,7 +16,6 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
@@ -25,9 +24,7 @@ import teapot.collat_hbrs.views.components.JobResultWidget;
 import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static teapot.collat_hbrs.backend.security.JobAdvertisementService.allJobAdvertisement;
 
 @Route(value = "jobsearch", layout = MainLayout.class)
 @PageTitle("Job Search | Coll@HBRS")
@@ -35,7 +32,6 @@ import static teapot.collat_hbrs.backend.security.JobAdvertisementService.allJob
 
 public class JobSearchView extends VerticalLayout {
 
-    private List<JobAdvertisement> allJobAdvertisement;
     private TextField jobTitleField;
     private NumberField hourlyWageField;
     private final VerticalLayout results = new VerticalLayout();
@@ -103,29 +99,7 @@ public class JobSearchView extends VerticalLayout {
         resultsContainer.setWidthFull();
     }
 
-    //-------------Demo Jobs
-    private void createDemoJobAdvertisements(int numberOfJobs) {
-
-
-        List<JobAdvertisement> demoJobs = new ArrayList<>();
-
-        for (int x = 0; x < numberOfJobs; x++) {
-            Random random = new Random();
-            JobAdvertisement ad = new JobAdvertisement();
-            ad.setCompany(new Company("microsoft", "", "Microsoft", "Cologne", "", "", ""));
-            ad.setLocation("Cologne");
-            ad.setTitle("Test Job "  ); // Include a unique identifier for each job
-
-            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-
-            demoJobs.add(ad);
-            ad.setHourlywage(Math.round(random.nextDouble(30) * 10.0) / 10.0);
-            JobResultWidget jobWidget = new JobResultWidget(this, ad);
-            jobs.add(jobWidget);
-            results.add(jobWidget);
-        }}
-
-        private Scroller generateResults() {
+    private Scroller generateResults() {
 
 
             //Add job ads from database

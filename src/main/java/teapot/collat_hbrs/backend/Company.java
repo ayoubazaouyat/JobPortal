@@ -101,7 +101,8 @@ public class Company extends Account{
 
     @Override
     public boolean equals(Object obj) {
-        return (obj.getClass().equals(Company.class) &&
+        return (obj != null &&
+                obj.getClass().equals(Company.class) &&
                 ((Company)obj).getId().equals(this.getId()));
     }
 }
