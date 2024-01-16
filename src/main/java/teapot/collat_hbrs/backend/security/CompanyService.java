@@ -18,8 +18,8 @@ public class CompanyService {
     }
 
 
-    public Company findByName(List<Company> companies, String companyName) {
-        for (Company company : companies) {
+    public Company findByName(String companyName) {
+        for (Company company : getAllCompanies()) {
             if (company.getCompanyName().equals(companyName)) {
                 return company;
             }

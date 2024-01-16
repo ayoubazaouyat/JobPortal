@@ -99,9 +99,10 @@ public class Company extends Account{
         jobAdvertisements.add(0, x);
     }
 
-
-
-
-
+    @Override
+    public boolean equals(Object obj) {
+        return (obj.getClass().equals(Company.class) &&
+                ((Company)obj).getId().equals(this.getId()));
+    }
 }
 
