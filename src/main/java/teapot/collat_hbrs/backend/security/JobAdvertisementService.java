@@ -50,4 +50,8 @@ public class JobAdvertisementService {
     public List<JobAdvertisement> getJobAdvertisementsForCompany(String companyName) {
         return jobAdvertisementRepository.findByCompanyCompanyName(companyName);
     }
+
+    public JobAdvertisement getJobAdvertisementById(long id){
+        return jobAdvertisementRepository.findByjobAdvertisementId(id);
+    }
 }

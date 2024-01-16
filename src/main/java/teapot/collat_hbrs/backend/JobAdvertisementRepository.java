@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface JobAdvertisementRepository extends JpaRepository<JobAdvertisement, Long> {
         List<JobAdvertisement> findByCompanyCompanyName(String companyName);
+
+        JobAdvertisement findByjobAdvertisementId(long jobAdvertisementId);
 }
 

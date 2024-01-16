@@ -18,6 +18,7 @@ import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.*;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
 import javax.annotation.security.PermitAll;
 import java.io.InputStream;
@@ -30,8 +31,10 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
     private JobAdvertisement job;
     private MultiFileMemoryBuffer buffer;
     private Button applyButton;
+    private final JobAdvertisementService jobAdvertisementService;
 
-    public ApplyView() {
+    public ApplyView(JobAdvertisementService jobAdvertisementService) {
+        this.jobAdvertisementService = jobAdvertisementService;
         buildForm();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
@@ -56,7 +59,8 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
             applyButton.setEnabled(false);
             applyButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         } else {
-            job = null;  // TODO set variable to job based on provided id
+            job = jobAdvertisementService.getJobAdvertisementById(Integer.parseInt(s));
+
         }
     }
 
@@ -101,6 +105,7 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
             InputStream inputStream = buffer.getInputStream(fileName);
 
             // TODO save file(s)
+            Notification.show("Not implemented yet!");
             // Do something with the file data
             // processFile(inputStream, fileName);
         });
