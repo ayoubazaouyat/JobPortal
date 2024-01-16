@@ -12,7 +12,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.notification.Notification;
+import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.Company;
+import teapot.collat_hbrs.backend.security.ChatMessageService;
 import teapot.collat_hbrs.views.InboxView;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 public class CompanyInformationDialog extends Dialog {
 
     private final Company company;
+
     private List<ContactListener> contactListeners = new ArrayList<>();
 
 
@@ -91,6 +94,7 @@ public class CompanyInformationDialog extends Dialog {
 
     private void showContactDialog() {
         Dialog contactDialog = new Dialog();
+        ChatMessage chatMessage = new ChatMessage();
 
         // Create subject and message text areas
         TextArea subjectTextArea = new TextArea("Subject");
@@ -107,6 +111,11 @@ public class CompanyInformationDialog extends Dialog {
 
             if (!subject.isEmpty() && !message.isEmpty()) {
                 notifyContactListeners(subject, message);
+                // TODO: Chat Backend-functionality needs to go here
+                chatMessage.setSubject(subject);
+                chatMessage.setContent(message);
+                // chatMessageService.addChatMessage(chatMessage); // ChatMessageService needs to be called somewhere
+
                 Notification.show("Message sent!");
                 contactDialog.close();
             } else {
