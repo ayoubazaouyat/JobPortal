@@ -19,14 +19,15 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
+import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.AccountService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobListingWidget;
 
 import javax.annotation.security.RolesAllowed;
-import java.util.ArrayList;
 import java.util.List;
 
 @PageTitle("Dashboard (Company)")
@@ -35,13 +36,15 @@ import java.util.List;
 @RolesAllowed("COMPANY")
 public class DashboardCompanyView extends Composite<VerticalLayout> {
     private VerticalLayout jobInfo;
-    private final List<JobListingWidget> jobs = new ArrayList<>();
     private final VerticalLayout results = new VerticalLayout();
     private final JobAdvertisementService jobAdvertisementService;
+    private final String companyName;
+
 
     private HorizontalLayout applJobsContainer;
-    public DashboardCompanyView(JobAdvertisementService jobAdvertisementService) {
+    public DashboardCompanyView(JobAdvertisementService jobAdvertisementService, AccountService accountService) {
         this.jobAdvertisementService = jobAdvertisementService;
+        companyName = ((Company)accountService.getAccount()).getCompanyName();
         functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
@@ -100,10 +103,9 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
 
     private Scroller generateResults() {
 
-        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForCompany("Microsoft");
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForCompany(companyName);
         for (JobAdvertisement jobAdd: jobAdvertisements) {
             JobListingWidget jobWidget = new JobListingWidget(this, jobAdd);
-            jobs.add(jobWidget);
             results.add(jobWidget);
         }
 
