@@ -34,6 +34,7 @@ public class JobAdvertisementService {
         if (jobAdvertisement.getTitle() == null || jobAdvertisement.getTitle().trim().isEmpty()) {
             throw new IllegalArgumentException("Please assign the job title");
         }
+        if(jobAdvertisement.getCompany() == null) throw new IllegalArgumentException("Company must not be null");
 
         // Idee: Job-Listing beim Hinzufügen in Data base auch auf jeweiliges Datenfeld in Company?
         //jobAdvertisement.getCompany().pushJobAdvertisement(jobAdvertisement);

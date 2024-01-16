@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.Student;
 
 @Component
@@ -26,6 +27,9 @@ public class AddDevUser implements InitializingBean {
     public void afterPropertiesSet() {
         Student testuser = new Student("admin", "admin@test.test", "admin", "admin", "", "", "");
         userService.registerAccount(testuser, "admin");
+
+        Company testCompany = new Company("admin2", "", "Microsoft", "Cologne", "", "", "");
+        userService.registerAccount(testCompany, "admin2");
     }
 
 }

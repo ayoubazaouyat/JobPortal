@@ -21,6 +21,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.AccountService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
 import javax.annotation.security.RolesAllowed;
@@ -34,15 +35,14 @@ import java.time.LocalDate;
 public class JobPostingView extends VerticalLayout {
 
     private final JobAdvertisementService jobAdvertisementService;
+    private final AccountService accountService;
+    private final String companyAccountName;
 
-    private String previousCompanyName;
     private String previousAddress;
     private String timeType;
     private String previousRemoteHouse;
     private String previousDescription;
     private String previousLocation;
-    private String previousAge;
-    private String previousStundenLohn;
     private String previousExpect;
     private String previousRequ;
     private String previouscandidateCount;
@@ -70,23 +70,15 @@ public class JobPostingView extends VerticalLayout {
 
 
 
-    public JobPostingView(JobAdvertisementService jobAdvertisementService) {
+    public JobPostingView(JobAdvertisementService jobAdvertisementService, AccountService accountService) {
         this.jobAdvertisementService = jobAdvertisementService;
+        this.accountService = accountService;
+        companyAccountName = ((Company)accountService.getAccount()).getCompanyName();
+
         // Set up the layout of the form
         add(new H2("Job posten "));
         initJobPostingForm();
         add(new Hr());
-
-    }
-    private void saveenteredinformation(String companyName,String address, String textDescription,String location,String StundenLohn) {
-        JobAdvertisement newJobAdvertisement = new JobAdvertisement();
-
-        JobAdvertisement ad = new JobAdvertisement();
-        ad.setCompany(new Company(companyName, "", companyName, location, "", "", ""));
-        ad.setTitle(textDescription ); // Include a unique identifier for each job
-        ad.setHourlywage(Integer.parseInt(StundenLohn));
-
-        jobAdvertisementService.addallJobAdvertisement(ad);
 
     }
 
@@ -94,7 +86,8 @@ public class JobPostingView extends VerticalLayout {
         FormLayout genForm = new FormLayout();
 
         companyName = new TextField("Name of company");
-        companyName.setRequired(true);
+        companyName.setEnabled(false);
+        companyName.setValue(companyAccountName);
         address = new TextField("Position name");
         address.setRequired(true);
         StundenLohn = new TextField("Stundenlohnn");
@@ -138,7 +131,8 @@ public class JobPostingView extends VerticalLayout {
                 storeEnteredData();
                 displayEnteredInformation();
                 addEditAndConfirmButtons();
-                saveenteredinformation( companyName.getValue(), address.getValue(),  textDescription.getValue(), location.getValue(),StundenLohn.getValue());
+
+                //saveenteredinformation( companyName.getValue(), address.getValue(),  textDescription.getValue(), location.getValue(),StundenLohn.getValue());
 
                 // For demonstration, using a Notification to signify successful posting.
                 // Notification.show("Job posted successfully");
@@ -172,9 +166,7 @@ public class JobPostingView extends VerticalLayout {
     }
 
     private void storeEnteredData() {
-        previousCompanyName = companyName.getValue();
         previousAddress = address.getValue();
-        previousStundenLohn= StundenLohn.getValue();
         timeType = fullOrPartTime.getValue();
         previousRemoteHouse= remoteOrInHouse.getValue();
         previousDescription= textDescription.getValue();
@@ -307,7 +299,7 @@ public class JobPostingView extends VerticalLayout {
     void displayFormWithPreviousData() {
         initJobPostingForm();
         // Set previously entered data in the form fields
-        companyName.setValue(previousCompanyName);
+        companyName.setValue(companyAccountName);
         address.setValue(previousAddress);
         fullOrPartTime.setValue(timeType);
         remoteOrInHouse.setValue(previousRemoteHouse);
@@ -327,7 +319,7 @@ public class JobPostingView extends VerticalLayout {
     private void saveJobAdvertisement() {
         JobAdvertisement jobAdvertisement = new JobAdvertisement();
 
-        jobAdvertisement.setCompanyName(companyName.getValue());
+        jobAdvertisement.setCompany((Company) accountService.getAccount());
         jobAdvertisement.setTitle(address.getValue()); //address ist hier irrefuehrend, lag eventuell an "position"
         jobAdvertisement.setFullOrPartTime(fullOrPartTime.getValue());
         jobAdvertisement.setRemoteOrInHouse(remoteOrInHouse.getValue());
