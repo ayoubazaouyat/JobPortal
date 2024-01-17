@@ -35,13 +35,12 @@ public class JobInformationWidget extends VerticalLayout {
         logo.setHeight("80%");
         logo.getStyle().set("border-radius", "var(--lumo-border-radius-m)");
 
-        H3 jobTitle = new H3(job.getTitle() + " (#" + job.getJobAdvertisementId() + ")");
-        Span subTitle = new Span("by " + job.getName() + " in " + job.getLocation());
-        Span candidates = new Span(job.getCandidateCount() + " students already applied for this job");
+        H3 jobTitle = new H3(job.getTitle() + " (#" + job.getId() + ")");
+        Span subTitle = new Span("by " + job.getCompany().getCompanyName() + " in " + job.getLocation());
 
         VerticalLayout shortInfo = new VerticalLayout();
         shortInfo.getStyle().set("height", "fit-content");
-        shortInfo.add(jobTitle, subTitle, candidates);
+        shortInfo.add(jobTitle, subTitle);
 
         HorizontalLayout header = new HorizontalLayout(logo, shortInfo);
         header.getStyle().set("height", "15rem");
