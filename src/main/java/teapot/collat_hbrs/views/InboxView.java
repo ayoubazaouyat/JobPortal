@@ -144,7 +144,7 @@ public class InboxView extends VerticalLayout {
         add(showSentGridButton);
 
         sentGrid = new Grid<>();
-        sentGrid.addColumn(ChatMessage::getSender).setHeader("Recipient");
+        sentGrid.addColumn(ChatMessage::getRecipient).setHeader("Recipient");
         sentGrid.addColumn(ChatMessage::getSubject).setHeader("Subject");
         sentGrid.addColumn(ChatMessage::getMessageTime).setHeader("Timestamp");
         sentGrid.setVisible(false);
@@ -165,7 +165,8 @@ public class InboxView extends VerticalLayout {
 
 
         // Add some sample messages to the inbox
-        inboxMessages.addAll(chatMessageService.getChatMessagesForUsername(username));
+        inboxMessages.addAll(chatMessageService.getChatMessagesForRecipient(username));
+        sentMessages.addAll(chatMessageService.getChatMessagesForSender(username));
         inboxMessages.add(new ChatMessage("John Doe", "Job Application", "Hello, I'm interested in the job...", "2023-01-01 10:00"));
         inboxMessages.add(new ChatMessage("Jane Smith", "Regarding Your Job Posting", "I have a question about the job posting...", "2023-01-02 12:30"));
     }

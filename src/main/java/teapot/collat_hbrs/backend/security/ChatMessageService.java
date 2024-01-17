@@ -3,14 +3,12 @@ package teapot.collat_hbrs.backend.security;
 import org.springframework.stereotype.Service;
 import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.ChatRepository;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ChatMessageService {
 
     private final ChatRepository chatRepository;
-    public static List<ChatMessage> allChatMessages = new ArrayList<>();
 
     public ChatMessageService(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
@@ -20,9 +18,6 @@ public class ChatMessageService {
         return chatRepository.findAll();
     }
 
-    public void addToAllChatMessages(ChatMessage chatMessage) {
-        allChatMessages.add(chatMessage);
-    }
 
     public ChatMessage addChatMessage(ChatMessage chatMessage) {
         if (chatMessage.getContent() == null || chatMessage.getContent().trim().isEmpty()) {
@@ -38,11 +33,14 @@ public class ChatMessageService {
         chatRepository.delete(chatMessage);
     }
 
-    public List<ChatMessage> getChatMessageForSender(String sender) {
+    public List<ChatMessage> getChatMessagesForSender(String sender) {
         return chatRepository.findBySender(sender);
     }
+    public List<ChatMessage> getChatMessagesForRecipient(String recipient){
+        return chatRepository.findByRecipient(recipient);
+    }
 
-    public List<ChatMessage> getChatMessagesForUsername(String username){
+    public List<ChatMessage> getAllChatMessagesForUsername(String username){
         List<ChatMessage> messages;
         messages = chatRepository.findByRecipient(username);
         messages.addAll(chatRepository.findBySender(username));

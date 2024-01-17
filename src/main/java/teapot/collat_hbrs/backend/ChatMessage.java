@@ -18,7 +18,7 @@ public class ChatMessage implements Serializable {
     private boolean isSpam;
 
     public ChatMessage() {
-        //default constructor
+        this.messageTime = LocalDateTime.now();
     }
 
     public ChatMessage(String sender, String recipient, String subject, String content) {
@@ -26,11 +26,12 @@ public class ChatMessage implements Serializable {
         this.recipient = recipient;
         this.subject = subject;
         this.content = content;
-        //this.messageTime = timestamp;
+        this.messageTime = LocalDateTime.now();
     }
 
     public ChatMessage(String sender, String recipient, String subject, String content, String timestamp) {
         this(sender, recipient, subject, content);
+        this.messageTime = LocalDateTime.parse(timestamp);
     }
 
 

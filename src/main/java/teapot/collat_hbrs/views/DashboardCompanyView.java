@@ -54,7 +54,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         Button buttonPrimary = new Button();
         Button buttonPrimary2 = new Button();
         Hr hr2 = new Hr();
-        H5 h5_2 = new H5();
+        H5 h52 = new H5();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
         MultiSelectListBox avatarItems = new MultiSelectListBox();
         getContent().setWidth("100%");
@@ -77,15 +77,14 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        h5_2.setText("Current job advertisements:");
-        h5_2.setWidth(Format.MAX_CONTENT);
+        h52.setText("Current job advertisements:");
+        h52.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow2);
         layoutRow2.addClassName(Gap.MEDIUM);
         layoutRow2.setWidth("100%");
         layoutRow2.getStyle().set(Format.FLEX_GROW, "1");
         avatarItems.setWidth(Format.MIN_CONTENT);
-        //setAvatarItemsSampleData(avatarItems);
         getContent().add(h2);
         getContent().add(hr);
         getContent().add(h5);
@@ -93,7 +92,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         layoutRow.add(buttonPrimary);
         layoutRow.add(buttonPrimary2);
         getContent().add(hr2);
-        getContent().add(h5_2);
+        getContent().add(h52);
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }
@@ -120,20 +119,6 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         return scroller;
     }
 
-    /*private void setAvatarItemsSampleData(MultiSelectListBox multiSelectListBox) {
-        record Person(String name, String profession) {
-        }
-        ;
-        List<Person> data = List.of(new Person("Aria Bailey", "Endocrinologist"), new Person("Aaliyah Butler", "Nephrologist"), new Person("Eleanor Price", "Ophthalmologist"), new Person("Allison Torres", "Allergist"), new Person("Madeline Lewis", "Gastroenterologist"));
-        multiSelectListBox.setItems(data);
-        multiSelectListBox.setRenderer(new ComponentRenderer(item -> {
-            AvatarItem avatarItem = new AvatarItem();
-            avatarItem.setHeading(((Person) item).name);
-            avatarItem.setDescription(((Person) item).profession);
-            avatarItem.setAvatar(new Avatar(((Person) item).name));
-            return avatarItem;
-        }));
-    }*/
     public void showJobInformation(JobAdvertisement job) {
         closeJobInformation();
 
