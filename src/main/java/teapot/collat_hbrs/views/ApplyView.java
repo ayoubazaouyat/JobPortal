@@ -1,10 +1,10 @@
 package teapot.collat_hbrs.views;
 
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
@@ -86,7 +86,7 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
 
         applyButton = new Button("Apply", new Icon(VaadinIcon.CLIPBOARD_CHECK));
         applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        applyButton.addClickListener(buttonClickEvent -> this.sendApplyMessage());
+        applyButton.addClickListener(buttonClickEvent -> this.confrimApplication());
         Button cancelButton = new Button("Cancel", new Icon(VaadinIcon.BAN));
         cancelButton.addClickListener(buttonClickEvent -> closeTab());
         HorizontalLayout buttons = new HorizontalLayout(applyButton, cancelButton);
@@ -98,8 +98,21 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
         );
     }
 
+    private void confrimApplication(){
+        Dialog dialog = new Dialog();
+        dialog.setHeaderTitle("Send Application?");
+        Button yesButton = new Button("Yes", e -> sendApplyMessage());
+        yesButton.setWidth("50%");
+        yesButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        Button noButton = new Button("No", e -> dialog.close());
+        noButton.setWidth("50%");
+        noButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        dialog.add(yesButton, noButton);
+        dialog.open();
+    }
+
     private void sendApplyMessage() {
-        if (messageArea.isEmpty()) Notification.show("Message must not be empty.");
+        if (messageArea.isEmpty()) Notification.show("Message can not be empty.");
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setRecipient(job.getCompany().getUsername());
         chatMessage.setSender(account.getUsername());
@@ -107,7 +120,7 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
         chatMessage.setContent(messageArea.getValue());
 
         chatMessageService.addChatMessage(chatMessage);
-        Notification.show("Application send.");
+        closeTab();
     }
 
     /**
