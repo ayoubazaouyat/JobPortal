@@ -30,7 +30,7 @@ public class SecurityConfig extends VaadinWebSecurity {
         setLoginView(http, LoginView.class);
 
         http.formLogin(formLogin -> formLogin.defaultSuccessUrl("/", true)).
-                logout(logout -> logout.logoutSuccessUrl("/login")); // TODO: Fallunterscheidung für Studenten und Unternehmen Dashboard
+                logout(logout -> logout.logoutSuccessUrl("/login"));
     }
 
     @Bean

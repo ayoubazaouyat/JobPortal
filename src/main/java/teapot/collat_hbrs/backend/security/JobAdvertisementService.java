@@ -5,24 +5,13 @@ import org.springframework.stereotype.Service;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.JobAdvertisementRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class JobAdvertisementService {
     private final JobAdvertisementRepository jobAdvertisementRepository;
-    public static List<JobAdvertisement> allJobAdvertisement= new ArrayList<>();
-    public static List<JobAdvertisement> getallJobAdvertisement() {
-        return allJobAdvertisement;
-    }
-    public void addallJobAdvertisement(JobAdvertisement jobAdvertisement) {
-        allJobAdvertisement.add(jobAdvertisement);
-    }
 
     // Method to get the list of jobs
-    public List<JobAdvertisement> getJobs() {
-        return allJobAdvertisement;
-    }
     public JobAdvertisementService(JobAdvertisementRepository jobAdvertisementRepository) {
         this.jobAdvertisementRepository = jobAdvertisementRepository;
     }
