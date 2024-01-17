@@ -6,11 +6,9 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import teapot.collat_hbrs.backend.JobAdvertisement;
-import teapot.collat_hbrs.views.DashboardCompanyView;
 
 public class JobListingWidget extends ResultsWidget {
 
-    private final DashboardCompanyView view;
     private final JobAdvertisement job;
 
     /**
@@ -18,9 +16,8 @@ public class JobListingWidget extends ResultsWidget {
      *
      * @param job Job Advertisement
      */
-    public JobListingWidget(DashboardCompanyView view, JobAdvertisement job) {
+    public JobListingWidget(JobAdvertisement job) {
         super(null);
-        this.view = view;
         this.job = job;
         super.setInfo(buildInfo());
         super.addButtons(buildButton());
@@ -61,7 +58,7 @@ public class JobListingWidget extends ResultsWidget {
                 .set("margin", "0.5rem")
                 .set("width", "15rem");
 
-        jobInformationButton.addClickListener(buttonClickEvent -> view.showJobInformation(job));
+        jobInformationButton.addClickListener(buttonClickEvent -> new JobInformationDialog(job, false, true).open());
 
         return new Button[]{jobInformationButton};
     }

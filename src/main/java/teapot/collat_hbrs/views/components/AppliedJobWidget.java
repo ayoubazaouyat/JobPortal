@@ -8,11 +8,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import teapot.collat_hbrs.backend.JobAdvertisement;
-import teapot.collat_hbrs.views.DashboardStudentView;
 
 public class AppliedJobWidget extends ResultsWidget {
 
-    private final DashboardStudentView view;
     private final JobAdvertisement job;
 
     /**
@@ -20,9 +18,8 @@ public class AppliedJobWidget extends ResultsWidget {
      *
      * @param job Job Advertisement
      */
-    public AppliedJobWidget(DashboardStudentView view, JobAdvertisement job) {
+    public AppliedJobWidget(JobAdvertisement job) {
         super(null);
-        this.view = view;
         this.job = job;
         super.setInfo(buildInfo());
         super.addButtons(buildButtons());
@@ -87,7 +84,7 @@ public class AppliedJobWidget extends ResultsWidget {
                 .set("margin", "0.5rem")
                 .set("width", "15rem");
 
-        openJobButton.addClickListener(buttonClickEvent -> view.showJobInformation(job));
+        openJobButton.addClickListener(buttonClickEvent -> new JobInformationDialog(job, false, true).open());
 
         return new Button[]{openJobButton};
     }

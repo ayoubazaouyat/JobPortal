@@ -42,6 +42,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
     private final JobAdvertisementService jobAdvertisementService;
 
     private HorizontalLayout applJobsContainer;
+
     public DashboardStudentView(JobAdvertisementService jobAdvertisementService) {
         this.jobAdvertisementService = jobAdvertisementService;
         functionApplJobsContainer();
@@ -95,6 +96,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }
+
     private void functionApplJobsContainer() {
         applJobsContainer = new HorizontalLayout(generateResults());
         applJobsContainer.setWidthFull();
@@ -107,7 +109,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         for (int i = 0; i < 3; i++) {
             if (jobAdvertisements.isEmpty()) break;
             int pos = random.nextInt(jobAdvertisements.size());
-            AppliedJobWidget jobWidget = new AppliedJobWidget(this, jobAdvertisements.get(pos));
+            AppliedJobWidget jobWidget = new AppliedJobWidget(jobAdvertisements.get(pos));
             jobAdvertisements.remove(pos);
 
             results.add(jobWidget);
@@ -156,6 +158,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
 
         applJobsContainer.add(jobInfo);
     }
+
     private void closeJobInformation() {
         try {
             applJobsContainer.remove(jobInfo);

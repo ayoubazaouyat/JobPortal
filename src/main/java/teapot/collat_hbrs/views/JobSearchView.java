@@ -40,6 +40,7 @@ public class JobSearchView extends VerticalLayout {
     private VerticalLayout jobInfo;
 
     JobAdvertisementService jobAdvertisementService;
+
     /**
      * Constructor
      */
@@ -102,16 +103,16 @@ public class JobSearchView extends VerticalLayout {
     private Scroller generateResults() {
 
 
-            //Add job ads from database
-            List<JobAdvertisement> jobAdds = jobAdvertisementService.getAllJobAdvertisements();
+        //Add job ads from database
+        List<JobAdvertisement> jobAdds = jobAdvertisementService.getAllJobAdvertisements();
 
-            for (JobAdvertisement jobAdd : jobAdds) {
-                JobResultWidget jobResultWidget = new JobResultWidget(this, jobAdd);
-                jobs.add(jobResultWidget);
-                results.add(jobResultWidget);
-            }
+        for (JobAdvertisement jobAdd : jobAdds) {
+            JobResultWidget jobResultWidget = new JobResultWidget(this, jobAdd);
+            jobs.add(jobResultWidget);
+            results.add(jobResultWidget);
+        }
 
-            // ------------------------
+        // ------------------------
 
         Scroller scroller = new Scroller(results);
         scroller.setWidthFull();
@@ -127,13 +128,14 @@ public class JobSearchView extends VerticalLayout {
         Button closeButton = new Button("Close");
         closeButton.setIcon(new Icon(VaadinIcon.CLOSE));
         closeButton.addClickListener(buttonClickEvent -> closeJobInformation());
-        topBar.add(closeButton, new H3("Information"));
+        topBar.add(closeButton, new H3("Information (#" + job.getId() + ")"));
         topBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
         topBar.setAlignItems(Alignment.BASELINE);
         jobInfo = new VerticalLayout(topBar, new JobInformationWidget(job));
         jobInfo.getStyle()
                 .set("background", "var(--lumo-contrast-10pct)")
-                .set("border-radius", "var(--lumo-border-radius-m)");
+                .set("border-radius", "var(--lumo-border-radius-m)")
+                .set("width", "30%");
 
         resultsContainer.add(jobInfo);
     }
