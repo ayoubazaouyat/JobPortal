@@ -33,7 +33,7 @@ public class ChatMessageService {
         chatRepository.delete(chatMessage);
     }
 
-    public List<ChatMessage> getChatMessagesForSender(String sender) {
+    public List<ChatMessage> getChatMessagesFormSender(String sender) {
         return chatRepository.findBySender(sender);
     }
     public List<ChatMessage> getChatMessagesForRecipient(String recipient){
