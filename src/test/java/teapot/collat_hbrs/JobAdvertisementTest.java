@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.JobAdvertisementRepository;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
@@ -17,6 +18,8 @@ class JobAdvertisementServiceTest {
 
     @Mock
     private JobAdvertisementRepository jobAdvertisementRepository;
+    @Mock
+    Company company;
 
     @InjectMocks
     private JobAdvertisementService jobAdvertisementService;
@@ -27,6 +30,7 @@ class JobAdvertisementServiceTest {
         // Mock data
         JobAdvertisement job = new JobAdvertisement();
         job.setTitle("Test");
+        job.setCompany(company);
         // Stubbing the save method of the repository
         when(jobAdvertisementRepository.save(job)).thenReturn(job);
 
