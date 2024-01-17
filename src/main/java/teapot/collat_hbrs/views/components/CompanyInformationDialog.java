@@ -8,6 +8,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -78,8 +79,10 @@ public class CompanyInformationDialog extends Dialog {
         Button reportButton = new Button("Report", new Icon(VaadinIcon.MEGAPHONE));
         reportButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         reportButton.getStyle().set("color", "red");
+        reportButton.addClickListener(buttonClickEvent -> errorNotification());
 
         Button rateButton = new Button("Rate", new Icon(VaadinIcon.STAR));
+        rateButton.addClickListener(buttonClickEvent -> errorNotification());
 
         Button contactButton = new Button("Contact", new Icon(VaadinIcon.ENVELOPE));
         contactButton.addClickListener(e -> showContactDialog());
@@ -90,6 +93,11 @@ public class CompanyInformationDialog extends Dialog {
         getFooter().add(reportButton, rateButton, contactButton, closeButton);
 
         setWidth("30%");
+    }
+
+    private void errorNotification() {
+        Notification notification = Notification.show("Not implemented yet!", 3000, Notification.Position.MIDDLE);
+        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
     }
 
     private void showContactDialog() {
@@ -137,7 +145,6 @@ public class CompanyInformationDialog extends Dialog {
     }
 
 
-
     private void notifyContactListeners(String subject, String message) {
         for (ContactListener listener : contactListeners) {
             listener.contact(subject + ": " + message);
@@ -150,7 +157,6 @@ public class CompanyInformationDialog extends Dialog {
             inboxView.handleIncomingMessage("You", "Message to " + company.getCompanyName(), company.getCompanyName(), message, timestamp, true);
         }
     }
-
 
 
     private Div generateStars() {
