@@ -6,13 +6,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.listbox.MultiSelectListBox;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,7 +20,6 @@ import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.AccountService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
-import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobListingWidget;
 
 import javax.annotation.security.RolesAllowed;
@@ -35,7 +30,7 @@ import java.util.List;
 @Uses(Icon.class)
 @RolesAllowed("COMPANY")
 public class DashboardCompanyView extends Composite<VerticalLayout> {
-    private VerticalLayout jobInfo;
+
     private final VerticalLayout results = new VerticalLayout();
     private final JobAdvertisementService jobAdvertisementService;
     private final String companyName;
@@ -56,7 +51,6 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         Hr hr2 = new Hr();
         H5 h52 = new H5();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
-        MultiSelectListBox avatarItems = new MultiSelectListBox();
         getContent().setWidth("100%");
         getContent().getStyle().set(Format.FLEX_GROW, "1");
         h2.setText("Welcome!");
@@ -84,7 +78,6 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         layoutRow2.addClassName(Gap.MEDIUM);
         layoutRow2.setWidth("100%");
         layoutRow2.getStyle().set(Format.FLEX_GROW, "1");
-        avatarItems.setWidth(Format.MIN_CONTENT);
         getContent().add(h2);
         getContent().add(hr);
         getContent().add(h5);
@@ -119,29 +112,4 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         return scroller;
     }
 
-    public void showJobInformation(JobAdvertisement job) {
-        closeJobInformation();
-
-        HorizontalLayout topBar = new HorizontalLayout();
-        Button closeButton = new Button("Close");
-        closeButton.setIcon(new Icon(VaadinIcon.CLOSE));
-        closeButton.addClickListener(buttonClickEvent -> closeJobInformation());
-        topBar.add(closeButton, new H3("Information"));
-        topBar.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        topBar.setAlignItems(FlexComponent.Alignment.BASELINE);
-        jobInfo = new VerticalLayout(topBar, new JobInformationWidget(job));
-        jobInfo.getStyle()
-                .set("background", "var(--lumo-contrast-10pct)")
-                .set("border-radius", "var(--lumo-border-radius-m)");
-
-        applJobsContainer.add(jobInfo);
-    }
-
-    private void closeJobInformation() {
-        try {
-            applJobsContainer.remove(jobInfo);
-        } catch (NullPointerException e) {
-            // Yes
-        }
-    }
 }

@@ -6,37 +6,29 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.listbox.MultiSelectListBox;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import com.vaadin.flow.component.orderedlayout.Scroller;
-
-import java.util.List;
-import java.util.Random;
-
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
-import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.AppliedJobWidget;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.List;
+import java.util.Random;
 
 @PageTitle("Dashboard (Student)")
 @Route(value = "dash_st", layout = MainLayout.class)
 @Uses(Icon.class)
 @RolesAllowed({"STUDENT"})
 public class DashboardStudentView extends Composite<VerticalLayout> {
-    private VerticalLayout jobInfo;
     private final Random random = new Random();
     private final VerticalLayout results = new VerticalLayout();
     private final JobAdvertisementService jobAdvertisementService;
@@ -55,7 +47,6 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         Hr hr2 = new Hr();
         H5 h52 = new H5();
         HorizontalLayout layoutRow2 = new HorizontalLayout();
-        MultiSelectListBox avatarItems = new MultiSelectListBox();
         getContent().setWidth("100%");
         getContent().getStyle().set(Format.FLEX_GROW, "1");
         h2.setText("Welcome!");
@@ -83,8 +74,6 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         layoutRow2.addClassName(Gap.MEDIUM);
         layoutRow2.setWidth("100%");
         layoutRow2.getStyle().set(Format.FLEX_GROW, "1");
-        avatarItems.setWidth(Format.MIN_CONTENT);
-        //setAvatarItemsSampleData(avatarItems);
         getContent().add(h2);
         getContent().add(hr);
         getContent().add(h5);
@@ -127,43 +116,4 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         return scroller;
     }
 
-    /*private void setAvatarItemsSampleData(MultiSelectListBox multiSelectListBox) {
-        record Person(String name, String profession) {
-        }
-        ;
-        List<Person> data = List.of(new Person("Aria Bailey", "Endocrinologist"), new Person("Aaliyah Butler", "Nephrologist"), new Person("Eleanor Price", "Ophthalmologist"), new Person("Allison Torres", "Allergist"), new Person("Madeline Lewis", "Gastroenterologist"));
-        multiSelectListBox.setItems(data);
-        multiSelectListBox.setRenderer(new ComponentRenderer(item -> {
-            AvatarItem avatarItem = new AvatarItem();
-            avatarItem.setHeading(((Person) item).name);
-            avatarItem.setDescription(((Person) item).profession);
-            avatarItem.setAvatar(new Avatar(((Person) item).name));
-            return avatarItem;
-        }));
-    }*/
-    public void showJobInformation(JobAdvertisement job) {
-        closeJobInformation();
-
-        HorizontalLayout topBar = new HorizontalLayout();
-        Button closeButton = new Button("Close");
-        closeButton.setIcon(new Icon(VaadinIcon.CLOSE));
-        closeButton.addClickListener(buttonClickEvent -> closeJobInformation());
-        topBar.add(closeButton, new H3("Information"));
-        topBar.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        topBar.setAlignItems(FlexComponent.Alignment.BASELINE);
-        jobInfo = new VerticalLayout(topBar, new JobInformationWidget(job));
-        jobInfo.getStyle()
-                .set("background", "var(--lumo-contrast-10pct)")
-                .set("border-radius", "var(--lumo-border-radius-m)");
-
-        applJobsContainer.add(jobInfo);
-    }
-
-    private void closeJobInformation() {
-        try {
-            applJobsContainer.remove(jobInfo);
-        } catch (NullPointerException e) {
-            // Yes
-        }
-    }
 }
