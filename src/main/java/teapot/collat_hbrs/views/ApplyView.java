@@ -17,7 +17,10 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.*;
+import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.security.AccountService;
+import teapot.collat_hbrs.backend.security.ChatMessageService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 
 import javax.annotation.security.PermitAll;
@@ -31,10 +34,15 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
     private JobAdvertisement job;
     private MultiFileMemoryBuffer buffer;
     private Button applyButton;
+    private TextArea messageArea;
     private final JobAdvertisementService jobAdvertisementService;
+    private final ChatMessageService chatMessageService;
+    private final AccountService accountService;
 
-    public ApplyView(JobAdvertisementService jobAdvertisementService) {
+    public ApplyView(JobAdvertisementService jobAdvertisementService, ChatMessageService chatMessageService, AccountService accountService) {
         this.jobAdvertisementService = jobAdvertisementService;
+        this.chatMessageService = chatMessageService;
+        this.accountService = accountService;
         buildForm();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
@@ -60,7 +68,6 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
             applyButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         } else {
             job = jobAdvertisementService.getJobAdvertisementById(Integer.parseInt(s));
-
         }
     }
 
@@ -70,7 +77,7 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
     private void buildForm() {
         H2 title = new H2("Apply now for "); // TODO add job title
         Upload uploadField = fileUploader();
-        TextArea messageArea = new TextArea("Message");
+        messageArea = new TextArea("Message");
         FormLayout applyForm = new FormLayout(uploadField, messageArea);
         applyForm.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1)
@@ -79,7 +86,7 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
         applyButton = new Button("Apply", new Icon(VaadinIcon.CLIPBOARD_CHECK));
         applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         applyButton.addClickShortcut(Key.ENTER);
-        applyButton.addClickListener(buttonClickEvent -> Notification.show("Not implemented yet!"));
+        applyButton.addClickListener(buttonClickEvent -> this.sendApplyMessage());
         Button cancelButton = new Button("Cancel", new Icon(VaadinIcon.BAN));
         cancelButton.addClickListener(buttonClickEvent -> closeTab());
         HorizontalLayout buttons = new HorizontalLayout(applyButton, cancelButton);
@@ -89,6 +96,20 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
                 applyForm,
                 buttons
         );
+    }
+
+    private void sendApplyMessage(){
+        if(messageArea.isEmpty()) Notification.show("Message must not be empty.");
+        ChatMessage chatMessage = new ChatMessage();
+        //TODO get real recipient
+        //chatMessage.setRecipient(job.getCompany().getUsername());
+        chatMessage.setRecipient("admin2");
+        chatMessage.setSender(accountService.getAccount().getUsername());
+        chatMessage.setSubject("Application Test");
+        chatMessage.setContent(messageArea.getValue());
+
+        chatMessageService.addChatMessage(chatMessage);
+        Notification.show("Application send.");
     }
 
     /**
