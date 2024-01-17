@@ -5,28 +5,33 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
+import teapot.collat_hbrs.backend.security.UserService;
 
 import java.util.Random;
 
 
 @Component
 @Profile("dev")
-public class AddDevJobs implements InitializingBean {
+public class AddDevValues implements InitializingBean {
 
     private final JobAdvertisementService jobAdvertisementService;
-    private final CompanyRepository companyRepository;
+    private final UserService userService;
 
-    public AddDevJobs(JobAdvertisementService jobAdvertisementService, CompanyRepository companyRepository) {
+    public AddDevValues(JobAdvertisementService jobAdvertisementService, UserService userService) {
         this.jobAdvertisementService = jobAdvertisementService;
-        this.companyRepository = companyRepository;
+        this.userService = userService;
     }
 
     @Override
     public void afterPropertiesSet() {
         Random random = new Random();
 
-        Company testCompany = new Company("microsoft", "", "Microsoft", "Cologne", "", "", "");
-        companyRepository.save(testCompany);
+        Student testuser = new Student("admin", "admin@test.test", "admin", "admin", "", "", "");
+        userService.registerAccount(testuser, "admin");
+
+        Company testCompany = new Company("admin2", "", "Microsoft", "Cologne", "", "", "");
+        userService.registerAccount(testCompany, "admin2");
+
 
         for (int x = 0; x < 10; x++) {
             // Demo job advertisements

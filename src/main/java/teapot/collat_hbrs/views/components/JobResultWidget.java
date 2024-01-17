@@ -88,7 +88,7 @@ public class JobResultWidget extends ResultsWidget {
                 .set("margin", "0.5rem")
                 .set("width", "15rem");
 
-        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getId() > 0 ? job.getId() : "null")));
+        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getJobAdvertisementId() > 0 ? job.getJobAdvertisementId(): "null")));
 
         Button openJobButton = new Button();
 

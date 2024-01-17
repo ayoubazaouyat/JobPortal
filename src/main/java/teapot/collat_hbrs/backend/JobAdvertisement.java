@@ -9,11 +9,13 @@ import java.sql.Date;
 @Entity
 //@Embeddable
 @DiscriminatorValue("J")
-public class JobAdvertisement extends Account implements Serializable {
+public class JobAdvertisement implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "companyName")
     private Company company;
+    @Id
+    @GeneratedValue
     private Long jobAdvertisementId;
     private String title;
     private String textDescription;

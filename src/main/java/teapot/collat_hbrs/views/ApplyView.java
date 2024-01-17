@@ -17,6 +17,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.router.*;
+import teapot.collat_hbrs.backend.Account;
 import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.AccountService;
@@ -37,12 +38,12 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
     private TextArea messageArea;
     private final JobAdvertisementService jobAdvertisementService;
     private final ChatMessageService chatMessageService;
-    private final AccountService accountService;
+    private final Account account;
 
     public ApplyView(JobAdvertisementService jobAdvertisementService, ChatMessageService chatMessageService, AccountService accountService) {
         this.jobAdvertisementService = jobAdvertisementService;
         this.chatMessageService = chatMessageService;
-        this.accountService = accountService;
+        account = accountService.getAccount();
         buildForm();
         this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
@@ -98,14 +99,12 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
         );
     }
 
-    private void sendApplyMessage(){
-        if(messageArea.isEmpty()) Notification.show("Message must not be empty.");
+    private void sendApplyMessage() {
+        if (messageArea.isEmpty()) Notification.show("Message must not be empty.");
         ChatMessage chatMessage = new ChatMessage();
-        //TODO get real recipient
-        //chatMessage.setRecipient(job.getCompany().getUsername());
-        chatMessage.setRecipient("admin2");
-        chatMessage.setSender(accountService.getAccount().getUsername());
-        chatMessage.setSubject("Application Test");
+        chatMessage.setRecipient(job.getCompany().getUsername());
+        chatMessage.setSender(account.getUsername());
+        chatMessage.setSubject("Application from " + account.getUsername());
         chatMessage.setContent(messageArea.getValue());
 
         chatMessageService.addChatMessage(chatMessage);

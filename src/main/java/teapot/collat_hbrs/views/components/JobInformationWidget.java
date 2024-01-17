@@ -114,7 +114,7 @@ public class JobInformationWidget extends VerticalLayout {
     private void generateApplyButton() {
         Button applyButton = new Button("Apply now");
         applyButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
-        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getId() > 0 ? job.getId() : "null")));
+        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getJobAdvertisementId() > 0 ? job.getJobAdvertisementId() : "null")));
         applyButton.getStyle().set("align-self", "center");
         applyButton.setWidthFull();
         applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
