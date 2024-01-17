@@ -453,7 +453,7 @@ public class RegistrationView extends VerticalLayout {
         companyName.setRequired(true);
         street = new TextField(STREETLABEL);
         street.setRequired(true);
-        studentStreet.setAllowedCharPattern("^[a-zA-Z]*$");
+        street.setAllowedCharPattern("^[a-zA-Z]*$");
         houseNumber = new TextField(HOUSELABEL);
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         plz = new TextField("PLZ");
