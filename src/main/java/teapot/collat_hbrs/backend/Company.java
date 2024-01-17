@@ -15,6 +15,11 @@ public class Company extends Account{
     private String industry; // Branche
     private String companyDescription;
     private String phoneNumber;
+    private double rating;
+    private double numberofrating;
+
+
+
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JobAdvertisement> jobAdvertisements;
@@ -23,7 +28,7 @@ public class Company extends Account{
         //default constructor required for jpa and tests
     }
 
-    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
+    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription,double rating, double numberofrating) {
         setUsername(username);
         setEmail(email);
         this.companyName = companyName;
@@ -32,6 +37,8 @@ public class Company extends Account{
         this.companyDescription = companyDescription;
         this.phoneNumber = phoneNumber;
         this.jobAdvertisements = new ArrayList<>();
+        this.rating=0;
+        this.numberofrating = 0;
         setAuthorities("COMPANY");
 
     }
@@ -104,6 +111,34 @@ public class Company extends Account{
         return (obj != null &&
                 obj.getClass().equals(Company.class) &&
                 ((Company)obj).getId().equals(this.getId()));
+    }
+
+
+    public void addRating(double ratingValue) {
+        numberofrating =numberofrating+1;
+        rating=(rating+ratingValue)/numberofrating;
+
+    }
+
+    public double getAverageRating() {
+        return rating;
+
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public double getNumberofrating() {
+        return numberofrating;
+    }
+
+    public void setNumberofrating(double numberofrating) {
+        this.numberofrating = numberofrating;
     }
 }
 

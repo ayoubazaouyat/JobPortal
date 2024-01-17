@@ -60,7 +60,7 @@ public class AccountCreator {
     public Account buildCompany() {
         if(address == null || address.isEmpty())
             address = street +" "+ houseNr +" "+ plz +" "+ city ;
-        return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription);
+        return new Company(username, email, companyName, address, phoneNumber, companyIndustry, companyDescription,0.0,0);
     }
 
     public Account buildStudent() {

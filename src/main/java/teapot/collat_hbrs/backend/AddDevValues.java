@@ -34,7 +34,7 @@ public class AddDevValues implements InitializingBean {
         Student testuser = new Student("admin", "admin@test.test", "admin", "admin", "", "", "");
         userService.registerAccount(testuser, "admin");
 
-        Company testCompany = new Company("admin2", "", "Microsoft", "Cologne", "", "", "");
+        Company testCompany = new Company("admin2", "", "Microsoft", "Cologne", "", "", "",0,0);
         userService.registerAccount(testCompany, "admin2");
 
 

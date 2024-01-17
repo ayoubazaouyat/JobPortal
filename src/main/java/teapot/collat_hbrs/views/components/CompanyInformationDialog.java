@@ -1,6 +1,7 @@
 package teapot.collat_hbrs.views.components;
 
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -13,9 +14,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.textfield.TextField;
 import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.security.ChatMessageService;
+import teapot.collat_hbrs.backend.security.CompanyService;
 import teapot.collat_hbrs.views.InboxView;
 
 import java.util.ArrayList;
@@ -25,8 +28,10 @@ public class CompanyInformationDialog extends Dialog {
 
     private final Company company;
 
+
     private List<ContactListener> contactListeners = new ArrayList<>();
 
+    private Div rating;
 
     public CompanyInformationDialog(Company company) {
         this.company = company;
@@ -48,7 +53,7 @@ public class CompanyInformationDialog extends Dialog {
 
         Span industry = new Span("Industry: " + company.getIndustry());
 
-        Div rating = new Div(new Span("Rating: " + 5.0 + " "), generateStars());
+        rating = new Div(new Span("Rating: " + company.getAverageRating() +" "), generateStars());
 
         TextArea descriptionField = new TextArea();
         descriptionField.setLabel("Description");
@@ -82,8 +87,8 @@ public class CompanyInformationDialog extends Dialog {
         reportButton.addClickListener(buttonClickEvent -> errorNotification());
 
         Button rateButton = new Button("Rate", new Icon(VaadinIcon.STAR));
-        rateButton.addClickListener(buttonClickEvent -> errorNotification());
-
+        rateButton.addClickListener(buttonClickEvent -> showRatingDialog());
+        
         Button contactButton = new Button("Contact", new Icon(VaadinIcon.ENVELOPE));
         contactButton.addClickListener(e -> showContactDialog());
 
@@ -94,6 +99,54 @@ public class CompanyInformationDialog extends Dialog {
 
         setWidth("30%");
     }
+    private void updateRating(double newRating) {
+
+
+        // Update the rating Div with the new rating and regenerate stars
+        Div newRatingDiv = new Div(new Span("Rating: " +  company.getAverageRating() + " "), generateStars());
+        rating.removeAll(); // Remove existing components
+        rating.add(newRatingDiv); // Add the updated rating Div
+
+    }
+    private void showRatingDialog() {
+        Dialog ratingDialog = new Dialog();
+
+        // Create a text field for the rating
+        TextField ratingField = new TextField("Your Rating");
+        ratingField.setWidth("100%");
+
+        // Create buttons for sending and canceling
+        Button sendButton = new Button("Send", event -> {
+            try {
+                double ratingValue = Double.parseDouble(ratingField.getValue());
+                if (ratingValue >= 0 && ratingValue <= 5) {
+                    company.addRating(ratingValue);
+
+                    updateRating(ratingValue);
+
+
+                    ratingDialog.close();
+                } else {
+                    Notification.show("Please enter a rating between 0 and 5");
+                }
+            } catch (NumberFormatException e) {
+                Notification.show("Please enter a valid number for the rating");
+            }
+        });
+
+        Button cancelButton = new Button("Cancel", event -> ratingDialog.close());
+
+
+        ratingDialog.add(ratingField, new Div(sendButton, cancelButton));
+
+
+        // Set the dialog size
+        ratingDialog.setWidth("300px");
+
+        // Open the dialog
+        ratingDialog.open();
+    }
+
 
     private void errorNotification() {
         Notification notification = Notification.show("Not implemented yet!", 3000, Notification.Position.MIDDLE);
@@ -161,13 +214,23 @@ public class CompanyInformationDialog extends Dialog {
 
     private Div generateStars() {
         Div stars = new Div();
-        float rating = 5.0f;
-        for (int i = 0; i < rating; i++) {
+        double rating = company.getAverageRating();
+
+        for (int i = 0; i < Math.floor(rating); i++) {
             stars.add(new Icon(VaadinIcon.STAR));
         }
-        for (int i = 0; i < 5 - Float.floatToIntBits(rating); i++) {
+
+        if (rating % 1 != 0) {
+            // Use a Unicode symbol for half-star
+            stars.add(new Text("\u00BD")); // Unicode for half (1/2) symbol
+        }
+
+        int emptyStars = 5 - (int) Math.ceil(rating);
+        for (int i = 0; i < emptyStars; i++) {
             stars.add(new Icon(VaadinIcon.STAR_O));
         }
+
         return stars;
     }
+
 }
