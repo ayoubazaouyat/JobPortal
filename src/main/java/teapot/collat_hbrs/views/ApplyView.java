@@ -86,7 +86,6 @@ public class ApplyView extends VerticalLayout implements HasUrlParameter<String>
 
         applyButton = new Button("Apply", new Icon(VaadinIcon.CLIPBOARD_CHECK));
         applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        applyButton.addClickShortcut(Key.ENTER);
         applyButton.addClickListener(buttonClickEvent -> this.sendApplyMessage());
         Button cancelButton = new Button("Cancel", new Icon(VaadinIcon.BAN));
         cancelButton.addClickListener(buttonClickEvent -> closeTab());
