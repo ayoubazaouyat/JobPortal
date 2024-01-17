@@ -113,7 +113,7 @@ public class RegistrationView extends VerticalLayout {
         setWidth("100%");
         setHeight("100vh");
 
-        Button viewTermsButton = new Button("View the terms of service", event -> showTermsDialog());
+        Button viewTermsButton = new Button("View the terms of service", new Icon(VaadinIcon.FILE), event -> showTermsDialog());
         add(viewTermsButton);
 
         // Build UI based on the current step
@@ -244,7 +244,6 @@ public class RegistrationView extends VerticalLayout {
                 .withValidator(new PasswordValidator())
                 .withValidator(password -> passwordField.getValue().equals(password), PASSWORDMATCHLABEL)
                 .bind(AccountCreator::getPassword, AccountCreator::setPassword);
-
 
 
         //load possible previous data
@@ -680,6 +679,7 @@ public class RegistrationView extends VerticalLayout {
         }
 
     }
+
     private void showTermsDialog() {
         Dialog termsDialog = new Dialog();
         VerticalLayout dialogLayout = new VerticalLayout();
@@ -716,15 +716,20 @@ public class RegistrationView extends VerticalLayout {
                 "Thank you for using coll@hbrs!");
         termsTextArea.setWidth("600px"); // Set desired width
         termsTextArea.setHeight("400px"); // Set desired height
+        termsTextArea.setReadOnly(true);
 
         // Close button
         Button closeButton = new Button("Close", event -> termsDialog.close());
+        closeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        dialogLayout.add(termsTextArea, closeButton);
+        dialogLayout.add(termsTextArea);
+        termsDialog.setHeaderTitle("Terms of Service");
         termsDialog.add(dialogLayout);
+        termsDialog.getFooter().add(closeButton);
 
         termsDialog.open();
     }
+
     private boolean validateStudentForm() {
         final String requiredMessage = "This field is required";
         if (studentStreet.isEmpty()
