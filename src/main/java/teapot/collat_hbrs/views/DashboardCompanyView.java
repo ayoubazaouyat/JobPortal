@@ -42,9 +42,10 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
 
 
     private HorizontalLayout applJobsContainer;
+
     public DashboardCompanyView(JobAdvertisementService jobAdvertisementService, AccountService accountService) {
         this.jobAdvertisementService = jobAdvertisementService;
-        companyName = ((Company)accountService.getAccount()).getCompanyName();
+        companyName = ((Company) accountService.getAccount()).getCompanyName();
         functionApplJobsContainer();
         H2 h2 = new H2();
         Hr hr = new Hr();
@@ -95,6 +96,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
         getContent().add(layoutRow2);
         layoutRow2.add(applJobsContainer);
     }
+
     private void functionApplJobsContainer() {
         applJobsContainer = new HorizontalLayout(generateResults());
         applJobsContainer.setWidthFull();
@@ -103,8 +105,8 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
     private Scroller generateResults() {
 
         List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForCompany(companyName);
-        for (JobAdvertisement jobAdd: jobAdvertisements) {
-            JobListingWidget jobWidget = new JobListingWidget(this, jobAdd);
+        for (JobAdvertisement jobAdd : jobAdvertisements) {
+            JobListingWidget jobWidget = new JobListingWidget(jobAdd);
             results.add(jobWidget);
         }
 
@@ -134,6 +136,7 @@ public class DashboardCompanyView extends Composite<VerticalLayout> {
 
         applJobsContainer.add(jobInfo);
     }
+
     private void closeJobInformation() {
         try {
             applJobsContainer.remove(jobInfo);
