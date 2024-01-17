@@ -326,8 +326,8 @@ public class InboxView extends VerticalLayout {
         System.out.println("Content: " + content);
 
         // Create a new Message for the sent reply with the initial sender as the recipient
-        ChatMessage sentMessage = new ChatMessage(originalMessage.getSender(), "Re: " + subject, content, "2024-01-14 15:30");
-
+        ChatMessage sentMessage = new ChatMessage(originalMessage.getRecipient(), originalMessage.getSender(), "Re: " + subject, content);
+        chatMessageService.addChatMessage(sentMessage);
         // Add the sent reply message to the list of sent messages
         sentMessages.add(sentMessage);
 
