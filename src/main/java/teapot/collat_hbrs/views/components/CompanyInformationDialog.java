@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -30,6 +31,7 @@ public class CompanyInformationDialog extends Dialog {
 
     private Div rating;
     private boolean hasUserRated = false; // Flag to track whether the user has already rated
+    private boolean hasReported = false;
 
 
     public CompanyInformationDialog(Company company) {
@@ -160,9 +162,29 @@ public class CompanyInformationDialog extends Dialog {
     }
 
     private void reportUser() {
+        if (hasReported) {
+            Notification.show("You have already reported this user.", 3000, Notification.Position.MIDDLE);
+            return;
+        }
+        // Create a dialog
+        Dialog confirmDialog = new Dialog();
+        confirmDialog.add(new Label("Are you sure that you want to report this?"));
 
-        Notification.show("Your report has been received. Our team will investigate promptly.", 3000, Notification.Position.MIDDLE);
+        // Add buttons to the dialog
+        Button confirmButton = new Button("Yes", event -> {
+            // Handle report logic here
+            Notification.show("Your report has been received. Our team will investigate promptly.",
+                    3000, Notification.Position.MIDDLE);
+            hasReported = true; // Set the flag to true after reporting
+            confirmDialog.close();
+        });
+        Button cancelButton = new Button("No", event -> confirmDialog.close());
+        confirmDialog.add(confirmButton, cancelButton);
+
+        // Open the dialog
+        confirmDialog.open();
     }
+
 
 
     private void errorNotification() {
