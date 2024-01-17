@@ -26,6 +26,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.BeanValidator;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -245,6 +246,7 @@ public class RegistrationView extends VerticalLayout {
                 .bind(AccountCreator::getPassword, AccountCreator::setPassword);
 
 
+
         //load possible previous data
         binder.readBean(accountCreator);
 
@@ -278,7 +280,11 @@ public class RegistrationView extends VerticalLayout {
         studentStreet = new TextField(STREETLABEL);
         studentHouseNumber = new TextField(HOUSELABEL);
         studentPlz = new TextField("PLZ");
+        studentPlz.setAllowedCharPattern("[0-9]");
+        studentPlz.setMaxLength(5);
         studentCity = new TextField("City");
+        studentCity.setAllowedCharPattern("^[a-zA-Z]*$");
+
         genForm.add(
                 title,
                 firstName,

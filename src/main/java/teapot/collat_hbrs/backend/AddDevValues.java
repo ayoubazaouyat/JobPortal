@@ -38,8 +38,8 @@ public class AddDevValues implements InitializingBean {
         userService.registerAccount(testCompany, "admin2");
 
 
-        chatMessageService.addChatMessage(new ChatMessage("admin2", "admin", "I have a question about the job posting...", "2023-01-02 12:30"));
-        chatMessageService.addChatMessage(new ChatMessage("admin", "admin2", "Hello, I'm interested in the job...", "2023-01-01 10:00"));
+        chatMessageService.addChatMessage(new ChatMessage("admin2", "admin", "I have a question about the job posting...", "Test Content"));
+        chatMessageService.addChatMessage(new ChatMessage("admin", "admin2", "Hello, I'm interested in the job...", "Test Content"));
 
         for (int x = 0; x < 10; x++) {
             // Demo job advertisements
