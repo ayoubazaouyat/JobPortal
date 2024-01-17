@@ -128,7 +128,7 @@ public class JobSearchView extends VerticalLayout {
         Button closeButton = new Button("Close");
         closeButton.setIcon(new Icon(VaadinIcon.CLOSE));
         closeButton.addClickListener(buttonClickEvent -> closeJobInformation());
-        topBar.add(closeButton, new H3("Information (#" + job.getId() + ")"));
+        topBar.add(closeButton, new H3("Information (#" + job.getJobAdvertisementId() + ")"));
         topBar.setJustifyContentMode(JustifyContentMode.BETWEEN);
         topBar.setAlignItems(Alignment.BASELINE);
         jobInfo = new VerticalLayout(topBar, new JobInformationWidget(job));
