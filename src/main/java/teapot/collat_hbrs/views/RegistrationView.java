@@ -281,7 +281,10 @@ public class RegistrationView extends VerticalLayout {
         studentHouseNumber = new TextField(HOUSELABEL);
         studentPlz = new TextField("PLZ");
         studentPlz.setAllowedCharPattern("[0-9]");
+        studentPlz.setMaxLength(5);
         studentCity = new TextField("City");
+        studentCity.setAllowedCharPattern("^[a-zA-Z]*$");
+
         genForm.add(
                 title,
                 firstName,
