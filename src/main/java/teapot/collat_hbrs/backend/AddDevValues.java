@@ -16,15 +16,17 @@ public class AddDevValues implements InitializingBean {
 
     private final JobAdvertisementService jobAdvertisementService;
     private final UserService userService;
+    private final Random random;
 
     public AddDevValues(JobAdvertisementService jobAdvertisementService, UserService userService) {
         this.jobAdvertisementService = jobAdvertisementService;
         this.userService = userService;
+        random = new Random();
     }
 
     @Override
     public void afterPropertiesSet() {
-        Random random = new Random();
+
 
         Student testuser = new Student("admin", "admin@test.test", "admin", "admin", "", "", "");
         userService.registerAccount(testuser, "admin");
