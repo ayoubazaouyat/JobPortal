@@ -116,7 +116,7 @@ public class Company extends Account{
 
     public void addRating(double ratingValue) {
         numberofrating =numberofrating+1;
-        rating=(rating+ratingValue)/numberofrating;
+        rating=((rating*numberofrating-1)+ratingValue)/numberofrating;
 
     }
 
