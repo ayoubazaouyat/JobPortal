@@ -1,7 +1,6 @@
 package teapot.collat_hbrs.views.components;
 
 import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -17,8 +16,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextField;
 import teapot.collat_hbrs.backend.ChatMessage;
 import teapot.collat_hbrs.backend.Company;
-import teapot.collat_hbrs.backend.security.ChatMessageService;
-import teapot.collat_hbrs.backend.security.CompanyService;
 import teapot.collat_hbrs.views.InboxView;
 
 import java.util.ArrayList;
@@ -32,6 +29,8 @@ public class CompanyInformationDialog extends Dialog {
     private List<ContactListener> contactListeners = new ArrayList<>();
 
     private Div rating;
+    private boolean hasUserRated = false; // Flag to track whether the user has already rated
+
 
     public CompanyInformationDialog(Company company) {
         this.company = company;
@@ -84,7 +83,7 @@ public class CompanyInformationDialog extends Dialog {
         Button reportButton = new Button("Report", new Icon(VaadinIcon.MEGAPHONE));
         reportButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         reportButton.getStyle().set("color", "red");
-        reportButton.addClickListener(buttonClickEvent -> errorNotification());
+        reportButton.addClickListener(buttonClickEvent -> reportUser());
 
         Button rateButton = new Button("Rate", new Icon(VaadinIcon.STAR));
         rateButton.addClickListener(buttonClickEvent -> showRatingDialog());
@@ -111,8 +110,15 @@ public class CompanyInformationDialog extends Dialog {
     private void showRatingDialog() {
         Dialog ratingDialog = new Dialog();
 
+        // Check if the user has already rated
+        if (hasUserRated) {
+            Notification.show("You have already submitted a rating. Thank you for your feedback!");
+            return;
+        }
+
         // Create a text field for the rating
         TextField ratingField = new TextField("Your Rating");
+        ratingField.setPlaceholder("Enter a number (1-5)");
         ratingField.setWidth("100%");
 
         // Create buttons for sending and canceling
@@ -123,6 +129,10 @@ public class CompanyInformationDialog extends Dialog {
                     company.addRating(ratingValue);
 
                     updateRating(ratingValue);
+                    // Set the flag indicating the user has rated
+                    hasUserRated = true;
+                    // Show a thank you notification
+                    Notification.show("Thank you for your feedback!");
 
 
                     ratingDialog.close();
@@ -140,11 +150,18 @@ public class CompanyInformationDialog extends Dialog {
         ratingDialog.add(ratingField, new Div(sendButton, cancelButton));
 
 
+
         // Set the dialog size
         ratingDialog.setWidth("300px");
+        ratingDialog.setHeight("200px");
 
         // Open the dialog
         ratingDialog.open();
+    }
+
+    private void reportUser() {
+
+        Notification.show("Your report has been received. Our team will investigate promptly.", 3000, Notification.Position.MIDDLE);
     }
 
 
