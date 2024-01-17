@@ -14,6 +14,7 @@ public class ChatMessage implements Serializable {
     private String recipient;
     private String sender;
     private String subject;
+    @Column(columnDefinition="LONGTEXT")
     private String content;
     private LocalDateTime messageTime;
     private boolean isSpam;
