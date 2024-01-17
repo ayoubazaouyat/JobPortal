@@ -6,7 +6,6 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -29,11 +28,8 @@ public class MainLayout extends AppLayout {
 
     private final SecurityService securityService;
 
-    private final Span messageCount;
-
     public MainLayout(SecurityService securityService) {
         this.securityService = securityService;
-        messageCount = createBadge();
         addHeaderContent();
     }
 
@@ -50,9 +46,6 @@ public class MainLayout extends AppLayout {
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
             String username = securityService.getAuthenticatedUser().getUsername();
-            // Create a tab for the Inbox
-            Tab inboxTab = createInboxTab(new Icon(VaadinIcon.INBOX), messageCount);
-            tabs.add(inboxTab);
             Button logout = new Button("Log out " + username, e -> securityService.logout());
             logout.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(LandingView.class));
             VerticalLayout verticalLayout = new VerticalLayout(logout);
@@ -78,15 +71,21 @@ public class MainLayout extends AppLayout {
                 createTab("Home", LandingView.class, new Icon(VaadinIcon.HOME))
         );
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
-            tabs.add(createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)));
-            tabs.add(createTab("Jobs List", MyJobListView.class, new Icon(VaadinIcon.EDIT))); // Add Job Edit tab
+            tabs.add(
+                    createTab("Post a Job", JobPostingView.class, new Icon(VaadinIcon.PLUS)),
+                    createTab("Jobs List", MyJobListView.class, new Icon(VaadinIcon.EDIT)),
+                    createTab("Inbox", InboxView.class, new Icon(VaadinIcon.INBOX))
+            );
         }
         if (authorities.contains(new SimpleGrantedAuthority("ROLE_STUDENT"))) {
-            tabs.add(createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)));
+            tabs.add(
+                    createTab("Job Search", JobSearchView.class, new Icon(VaadinIcon.SEARCH)),
+                    createTab("Inbox", InboxView.class, new Icon(VaadinIcon.INBOX))
+            );
         }
 
-        tabs.add(createTab("About Us", AboutUsView.class, new Icon()),
-                createTab("Contact", ContactView.class, new Icon()));
+        tabs.add(createTab("About Us", AboutUsView.class, new Icon(VaadinIcon.INFO_CIRCLE)),
+                createTab("Contact", ContactView.class, new Icon(VaadinIcon.QUESTION_CIRCLE)));
 
 
         return tabs;
@@ -103,22 +102,5 @@ public class MainLayout extends AppLayout {
 
         return tab;
     }
-
-    private Tab createInboxTab(Icon icon, Span badge) {
-        Tab tab = createTab("Inbox", InboxView.class, icon);
-
-        tab.add(badge);
-
-        return tab;
-    }
-
-    private Span createBadge() {
-        Span badge = new Span("");
-        badge.getElement().getThemeList().add("badge small contrast");
-        badge.getStyle().set("margin-inline-start", "var(--lumo-space-xs)");
-        return badge;
-    }
-
-
 
 }
