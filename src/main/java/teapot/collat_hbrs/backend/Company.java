@@ -28,7 +28,7 @@ public class Company extends Account{
         //default constructor required for jpa and tests
     }
 
-    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription,double rating, double numberofrating) {
+    public Company(String username, String email, String companyName, String address, String phoneNumber, String industry, String companyDescription) {
         setUsername(username);
         setEmail(email);
         this.companyName = companyName;
@@ -116,7 +116,7 @@ public class Company extends Account{
 
     public void addRating(double ratingValue) {
         numberofrating =numberofrating+1;
-        rating=((rating*numberofrating-1)+ratingValue)/numberofrating;
+        rating=(rating+ratingValue)/numberofrating;
 
     }
 

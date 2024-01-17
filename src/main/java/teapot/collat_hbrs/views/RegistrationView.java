@@ -278,6 +278,7 @@ public class RegistrationView extends VerticalLayout {
         var firstName = new TextField("First Name");
         var lastName = new TextField("Last Name");
         studentStreet = new TextField(STREETLABEL);
+        studentStreet.setAllowedCharPattern("^[a-zA-Z]*$");
         studentHouseNumber = new TextField(HOUSELABEL);
         studentPlz = new TextField("PLZ");
         studentPlz.setAllowedCharPattern("[0-9]");
@@ -452,12 +453,16 @@ public class RegistrationView extends VerticalLayout {
         companyName.setRequired(true);
         street = new TextField(STREETLABEL);
         street.setRequired(true);
+        street.setAllowedCharPattern("^[a-zA-Z]*$");
         houseNumber = new TextField(HOUSELABEL);
         binder.forField(houseNumber).asRequired().bind(AccountCreator::getHouseNr, AccountCreator::setHouseNr);
         plz = new TextField("PLZ");
+        plz.setAllowedCharPattern("[0-9]");
+        plz.setMaxLength(5);
+        city = new TextField("City");
+        city.setAllowedCharPattern("^[a-zA-Z]*$");
         binder.forField(plz).asRequired().bind(AccountCreator::getPlz, AccountCreator::setPlz);
         binder.forField(street).asRequired().bind(AccountCreator::getStreet, AccountCreator::setStreet);
-        city = new TextField("City");
         binder.forField(city).asRequired().bind(AccountCreator::getCity, AccountCreator::setCity);
         city.setRequired(true);
         addressForm.add(
