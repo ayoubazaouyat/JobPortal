@@ -15,13 +15,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.AccountService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.views.components.AppliedJobWidget;
-import teapot.collat_hbrs.views.components.JobListingWidget;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
@@ -98,7 +96,9 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
     }
 
     private Scroller generateResults() {
-        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForApplicant(username); // TODO: Implementierung eienr solchen Methode
+        /* Not working yet as method is not implemented
+
+        List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForApplicant(username);
         for (JobAdvertisement jobAdd : jobAdvertisements) {
             JobListingWidget jobWidget = new JobListingWidget(jobAdd);
             results.add(jobWidget);
@@ -111,9 +111,9 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
 
         return scroller;
+        */
 
-        /*
-        //get three random jobs
+        // get three random jobs for demonstration purposes
         List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getAllJobAdvertisements();
         for (int i = 0; i < 3; i++) {
             if (jobAdvertisements.isEmpty()) break;
@@ -124,18 +124,13 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
             results.add(jobWidget);
         }
 
-
         // ------------------------
 
         Scroller scroller = new Scroller(results);
         scroller.setWidthFull();
         scroller.setScrollDirection(Scroller.ScrollDirection.VERTICAL);
 
-        results.add(); // TODO Add job applications from database
-
         return scroller;
-
-         */
     }
 
 }
