@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class ChatMessage implements Serializable {
 
     @Id
+    @GeneratedValue
     private long messageId;
     private String recipient;
     private String sender;
