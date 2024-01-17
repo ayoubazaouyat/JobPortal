@@ -2,7 +2,7 @@ package teapot.collat_hbrs.backend;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @DiscriminatorValue("M")
@@ -14,8 +14,25 @@ public class ChatMessage implements Serializable {
     private String sender;
     private String subject;
     private String content;
-    private Date messageTime;
+    private LocalDateTime messageTime;
     private boolean isSpam;
+
+    public ChatMessage() {
+        //default constructor
+    }
+
+    public ChatMessage(String sender, String recipient, String subject, String content) {
+        this.sender = sender;
+        this.recipient = recipient;
+        this.subject = subject;
+        this.content = content;
+        //this.messageTime = timestamp;
+    }
+
+    public ChatMessage(String sender, String recipient, String subject, String content, String timestamp) {
+        this(sender, recipient, subject, content);
+    }
+
 
 
     public void setMessageId(Long messageId) { this.messageId = messageId; }
@@ -30,9 +47,9 @@ public class ChatMessage implements Serializable {
 
     public void setContent(String content) { this.content = content; }
 
-    public Date getMessageTime() { return messageTime; }
+    public LocalDateTime getMessageTime() { return messageTime; }
 
-    public void setMessageTime(Date messageTime) { this.messageTime = messageTime; }
+    public void setMessageTime(LocalDateTime messageTime) { this.messageTime = messageTime; }
 
     public String getRecipient() { return recipient; }
 

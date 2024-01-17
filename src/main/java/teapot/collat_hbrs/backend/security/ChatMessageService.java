@@ -41,4 +41,12 @@ public class ChatMessageService {
     public List<ChatMessage> getChatMessageForSender(String sender) {
         return chatRepository.findBySender(sender);
     }
+
+    public List<ChatMessage> getChatMessagesForUsername(String username){
+        List<ChatMessage> messages;
+        messages = chatRepository.findByRecipient(username);
+        messages.addAll(chatRepository.findBySender(username));
+        return messages;
+    }
+
 }

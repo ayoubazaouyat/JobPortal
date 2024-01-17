@@ -1,24 +1,26 @@
 package teapot.collat_hbrs.views;
 
+import teapot.collat_hbrs.backend.ChatMessage;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpamFolder {
-    private final List<InboxView.Message> spamMessages;
+    private final List<ChatMessage> spamMessages;
 
     public SpamFolder() {
         this.spamMessages = new ArrayList<>();
     }
 
-    public void addSpamMessage(InboxView.Message message) {
+    public void addSpamMessage(ChatMessage message) {
         spamMessages.add(message);
     }
 
-    public List<InboxView.Message> getSpamMessages() {
+    public List<ChatMessage> getSpamMessages() {
         return new ArrayList<>(spamMessages);
     }
 
-    public void removeSpamMessage(InboxView.Message message) {
+    public void removeSpamMessage(ChatMessage message) {
         spamMessages.remove(message);
     }
 }
