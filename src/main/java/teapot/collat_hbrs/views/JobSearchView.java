@@ -3,6 +3,7 @@ package teapot.collat_hbrs.views;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
@@ -18,6 +19,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import teapot.collat_hbrs.backend.JobAdvertisement;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
+import teapot.collat_hbrs.views.components.JobInformationDialog;
 import teapot.collat_hbrs.views.components.JobInformationWidget;
 import teapot.collat_hbrs.views.components.JobResultWidget;
 
@@ -38,6 +40,7 @@ public class JobSearchView extends VerticalLayout {
     private HorizontalLayout resultsContainer;
     private final List<JobResultWidget> jobs = new ArrayList<>();
     private VerticalLayout jobInfo;
+    private Checkbox popupDetails;
 
     JobAdvertisementService jobAdvertisementService;
 
@@ -69,6 +72,7 @@ public class JobSearchView extends VerticalLayout {
         hourlyWageField = new NumberField("Hourly Wage");
         var searchButton = new Button("Search");
         var resetButton = new Button("Reset");
+        popupDetails = new Checkbox("Show details via popup");
 
         hourlyWageField.setSuffixComponent(new Icon(VaadinIcon.EURO));
         searchButton.addThemeVariants(ButtonVariant.LUMO_ICON);
@@ -79,17 +83,19 @@ public class JobSearchView extends VerticalLayout {
         resetButton.setIcon(new Icon(VaadinIcon.REFRESH));
         resetButton.addClickListener(buttonClickEvent -> resetResults());
 
+
         searchLayout.add(
                 jobTitleField,
                 hourlyWageField,
                 searchButton,
-                resetButton
+                resetButton,
+                popupDetails
         );
 
         searchLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("500px", 2),
-                new FormLayout.ResponsiveStep("1000px", 4)
+                new FormLayout.ResponsiveStep("1000px", 5)
         );
 
         return searchLayout;
@@ -123,6 +129,14 @@ public class JobSearchView extends VerticalLayout {
 
     public void showJobInformation(JobAdvertisement job) {
         closeJobInformation();
+
+        if (popupDetails.getValue()) {
+            JobInformationDialog info = new JobInformationDialog(job, true, false);
+            info.setWidth("20%");
+            info.setResizable(true);
+            info.open();
+            return;
+        }
 
         HorizontalLayout topBar = new HorizontalLayout();
         Button closeButton = new Button("Close");
