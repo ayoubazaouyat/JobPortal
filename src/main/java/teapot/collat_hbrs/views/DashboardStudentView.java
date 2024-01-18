@@ -15,7 +15,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
+import teapot.collat_hbrs.backend.Company;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.backend.Student;
 import teapot.collat_hbrs.backend.security.AccountService;
 import teapot.collat_hbrs.backend.security.JobAdvertisementService;
 import teapot.collat_hbrs.frontend.Format;
@@ -38,7 +40,10 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
 
     private final String username;
 
+    private List<String> skills;
+
     public DashboardStudentView(JobAdvertisementService jobAdvertisementService, AccountService accountService) {
+        skills = ((Student) accountService.getAccount()).getSkills();
         username = (accountService.getAccount()).getUsername();
         this.jobAdvertisementService = jobAdvertisementService;
         functionApplJobsContainer();
@@ -71,7 +76,7 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         buttonPrimary2.setMinWidth("191px");
         buttonPrimary2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPrimary2.addClickListener(buttonClickEvent -> UI.getCurrent().navigate("/inbox"));
-        h52.setText("Recently applied for:");
+        h52.setText("Quick Selection:");
         h52.setWidth(Format.MAX_CONTENT);
         layoutRow2.setWidthFull();
         getContent().setFlexGrow(1.0, layoutRow2);
@@ -96,8 +101,9 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
     }
 
     private Scroller generateResults() {
-        /* Not working yet as method is not implemented
+        //Not working yet as method is not implemented
 
+        /*
         List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getJobAdvertisementsForApplicant(username);
         for (JobAdvertisement jobAdd : jobAdvertisements) {
             JobListingWidget jobWidget = new JobListingWidget(jobAdd);
@@ -114,14 +120,44 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
         */
 
         // get three random jobs for demonstration purposes
+        //int found = 0;
         List<JobAdvertisement> jobAdvertisements = jobAdvertisementService.getAllJobAdvertisements();
+
+        //for(int z = 0; z < jobAdvertisements.size(); z++) {
+            //System.out.println("a," + jobAdvertisements.get(z).getExpectations());
+            //System.out.println("b," + skills.get(z));
+            //if(jobAdvertisements.get(z).getExpectations().equals(skills.get(z))) {
+            //    found++;
+            //}
+            /*for(int j = 0; j < skills.size(); j++) {
+                if(jobAdvertisements.get(z).getExpectations().equals(skills.get(z))) {
+                    AppliedJobWidget jobWidget = new AppliedJobWidget(jobAdvertisements.get(z));
+                    jobAdvertisements.remove(z);
+
+                    results.add(jobWidget);
+                    found++;
+                }
+                if(found > 2) {
+                    break;
+                }
+            }
+            if(found > 2) {
+                break;
+            }*/
+        //}
+
         for (int i = 0; i < 3; i++) {
             if (jobAdvertisements.isEmpty()) break;
+            //if (found > 2) {
+            //    break;
+            //}
+
             int pos = random.nextInt(jobAdvertisements.size());
             AppliedJobWidget jobWidget = new AppliedJobWidget(jobAdvertisements.get(pos));
             jobAdvertisements.remove(pos);
 
             results.add(jobWidget);
+            //found++;
         }
 
         // ------------------------
