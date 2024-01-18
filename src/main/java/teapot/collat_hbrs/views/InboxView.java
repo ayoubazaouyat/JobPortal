@@ -281,6 +281,7 @@ public class InboxView extends VerticalLayout {
 
         confirmDialog.setConfirmButton("Yes", buttonClickEvent -> {
             deleteMessages(List.of(message));
+            chatMessageService.deleteChatMessage(message);
             confirmDialog.close();
         });
 
