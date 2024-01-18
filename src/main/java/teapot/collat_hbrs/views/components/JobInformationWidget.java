@@ -6,7 +6,9 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.RouteParameters;
 import teapot.collat_hbrs.backend.JobAdvertisement;
+import teapot.collat_hbrs.views.ApplyView;
 
 
 public class JobInformationWidget extends VerticalLayout {
@@ -28,7 +30,7 @@ public class JobInformationWidget extends VerticalLayout {
     private void generateApplyButton() {
         Button applyButton = new Button("Apply now");
         applyButton.setIcon(new Icon(VaadinIcon.CLIPBOARD_CHECK));
-        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().getPage().open("/apply/" + (job.getJobAdvertisementId() > 0 ? job.getJobAdvertisementId() : "null")));
+        applyButton.addClickListener(buttonClickEvent -> UI.getCurrent().navigate(ApplyView.class, job.getJobAdvertisementId().toString()));
         applyButton.getStyle().set("align-self", "center");
         applyButton.setWidthFull();
         applyButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
