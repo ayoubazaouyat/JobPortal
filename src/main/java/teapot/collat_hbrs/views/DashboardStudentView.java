@@ -24,6 +24,7 @@ import teapot.collat_hbrs.frontend.Format;
 import teapot.collat_hbrs.views.components.AppliedJobWidget;
 
 import javax.annotation.security.RolesAllowed;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -40,10 +41,11 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
 
     private final String username;
 
-    private List<String> skills;
+    //private final List<String> skills;
 
     public DashboardStudentView(JobAdvertisementService jobAdvertisementService, AccountService accountService) {
-        skills = ((Student) accountService.getAccount()).getSkills();
+        //skills = (((Student) accountService.getAccount()).getSkills());
+        //System.out.println("" + ((Student) accountService.getAccount()).getSkills());
         username = (accountService.getAccount()).getUsername();
         this.jobAdvertisementService = jobAdvertisementService;
         functionApplJobsContainer();
@@ -125,11 +127,12 @@ public class DashboardStudentView extends Composite<VerticalLayout> {
 
         //for(int z = 0; z < jobAdvertisements.size(); z++) {
             //System.out.println("a," + jobAdvertisements.get(z).getExpectations());
-            //System.out.println("b," + skills.get(z));
-            //if(jobAdvertisements.get(z).getExpectations().equals(skills.get(z))) {
-            //    found++;
-            //}
+            //System.out.println("b," + skills);
             /*for(int j = 0; j < skills.size(); j++) {
+                if(jobAdvertisements.get(z).getExpectations() == null || skills.get(z) == null) {
+                    break;
+                }
+
                 if(jobAdvertisements.get(z).getExpectations().equals(skills.get(z))) {
                     AppliedJobWidget jobWidget = new AppliedJobWidget(jobAdvertisements.get(z));
                     jobAdvertisements.remove(z);
