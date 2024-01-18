@@ -35,13 +35,13 @@ public class MainLayout extends AppLayout {
 
     private void addHeaderContent() {
         Image logo = new Image("images/logo.svg", "Logo");
-        Anchor logoLink = new Anchor("/", logo);
-        logoLink.getStyle().set("padding", "0 1rem");
+        logo.addClickListener(e -> UI.getCurrent().navigate("/"));
+        logo.getStyle().set("padding", "0 1rem");
 
         Tabs tabs = getTabs();
         tabs.setWidthFull();
 
-        addToNavbar(true, logoLink, tabs);
+        addToNavbar(true, logo, tabs);
 
         //Check if the user is logged in and add login/logout button accordingly
         if (securityService.isAuthenticated()) {
